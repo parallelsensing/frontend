@@ -19,4 +19,3 @@ onMounted(() => {
     <canvas ref="canvas" width="500" height="500" style="width: 100%"></canvas>
   </div>
 </template>
-./icons/icon-tooling.vue
