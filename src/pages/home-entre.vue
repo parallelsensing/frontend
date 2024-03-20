@@ -9,6 +9,7 @@
     </h2>
     <h2>田泽钦测试成功</h2>
     <h2>test</h2>
+    <h2>test123123</h2>
     <p><router-link to="/work">work</router-link></p>
   </main>
 </template>
