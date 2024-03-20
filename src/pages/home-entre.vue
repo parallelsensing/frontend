@@ -7,9 +7,9 @@
       <img width="100" src="@/assets/images/logo.jpeg" />
       <img width="100" src="@/assets/svgs/vue.svg" />
     </h2>
-    <h2>田泽钦测试成功111</h2>
-    <h2>test</h2>
-    <h2>test123123123</h2>
+    <h2>田泽钦测试成功</h2>
+    <h2>t</h2>
+    <h2>release测试</h2>
     <p><router-link to="/work">work</router-link></p>
   </main>
 </template>
