@@ -1,4 +1,4 @@
-import { Object3D,BufferGeometry,PointsMaterial,Points } from 'three';
+import { Object3D } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/Addons.js';
 import { DRACOLoader } from 'three/examples/jsm/Addons.js';
 // import { IModel } from '../../type/base';
