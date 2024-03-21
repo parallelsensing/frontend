@@ -1,0 +1,68 @@
+// 常用变量
+
+$font-family-default: HelveticaNeue Regular,sans-serif; // 字体
+$font-family-code: SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace;
+$font-family-mono: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+$font-color-default: #212529; // 默认颜色
+$font-color-link: #069; // 链接颜色
+$font-color-link-hover: #0a58ca; // 链接划过颜色
+$font-color-code: #d63384; // 代码颜色
+$font-color-caption: #6c757d; // 标题颜色
+
+$font-weight-default: 400; // 默认字号
+
+$font-line-height-default: 1.5; // 默认字高
+
+$bg-color-default: #fff; // 默认背景色
+
+$width-pc: 1200px; // 电脑尺寸
+$width-pad: 900px; // 平板尺寸
+$width-mobile: 900px; // 手机尺寸
+
+
+
+$font-light: $font-family-default;
+$font-regular: $font-family-default;
+$font-medium: $font-family-default;
+$font-bold: $font-family-default;
+$font-heavy: $font-family-default;
+
+$h1-font-size: 32px;
+$h2-font-size: 22px;
+$h3-font-size: 21px;
+$h4-font-size: 14px;
+$p-font-size: 14px;
+$a-font-size: 14px;
+$time-font-size: 14px;
+$sub-font-size: 14px;
+$button-font-size: 14px;
+
+$h1-font-color: #000;
+$h2-font-color: #000;
+$h3-font-color: #000;
+$h4-font-color: #60646F;
+$p-font-color: #000;
+$a-font-color: #396EFE ;
+$time-font-color: #999;
+$sub-font-color: #000;
+$button-font-color: #fff;
+
+$font-weight-light: 200;
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-bold: 700;
+$font-weight-heavy: 900;
+
+// color regular
+$color-prime: #0075ff;
+$color-alter: #5fe1e0;
+$color-hover: #6bafff;
+$color-button: #0045ff;
+$color-border: #d8dce2;
+$color-select: #f3f5fb;
+$color-disabled: #444673;
+$color-track: #bec3c9;
+$color-background: #f3f7fd;
+$color-bar: #e5e7ea;
+$color-grid: #fafbfd;

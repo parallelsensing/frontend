@@ -146,6 +146,8 @@ export class Platform extends EventDispatcher {
   onLoading=(e:Event)=>{ 
     // const event = {type:EVENT.LOADING,data:e} as never;
     // this.dispatchEvent(event)
+    console.log(e);
+    
   }
   /**
    * 动画
