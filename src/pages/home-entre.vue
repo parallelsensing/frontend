@@ -5,7 +5,7 @@
     <h1>home</h1>
     <h2>
       <img width="100" src="@/assets/images/logo.jpeg" />
-      <img width="100" src="@/assets/svgs/vue.svg" />
+   
     </h2>
     <h2>325 testSuccess</h2>
     <p><router-link to="/work">work</router-link></p>
