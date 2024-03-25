@@ -52,7 +52,7 @@ export class GlbLoader extends Object3D{
   //   console.log("pcdmaterial:"+this._dataMaterial);
   //   const pointCloud = new Points(this._dataGeimetry, this._dataMaterial);
   //   this.add(pointCloud)
-  //   console.log("pcd:"+pointCloud);
+
   // };
   onLoading = (e:Event)=>{
    
