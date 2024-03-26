@@ -6,7 +6,7 @@
     <h2>
       <img width="100" src="@/assets/images/logo.jpeg" />
     </h2>
-    <h2>3.25 testSuccess</h2>
+    <h2>3.26 testSuccess</h2>
     <p><router-link to="/work">work</router-link></p>
   </main>
 </template>
