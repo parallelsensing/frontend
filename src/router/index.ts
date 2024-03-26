@@ -1,10 +1,11 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+import { createRouter, createWebHistory,  } from "vue-router";
+import type { RouteRecordRaw } from 'vue-router';
 
 import NotFound from "../pages/404.vue"
 import Platform from "../pages/Platform.vue";
-import Home from "../components/Home.vue";
+import Home from "../components/HomeView.vue";
 import Login from "../pages/Login.vue";
-import Map from "../pages/Map.vue";
+import Map from "../pages/MapView.vue";
 
 const routes: Array <RouteRecordRaw> = [
   {
@@ -40,7 +41,7 @@ const routes: Array <RouteRecordRaw> = [
   },
 ];
 
-let history = createWebHistory();
+const history = createWebHistory();
 const router = createRouter({
   history,
   routes,
