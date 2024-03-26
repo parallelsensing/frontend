@@ -1,6 +1,6 @@
 
 import {
-  EventDispatcher, WebGLRenderer,Event, Color,Clock,AmbientLight, DirectionalLight, PerspectiveCamera, Scene, Group, Vector3,  BoxGeometry, Mesh,MeshBasicMaterial, AxesHelper
+  EventDispatcher, WebGLRenderer, Color,Clock,AmbientLight, DirectionalLight, PerspectiveCamera, Scene, Group, Vector3,  BoxGeometry, Mesh,MeshBasicMaterial, AxesHelper
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/Addons.js';
 import TWEEN, { Tween } from 'three/examples/jsm/libs/tween.module.js';

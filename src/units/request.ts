@@ -3,7 +3,7 @@
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
 // import { useUserStore } from '../store/users' 
-let request = axios.create({
+const request = axios.create({
   // 环境变量.env.development
    baseURL:import.meta.env.VITE_APP_BASE_API ,
   // baseURL:'/api',
@@ -33,7 +33,7 @@ request.interceptors.response.use(
   },
   (error) => {
     let message = ''
-    let status = error.response.status
+    const status = error.response.status
     switch (status) {
       // 401: 未登录
       // 未登录则跳转登录页面，并携带当前页面的路径

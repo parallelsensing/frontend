@@ -1,5 +1,5 @@
 
-import { IModel } from '../../../type/base';
+import type { IModel } from '@/type/base';
 import { Platform,EVENT } from '../../../units/platform';
 import {defineStore} from 'pinia';
 
