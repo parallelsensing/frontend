@@ -21,6 +21,7 @@
     "@types/three": "^0.162.0",
     "element-plus": "^2.6.2",
     "mapbox-gl": "^3.2.0",
+    "mockjs": "^1.1.0",
     "pinia": "^2.1.7",
     "three": "^0.162.0",
     "vite-plugin-mock": "^3.0.1",
