@@ -12,7 +12,8 @@ import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 import ElementPlus from 'element-plus';
 import 'element-plus/theme-chalk/index.css';
- let pinia = createPinia()
+import 'mapbox-gl/dist/mapbox-gl.css';
+ const pinia = createPinia()
 const vuetify = createVuetify({
   components,
   directives
