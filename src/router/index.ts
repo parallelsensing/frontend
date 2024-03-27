@@ -4,7 +4,7 @@ import type { RouteRecordRaw } from 'vue-router';
 import NotFound from "../pages/404.vue"
 import Platform from "../pages/Platform.vue";
 import Home from "../components/HomeView.vue";
-import Login from "../pages/Login.vue";
+import Login from "../pages/LoginView.vue";
 import Map from "../pages/MapView.vue";
 
 const routes: Array <RouteRecordRaw> = [

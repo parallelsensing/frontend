@@ -54,6 +54,8 @@ const onMapCreated = (mapInstance:any) => {
   marker.getElement().addEventListener("mouseout", function () {
     markerInfo.value.style.display = "none";
     map.value.getCanvas().style.cursor = '';
+    console.log(111);
+    
   });
 
 };
