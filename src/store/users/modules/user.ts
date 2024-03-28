@@ -5,7 +5,7 @@ import { reqLogin } from "../../../api/user";
 import { SET_TOKEN, GET_TOKEN } from "../../../units/token";
 
 //创建用户仓库
-let useUserStore = defineStore({
+const useUserStore = defineStore({
   id: "User",
   //存储数据
   state: () => {
@@ -15,7 +15,7 @@ let useUserStore = defineStore({
   },
   actions: {
     async userLogin(data: loginForm) {
-      let result: loginResponseData = await reqLogin(data);
+      const result: loginResponseData = await reqLogin(data);
       if (result.code == 200) {
         this.token = result.data.token as string;
         SET_TOKEN(result.data.token as string);
