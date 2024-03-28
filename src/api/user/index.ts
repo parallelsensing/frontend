@@ -3,8 +3,7 @@
 import request from "../../units/request";
 import type { loginForm, loginResponseData,userResponseData } from "../../type/userType";
 enum API {
-  // LOGIN_URL = "/user/login",
-  LOGIN_URL = "",
+  LOGIN_URL = "/user/login",
   USERINFO_URL = "/user/info",
 }
 

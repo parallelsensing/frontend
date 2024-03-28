@@ -2,7 +2,7 @@ import { createRouter, createWebHistory,  } from "vue-router";
 import type { RouteRecordRaw } from 'vue-router';
 
 import NotFound from "../pages/404.vue"
-import Platform from "../pages/Platform.vue";
+import Platform from "../pages/PlatformView.vue";
 import Home from "../components/HomeView.vue";
 import Login from "../pages/LoginView.vue";
 import Map from "../pages/MapView.vue";

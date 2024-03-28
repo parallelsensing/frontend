@@ -13,8 +13,7 @@
                   outlined>
                   </v-text-field>
                 <v-text-field v-model="loginForm.password" label="密码" prepend-inner-icon="mdi-lock"
-                  :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
-                  @click="togglePasswordVisibility" :type="showPassword ? 'text' : 'password'"
+                type="password"
                   outlined>
                   </v-text-field>
                 <v-btn color="primary" type="submit">登录</v-btn>
