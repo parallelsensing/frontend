@@ -27,14 +27,13 @@
 </template>
 <script setup lang="ts">
 
-import { ref, reactive } from 'vue'
+import { reactive } from 'vue'
 import { useUserStore } from '../store/users';
 import { useRouter } from 'vue-router';
 import { ElNotification } from 'element-plus';
 import {getTime} from '../units/time'
 
 let loginForm = reactive({ username: 'admin', password: '123456' })
-let showPassword = ref(false)
 let useStore = useUserStore()
 let router = useRouter();
 
@@ -53,7 +52,6 @@ let login = async () => {
       message:(error as Error).message
     })
   }
-
 }
 </script>
 
