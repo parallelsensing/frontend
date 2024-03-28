@@ -55,10 +55,6 @@ let login = async () => {
   }
 
 }
-
-// let togglePasswordVisibility = () => {
-//   showPassword.value = !showPassword.value;
-// }
 </script>
 
 <style scoped lang="scss">
