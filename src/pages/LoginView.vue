@@ -10,11 +10,12 @@
             <v-card-text>
               <v-form @submit.prevent="login">
                 <v-text-field v-model="loginForm.username" label="用户名" prepend-inner-icon="mdi-account"
-                  outlined></v-text-field>
+                  outlined>
+                  </v-text-field>
                 <v-text-field v-model="loginForm.password" label="密码" prepend-inner-icon="mdi-lock"
-                  :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
-                  @click="togglePasswordVisibility" :type="showPassword ? 'text' : 'password'"
-                  outlined></v-text-field>
+                type="password"
+                  outlined>
+                  </v-text-field>
                 <v-btn color="primary" type="submit">登录</v-btn>
               </v-form>
             </v-card-text>
@@ -55,7 +56,6 @@ let login = async () => {
 
 }
 
-
 let togglePasswordVisibility = () => {
   showPassword.value = !showPassword.value;
 }
@@ -65,8 +65,8 @@ let togglePasswordVisibility = () => {
 .login_container {
   width: 100%;
   height: 100vh;
-  // background:url('../assets/image/background.jpg') no-repeat;
-  // background-size: cover;
+  background:url('../assets/image/background.jpg') no-repeat;
+  background-size: cover;
 }
 
 .primary {
