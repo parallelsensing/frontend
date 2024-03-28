@@ -21,7 +21,7 @@ const usePlatform = defineStore({
       return !this.loaded;
     },
     loadingMsg():string {
-      return this.loadingPercent == 1?'模型解压中' : `loading:${Math.floor(this.loadingPercent * 1000) / 10}%`;    
+      return this.loadingPercent == 1?'模型加载成功' : `loading:${Math.floor(this.loadingPercent * 1000) / 10}%`;    
     },
   },
   actions:{
