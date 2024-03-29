@@ -18,7 +18,7 @@ import MapScene from '@/units/map/index'
 
 const mapCenter = ref<number[]>([116.3262, 39.978041]);
 const map = ref();
-const markerInfo = ref<HTMLElement>()
+const markerInfo = ref()
 
 const onMapCreated = (mapInstance: any) => {
   // Store the map instance for later use if needed
