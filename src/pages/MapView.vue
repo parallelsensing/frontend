@@ -12,9 +12,6 @@
 <script setup lang="ts">
 import { MapboxMap } from '@studiometa/vue-mapbox-gl';
 import mapboxgl from 'mapbox-gl';
-
-
-
 import { ref, } from 'vue'
 import { useRouter } from 'vue-router';
 let router = useRouter();
@@ -23,11 +20,11 @@ const mapCenter = ref<number[]>([116.3262, 39.978041]);
 const map = ref();
 const markerInfo = ref()
 const marker = new mapboxgl.Marker()
+
 const onMapCreated = (mapInstance:any) => {
   // Store the map instance for later use if needed
   map.value = mapInstance;
-  console.log(map.value);
-  
+
   map.value.on("load", function () {
     map.value.flyTo({
       center: [116.3262, 39.978041],
