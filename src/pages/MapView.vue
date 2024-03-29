@@ -10,57 +10,12 @@
 </template>
 <script setup lang="ts">
 import { MapboxMap } from '@studiometa/vue-mapbox-gl';
-<<<<<<< HEAD
-import mapboxgl from 'mapbox-gl';
-=======
-
->>>>>>> develop
 import { ref, } from 'vue'
-// import { useRouter } from 'vue-router';
 import MapScene from '@/units/map/index'
-// let router = useRouter();
 
 const mapCenter = ref<number[]>([116.3262, 39.978041]);
 const map = ref();
 const markerInfo = ref()
-<<<<<<< HEAD
-const marker = new mapboxgl.Marker()
-
-const onMapCreated = (mapInstance:any) => {
-  // Store the map instance for later use if needed
-  map.value = mapInstance;
-
-  map.value.on("load", function () {
-    map.value.flyTo({
-      center: [116.3262, 39.978041],
-      zoom: 17.1, // starting zoom
-      pitch: 62, // starting pitch
-      bearing: -20, // starting bearing
-      speed: 1.5, // 动画速度
-      curve: 1, // 动画曲线
-      // easing:
-    });
-  });
-
-  marker.setLngLat([116.3262, 39.978041]) // Set marker position
-    .addTo(mapInstance);
-  marker.getElement().addEventListener("click", function () {
-    router.push('/platform')
-  });
-  marker.getElement().addEventListener("mouseover", function (e) {
-    markerInfo.value.style.display = "block";
-    markerInfo.value.style.left = e.pageX + 10 + "px"; // 位置调整
-    markerInfo.value.style.top = e.pageY + 10 + "px"; // 位置调整
-    map.value.getCanvas().style.cursor = 'pointer';
-  });
-  marker.getElement().addEventListener("mouseout", function () {
-    markerInfo.value.style.display = "none";
-    map.value.getCanvas().style.cursor = '';
-    console.log(1111);
-    
-  });
-
-=======
 
 const onMapCreated = (mapInstance: any) => {
   // Store the map instance for later use if needed
@@ -69,7 +24,6 @@ const onMapCreated = (mapInstance: any) => {
   mapScene.flyTo()
   mapScene.addMarkerInfo(markerInfo.value)
   mapScene.toPlatformPage()
->>>>>>> develop
 };
 </script>
 
