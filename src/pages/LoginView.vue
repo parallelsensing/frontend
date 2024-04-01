@@ -45,7 +45,6 @@ let login = async () => {
       type:'success',
       message:`HI,${getTime()}好`
     })
-
   } catch (error) {
     ElNotification({
       type:'error',
