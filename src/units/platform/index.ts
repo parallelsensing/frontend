@@ -5,6 +5,7 @@ import {
 import { OrbitControls } from 'three/examples/jsm/Addons.js';
 import TWEEN, { Tween } from 'three/examples/jsm/libs/tween.module.js';
 import { GlbLoader, LOAD_EVENT } from './glbLoader';
+import {PcdLoader} from './pcdLoader'
 
 /**
  * 版本
@@ -32,6 +33,7 @@ export class Platform extends EventDispatcher {
   __boothes:Group; // 展位
   __renderer:any = null; // 渲染器
   _loader:any = null; // 加载器
+  _pcdloader:any = null;
   _config:any;// 配置信息
   _controls:any;//相机控制器
   _clock = new Clock();
@@ -112,7 +114,8 @@ export class Platform extends EventDispatcher {
   }
   boothInit(){
     const g = new GlbLoader();
-    this.__boothes.add(g);
+    const g1 = new PcdLoader() 
+    this.__boothes.add(g,g1);
   }
   //添加灯光
   getLights() {
