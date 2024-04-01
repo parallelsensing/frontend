@@ -7,29 +7,40 @@
     <p>点击进入中科院自动化研究所</p>
     <img src="/img/CASIA.jpg" alt="图片">
   </div>
+  <div class="floating-input"> <!-- 悬浮输入框容器 -->
+      <v-text-field v-model="inputText" label="目的地" outlined></v-text-field>
+    </div>
+    <div class="floating-button"> <!-- 悬浮按钮容器 -->
+      <v-btn color="primary" @click="goBack">Go Back to CASIA</v-btn>
+    </div>
 </template>
 <script setup lang="ts">
 import { MapboxMap } from '@studiometa/vue-mapbox-gl';
 
 import { ref, } from 'vue'
-// import { useRouter } from 'vue-router';
-import MapScene from '@/units/map/index'
-// let router = useRouter();
 
-const mapCenter = ref<number[]>([116.3262, 39.978041]);
+import MapScene from '@/units/map/index'
+
+const inputText = ref<string>()
+const mapCenter = ref<[number,number]>([116.3262, 39.978041]);
 const map = ref();
 const markerInfo = ref()
+const goBack = ()=>{
+  console.log(mapCenter);
+  
+}
 
 const onMapCreated = (mapInstance: any) => {
   // Store the map instance for later use if needed
   map.value = mapInstance;
   let mapScene = new MapScene(map.value)
   mapScene.flyTo()
+
   mapScene.addMarkerInfo(markerInfo.value)
   mapScene.toPlatformPage()
 };
-</script>
 
+</script>
 <style scoped>
 #markerInfo {
   position: absolute;
@@ -48,5 +59,18 @@ const onMapCreated = (mapInstance: any) => {
   width: 200px;
   /* 设置图片宽度为父div的100% */
   height: auto;
+}
+.floating-input {
+  position: absolute;
+  width: 300px;
+  top: 20px;
+  left: 20px;
+  z-index: 1000; /* 确保输入框在地图上方 */
+}
+.floating-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 1000; /* 确保按钮在地图上方 */
 }
 </style>
