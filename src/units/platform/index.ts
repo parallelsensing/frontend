@@ -1,6 +1,6 @@
 
 import {
-  EventDispatcher, WebGLRenderer, Color,Clock,AmbientLight, DirectionalLight, PerspectiveCamera, Scene, Group, Vector3,  BoxGeometry, Mesh,MeshBasicMaterial, AxesHelper
+  EventDispatcher, WebGLRenderer, Color,Clock,AmbientLight, DirectionalLight, PerspectiveCamera, Scene, Group, Vector3,AxesHelper
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/Addons.js';
 import TWEEN, { Tween } from 'three/examples/jsm/libs/tween.module.js';
@@ -29,8 +29,7 @@ export class Platform extends EventDispatcher {
   _canvas:any = null;
   __camera:PerspectiveCamera; // 摄像头
   __scene:Scene; // 场景
-  __bg:Group; //背景
-  __boothes:Group; // 展位
+  __models:Group; // 展位
   __renderer:any = null; // 渲染器
   _loader:any = null; // 加载器
   _pcdloader:any = null;
@@ -44,16 +43,14 @@ export class Platform extends EventDispatcher {
     this.__scene = new Scene();
     this.__scene.background = new Color(0x222222);
     this.__camera = new PerspectiveCamera(75, Static.WIDTH / Static.HEIGHT, 0.001, 10000);
+    this.__camera.position.set(2,4,6)
     this.__camera.lookAt(new Vector3(0,0,0));
-    this.__bg = new Group();
-    this.__boothes = new Group();
+    this.__models = new Group();
     this._axeshelper = new AxesHelper(50)
     this.__scene.add(
-      this.__bg,
-      this.__boothes,
+      this.__models,
       this.getLights(),
       this.__camera,
-      // this._cube,
       this._axeshelper
     );
   }
@@ -90,32 +87,30 @@ export class Platform extends EventDispatcher {
       this.__renderer.setPixelRatio(window.devicePixelRatio);
     }
   }
- //准备动画
-  ready() {
-    this.__camera.position.set(2,4,6)
-    this.__camera.lookAt(new Vector3(0,0,0));
+ //入场动画
+  enterSceneAnimate() {
     const v = new Vector3();
     v.x = 0;
     v.y = 30;
     v.z = 7;
-    const t = new Tween(this.__camera.position).to(v, Static.DURATION);
-    t.onUpdate(() => {
+    const tween = new Tween(this.__camera.position).to(v, Static.DURATION);
+    tween.onUpdate(() => {
       this.__camera.lookAt(new Vector3(0,0,0));
     });
-    t.onComplete(() => {
+    tween.onComplete(() => {
       this.controlCamera();
-      this.boothInit();
+      this.modelInit();
     })
-    t.start();
+    tween.start();
   }
   start(){
-    this.ready();
-    this.setBackGround()
+    this.enterSceneAnimate();
+    this.setGlbLoading()
   }
-  boothInit(){
+  modelInit(){
     const g = new GlbLoader();
-    const g1 = new PcdLoader() 
-    this.__boothes.add(g,g1);
+    const g1 = new PcdLoader(); 
+    this.__models.add(g,g1);
   }
   //添加灯光
   getLights() {
@@ -135,7 +130,7 @@ export class Platform extends EventDispatcher {
     );
     return group;
   }
-  setBackGround(){
+  setGlbLoading(){
     const group:any = new GlbLoader()
     group.addEventListener(LOAD_EVENT.LOADING,(e:any)=>{
       this.onLoading(e.data)

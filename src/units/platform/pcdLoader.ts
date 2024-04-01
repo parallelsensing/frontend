@@ -15,12 +15,10 @@ export class PcdLoader extends Object3D{
   constructor(){
     super();
     // this._booth = booth;
-
     this._loader = new PCDLoader();
     this._color = new Color(0x00ffff)
-    this._loader.load('./model/resultPointCloudFile.pcd', this.onLoad, this.onLoading, this.onLoadError);
+    this._loader.load('./model/test1.pcd', this.onLoad, this.onLoading, this.onLoadError);
   }
-
   onLoad = (points:any)=>{
     console.log(points)
     points.geometry.rotateX(0.5 * Math.PI);//旋转模型，可调
