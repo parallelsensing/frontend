@@ -67,7 +67,6 @@ let login = async () => {
   text-align: center;
   background-color: #71b0e4;
 }
-
 .elevation-12 {
   top: 30vh;
 }
