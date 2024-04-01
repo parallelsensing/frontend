@@ -60,7 +60,7 @@ export default [
   {
     url: '/api/user/info',
     method: 'get',
-    response: (request) => {
+    response: (request:any) => {
       //获取请求头携带token
       const token = request.headers.token
       //查看用户信息是否包含有次token用户
