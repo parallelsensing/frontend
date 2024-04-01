@@ -26,7 +26,6 @@
   </div>
 </template>
 <script setup lang="ts">
-
 import { reactive } from 'vue'
 import { useUserStore } from '../store/users';
 import { useRouter } from 'vue-router';

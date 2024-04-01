@@ -32,7 +32,7 @@ request.interceptors.response.use(
     }
   },
   (error) => {
-    let message = ''
+    let message = '网络出现问题'
     const status = error.response.status
     switch (status) {
       // 401: 未登录
