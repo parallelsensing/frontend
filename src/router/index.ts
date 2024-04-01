@@ -46,11 +46,5 @@ const router = createRouter({
   history,
   routes,
 });
-// router.beforeEach((to, _from, next) => {
-//   if (to.meta.title) {
-//     document.title = `IEEE ITSC 2022 | ${to.meta.title}`;
-//   }
-//   next();
-// });
 
 export default router;
