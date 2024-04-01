@@ -16,7 +16,7 @@ const LoadingMsg = computed(()=>store.loadingMsg)
 
 onMounted(() =>{
   if(canvas.value) {
-    store.freight(canvas.value); // 装载canvas
+    store.addCanvas(canvas.value); // 装载canvas
     store.start(); // 按照config开始执行
   }
 });

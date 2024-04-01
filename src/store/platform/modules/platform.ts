@@ -25,9 +25,9 @@ const usePlatform = defineStore({
     },
   },
   actions:{
-    freight(canvas:HTMLCanvasElement) {
+    addCanvas(canvas:HTMLCanvasElement) {
       this.instance.platform = new Platform();
-      this.instance.platform.freight(canvas);
+      this.instance.platform.addCanvas(canvas);
       this.instance.platform.addEventListener(EVENT.LOADING, this.onLoading);
     },
     start(){

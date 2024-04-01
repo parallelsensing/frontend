@@ -33,8 +33,6 @@ export class Platform extends EventDispatcher {
   __renderer:any = null; // 渲染器
   _loader:any = null; // 加载器
   _config:any;// 配置信息
-  _box:BoxGeometry; //立方体几何信息
-  _cube:Mesh;//测试立方体
   _controls:any;//相机控制器
   _clock = new Clock();
   _axeshelper: any;
@@ -47,15 +45,7 @@ export class Platform extends EventDispatcher {
     this.__camera.lookAt(new Vector3(0,0,0));
     this.__bg = new Group();
     this.__boothes = new Group();
-    this._box = new BoxGeometry(1,1,1)
     this._axeshelper = new AxesHelper(50)
-    this._cube = new Mesh(this._box,new MeshBasicMaterial({color:0x00ff00}))
-    // const map = new mapv.baiduMapLayer(map, dataSet, options);
-
-// 添加 Three.js 网格模型
-// const geometry = new THREE.BoxGeometry();
-// const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-// const cube = new THREE.Mesh(geometry, material);
     this.__scene.add(
       this.__bg,
       this.__boothes,
@@ -69,7 +59,7 @@ export class Platform extends EventDispatcher {
    * 装载
    * @param canvas 元素
    */
-  freight(canvas:HTMLCanvasElement) {
+  addCanvas(canvas:HTMLCanvasElement) {
     this._canvas = canvas;
     this.__renderer = new WebGLRenderer({ canvas, antialias: true });
 		this.__renderer.shadowMap.enabled = true;
@@ -106,7 +96,6 @@ export class Platform extends EventDispatcher {
     v.x = 0;
     v.y = 30;
     v.z = 7;
-
     const t = new Tween(this.__camera.position).to(v, Static.DURATION);
     t.onUpdate(() => {
       this.__camera.lookAt(new Vector3(0,0,0));
@@ -125,7 +114,7 @@ export class Platform extends EventDispatcher {
     const g = new GlbLoader();
     this.__boothes.add(g);
   }
-
+  //添加灯光
   getLights() {
     const group = new Group();
     const sun = new DirectionalLight(0xffffff, 0.8);
@@ -153,9 +142,7 @@ export class Platform extends EventDispatcher {
     const event = {type:EVENT.LOADING,data:e} as never;
     this.dispatchEvent(event)
   }
-  /**
-   * 动画
-   */
+ //动画
   animate = (time:number)=> {
     requestAnimationFrame(this.animate);
     if(this._controls) this._controls.update();
