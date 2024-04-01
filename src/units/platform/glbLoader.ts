@@ -8,7 +8,6 @@ export const LOAD_EVENT = {
   LOADED: 'modelLoaded',
   LOAD_FAIL: 'modelLoadFail'
 };
-
 export class GlbLoader extends Object3D{
   _loader:GLTFLoader; //加载器
   _booth:any;//模型信息
