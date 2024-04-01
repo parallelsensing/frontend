@@ -17,7 +17,7 @@
 <script setup lang="ts">
 import { MapboxMap } from '@studiometa/vue-mapbox-gl';
 
-import { ref, } from 'vue'
+import { ref } from 'vue'
 
 import MapScene from '@/units/map/index'
 
