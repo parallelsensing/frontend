@@ -17,6 +17,7 @@ export class PcdLoader extends Object3D{
     // this._booth = booth;
     this._loader = new PCDLoader();
     this._color = new Color(0x00ffff)
+
     this._loader.load('./model/resultPointCloudFile.pcd', this.onLoad, this.onLoading, this.onLoadError);
   }
   onLoad = (points:any)=>{
