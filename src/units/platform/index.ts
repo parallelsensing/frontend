@@ -96,10 +96,11 @@ export class Platform extends EventDispatcher {
     const tween = new Tween(this.__camera.position).to(v, Static.DURATION);
     tween.onUpdate(() => {
       this.__camera.lookAt(new Vector3(0,0,0));
-    });
-    tween.onComplete(() => {
       this.controlCamera();
       this.modelInit();
+    });
+    tween.onComplete(() => {
+  
     })
     tween.start();
   }
