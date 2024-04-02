@@ -1,38 +1,28 @@
-
 <template>
   <!-- <div>{{ LoadingMsg }}</div> -->
-  <canvas ref="canvas" style="width:100%;height:100%" ></canvas>
-  <div class="loading" v-if="progress != 100"></div>
-    <div class="progress" v-if="progress != 100">
-      <img src="/public/img/loading.gif" alt="" />
-      <span>模型加载中：{{ progress }}%</span>
-    </div>
+  <canvas ref="canvas" style="width:100%;height:100%"></canvas>
+  <div class="loading" v-if="LoadingProgress != 100"></div>
+  <div class="progress" v-if="LoadingProgress != 100">
+    <img src="/public/img/loading.gif" alt="" />
+    <span>{{LoadingMsg}}</span>
+  </div>
 </template>
 
 <script setup lang="ts">
-import usePlatform from '../store/platform/modules/platform';
-import { onMounted, ref} from 'vue';
-import { DefaultLoadingManager } from 'three';
-
+import usePlatform from '@/store/platform/modules/platform';
+import { onMounted, ref, computed } from 'vue';
 
 const store = usePlatform();
-const progress = ref()
-
 const canvas = ref<HTMLCanvasElement>();
-// const LoadingMsg = computed(()=>store.loadingMsg)
+const LoadingProgress = computed(() => store.loadingPercent)
+const LoadingMsg = computed(() => store.loadingMsg)
 
-onMounted(() =>{
-  if(canvas.value) {
+onMounted(() => {
+  if (canvas.value) {
     store.addCanvas(canvas.value); // 装载canvas
     store.start(); // 按照config开始执行
   }
 });
-DefaultLoadingManager.onProgress = function(item,loaded,total){
-  console.log(item);
-  progress.value = ((loaded/total)*100).toFixed(2);
-  console.log(progress.value);
-  
-}
 </script>
 <style scoped>
 .progress {
@@ -48,11 +38,13 @@ DefaultLoadingManager.onProgress = function(item,loaded,total){
   font-size: 20px;
   color: #fff;
 }
-.progress > img {
+
+.progress>img {
   padding: 0 15px;
   width: 100px;
   height: 50px;
 }
+
 .loading {
   position: fixed;
   top: 0;
@@ -65,5 +57,3 @@ DefaultLoadingManager.onProgress = function(item,loaded,total){
   z-index: 100;
 }
 </style>
-
-

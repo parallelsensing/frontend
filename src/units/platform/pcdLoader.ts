@@ -1,4 +1,5 @@
-import { Object3D,Color, BufferGeometry,MeshBasicMaterial,Mesh} from 'three';
+
+import { Object3D,Color} from 'three';
 import { PCDLoader } from 'three/examples/jsm/Addons.js';
 
 export const LOAD_EVENT = {
@@ -28,11 +29,6 @@ export class PcdLoader extends Object3D{
     points.rotation.z = -45;
     points.rotation.z = 45;
     this.add(points)
-    // const geometry = new BufferGeometry().setFromPoints(points.geometry.attributes.position.array);
-    // // const geometry1 = points.geometry;
-    // const material = new MeshBasicMaterial({color:0xff0000});
-    // const mesh = new Mesh(geometry,material)
-    // this.add(mesh)
   };
   onLoading = (e:Event)=>{
     const event = {type:LOAD_EVENT.LOADING,data:e} as never;

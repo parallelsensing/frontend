@@ -43,7 +43,6 @@ const onMapCreated = (mapInstance: any) => {
   display: none;
   width: auto;
   height: 200px;
-
 }
 
 #markerInfo img {
