@@ -16,9 +16,7 @@
 </template>
 <script setup lang="ts">
 import { MapboxMap } from '@studiometa/vue-mapbox-gl';
-
 import { ref } from 'vue'
-
 import MapScene from '@/units/map/index'
 
 const inputText = ref<string>()
@@ -27,7 +25,6 @@ const map = ref();
 const markerInfo = ref()
 const goBack = ()=>{
   console.log(mapCenter);
-  
 }
 
 const onMapCreated = (mapInstance: any) => {
@@ -35,7 +32,6 @@ const onMapCreated = (mapInstance: any) => {
   map.value = mapInstance;
   let mapScene = new MapScene(map.value)
   mapScene.flyTo()
-
   mapScene.addMarkerInfo(markerInfo.value)
   mapScene.toPlatformPage()
 };
@@ -50,7 +46,6 @@ const onMapCreated = (mapInstance: any) => {
   display: none;
   width: auto;
   height: 200px;
-
 }
 
 #markerInfo img {

@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import './style.css'
-import router from './router'
-import APP from './App.vue'
+import router from '@/router'
+import APP from '@/App.vue'
 import { createPinia } from 'pinia';
 
 // Vuetify组件库

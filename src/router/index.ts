@@ -1,43 +1,39 @@
 import { createRouter, createWebHistory,  } from "vue-router";
 import type { RouteRecordRaw } from 'vue-router';
-
-import NotFound from "../pages/404.vue"
-import Platform from "../pages/PlatformView.vue";
-import Home from "../components/HomeView.vue";
-import Login from "../pages/LoginView.vue";
-import Map from "../pages/MapView.vue";
+import Home from "@/components/home-view.vue";
 
 const routes: Array <RouteRecordRaw> = [
   {
-    name: 'login',
+    name: 'home',
     path: '/',
-    component: Login,
+    component: Home,
     props: true,
   },
+  {
+    name: 'login',
+    path: '/login',
+    component: ()=>import('@/pages/Login-view.vue'),
+    props: true,
+  },
+
   {
     name: 'Map',
     path: '/map',
-    component: Map,
-    props: true,
-  },
-  {
-    name: 'home',
-    path: '/home',
-    component: Home,
+    component: ()=>import('@/pages/map-view.vue'),
     props: true,
   },
 
   {
     name: 'platform',
     path: '/platform',
-    component: Platform,
+    component: ()=>import('@/pages/platform-view.vue'),
     props: true,
     meta: { title: 'model' }
   },
   {
     name: '404',
     path: '/404',
-    component: NotFound
+    component: import('@/pages/404-view.vue'),
   },
 ];
 

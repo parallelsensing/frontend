@@ -1,21 +1,30 @@
-
 import {
-  EventDispatcher, WebGLRenderer, Color,Clock,AmbientLight, DirectionalLight, PerspectiveCamera, Scene, Group, Vector3,AxesHelper
+  EventDispatcher,
+  WebGLRenderer,
+  Color,
+  Clock,
+  AmbientLight,
+  DirectionalLight,
+  PerspectiveCamera,
+  Scene,
+  Group,
+  Vector3,
+  AxesHelper
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/Addons.js';
 import TWEEN, { Tween } from 'three/examples/jsm/libs/tween.module.js';
 import { GlbLoader, LOAD_EVENT } from './glbLoader';
-import {PcdLoader} from './pcdLoader'
+import { PcdLoader } from './pcdLoader';
 
 /**
  * 版本
  */
 export const VER = '1.0';
 /**
-* 事件
-*/
+ * 事件
+ */
 export const EVENT = {
-  LOADING: 'modelLoading',
+  LOADING: 'modelLoading'
 };
 const Static = {
   X: 0,
@@ -26,15 +35,15 @@ const Static = {
   CAMERA_FAR: 50
 };
 export class Platform extends EventDispatcher {
-  _canvas:any = null;
-  __camera:PerspectiveCamera; // 摄像头
-  __scene:Scene; // 场景
-  __models:Group; // 展位
-  __renderer:any = null; // 渲染器
-  _loader:any = null; // 加载器
-  _pcdloader:any = null;
-  _config:any;// 配置信息
-  _controls:any;//相机控制器
+  _canvas: any = null;
+  __camera: PerspectiveCamera; // 摄像头
+  __scene: Scene; // 场景
+  __models: Group; // 展位
+  __renderer: any = null; // 渲染器
+  _loader: any = null; // 加载器
+  _pcdloader: any = null;
+  _config: any; // 配置信息
+  _controls: any; //相机控制器
   _clock = new Clock();
   _axeshelper: any;
 
@@ -43,51 +52,46 @@ export class Platform extends EventDispatcher {
     this.__scene = new Scene();
     this.__scene.background = new Color(0x222222);
     this.__camera = new PerspectiveCamera(75, Static.WIDTH / Static.HEIGHT, 0.001, 10000);
-    this.__camera.position.set(2,4,6)
-    this.__camera.lookAt(new Vector3(0,0,0));
+    this.__camera.position.set(2, 4, 6);
+    this.__camera.lookAt(new Vector3(0, 0, 0));
     this.__models = new Group();
-    this._axeshelper = new AxesHelper(50)
-    this.__scene.add(
-      this.__models,
-      this.getLights(),
-      this.__camera,
-      this._axeshelper
-    );
+    this._axeshelper = new AxesHelper(50);
+    this.__scene.add(this.__models, this.getLights(), this.__camera, this._axeshelper);
   }
   /**
    * 装载
    * @param canvas 元素
    */
-  addCanvas(canvas:HTMLCanvasElement) {
+  addCanvas(canvas: HTMLCanvasElement) {
     this._canvas = canvas;
     this.__renderer = new WebGLRenderer({ canvas, antialias: true });
-		this.__renderer.shadowMap.enabled = true;
+    this.__renderer.shadowMap.enabled = true;
     window.addEventListener('resize', this.onResize);
     this.onResize();
     this.animate(0);
   }
-  controlCamera(){
-    this._controls = new OrbitControls(this.__camera,this.__renderer.domElement)
+  controlCamera() {
+    this._controls = new OrbitControls(this.__camera, this.__renderer.domElement);
   }
   //尺寸重置
   onResize = () => {
     Static.X = this._canvas?.offsetLeft;
     Static.Y = this._canvas?.offsetTop;
-    if(this._canvas) {
+    if (this._canvas) {
       this._canvas.width = window.innerWidth;
-      this._canvas.height = window.innerHeight;        
+      this._canvas.height = window.innerHeight;
     }
     Static.WIDTH = window.innerWidth;
     Static.HEIGHT = window.innerHeight;
-    
-    if(this.__camera) {
+
+    if (this.__camera) {
       this.__camera.aspect = Static.WIDTH / Static.HEIGHT;
       this.__camera.updateProjectionMatrix();
-      this.__renderer.setSize( Static.WIDTH, Static.HEIGHT );
+      this.__renderer.setSize(Static.WIDTH, Static.HEIGHT);
       this.__renderer.setPixelRatio(window.devicePixelRatio);
     }
-  }
- //入场动画
+  };
+  //入场动画
   enterSceneAnimate() {
     const v = new Vector3();
     v.x = 0;
@@ -95,23 +99,22 @@ export class Platform extends EventDispatcher {
     v.z = 7;
     const tween = new Tween(this.__camera.position).to(v, Static.DURATION);
     tween.onUpdate(() => {
-      this.__camera.lookAt(new Vector3(0,0,0));
+      this.__camera.lookAt(new Vector3(0, 0, 0));
+    });
+    tween.onComplete(() => {
       this.controlCamera();
       this.modelInit();
     });
-    tween.onComplete(() => {
-  
-    })
     tween.start();
   }
-  start(){
+  start() {
     this.enterSceneAnimate();
-    this.setGlbLoading()
+    this.setGlbLoading();
   }
-  modelInit(){
+  modelInit() {
     const g = new GlbLoader();
-    const g1 = new PcdLoader(); 
-    this.__models.add(g,g1);
+    const g1 = new PcdLoader();
+    this.__models.add(g, g1);
   }
   //添加灯光
   getLights() {
@@ -125,28 +128,24 @@ export class Platform extends EventDispatcher {
     sun.shadow.camera.top = -180;
     sun.shadow.camera.bottom = 180;
     sun.position.set(50, 50, 0);
-    group.add(
-      new AmbientLight(0xffffff, 0.6),
-      sun
-    );
+    group.add(new AmbientLight(0xffffff, 0.6), sun);
     return group;
   }
-  setGlbLoading(){
-    const group:any = new GlbLoader()
-    group.addEventListener(LOAD_EVENT.LOADING,(e:any)=>{
-      this.onLoading(e.data)
-    })
+  setGlbLoading() {
+    const group: any = new GlbLoader();
+    group.addEventListener(LOAD_EVENT.LOADING, (e: any) => {
+      this.onLoading(e.data);
+    });
   }
-  onLoading=(e:Event)=>{ 
-    const event = {type:EVENT.LOADING,data:e} as never;
-    this.dispatchEvent(event)
-  }
- //动画
-  animate = (time:number)=> {
+  onLoading = (e: Event) => {
+    const event = { type: EVENT.LOADING, data: e } as never;
+    this.dispatchEvent(event);
+  };
+  //动画
+  animate = (time: number) => {
     requestAnimationFrame(this.animate);
-    if(this._controls) this._controls.update();
+    if (this._controls) this._controls.update();
     this.__renderer.render(this.__scene, this.__camera);
     TWEEN.update(time);
-  }
+  };
 }
-

@@ -1,4 +1,4 @@
-import { Object3D,Color } from 'three';
+import { Object3D,Color} from 'three';
 import { PCDLoader } from 'three/examples/jsm/Addons.js';
 
 export const LOAD_EVENT = {
@@ -17,7 +17,8 @@ export class PcdLoader extends Object3D{
     // this._booth = booth;
     this._loader = new PCDLoader();
     this._color = new Color(0x00ffff)
-    this._loader.load('./model/test1.pcd', this.onLoad, this.onLoading, this.onLoadError);
+
+    this._loader.load('./model/resultPointCloudFile.pcd', this.onLoad, this.onLoading, this.onLoadError);
   }
   onLoad = (points:any)=>{
     console.log(points)
