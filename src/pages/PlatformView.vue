@@ -11,7 +11,7 @@
 
 <script setup lang="ts">
 import usePlatform from '../store/platform/modules/platform';
-import { computed, onMounted, ref} from 'vue';
+import { onMounted, ref} from 'vue';
 import { DefaultLoadingManager } from 'three';
 
 
