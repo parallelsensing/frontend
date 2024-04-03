@@ -52,13 +52,9 @@ export default class MapScene {
     for (let i = 0; i < this._markers.length; i++) {
       const marker = this._markers[i];
       const markerCenter = marker.getLngLat();
-<<<<<<< HEAD
-      this._markers[i].getElement().addEventListener('click', () => {
-         this.flyTo([markerCenter.lng,markerCenter.lat])
-=======
       marker.getElement().addEventListener('click', () => {
         this.flyTo([markerCenter.lng, markerCenter.lat]);
->>>>>>> develop
+
       });
     }
   };
