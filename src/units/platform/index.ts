@@ -52,6 +52,7 @@ export class Platform extends EventDispatcher {
     this.__scene = new Scene();
     this.__scene.background = new Color(0x222222);
     this.__camera = new PerspectiveCamera(75, Static.WIDTH / Static.HEIGHT, 0.001, 10000);
+
     this.__camera.position.set(2, 4, 6);
     this.__camera.lookAt(new Vector3(0, 0, 0));
     this.__models = new Group();
@@ -91,12 +92,13 @@ export class Platform extends EventDispatcher {
       this.__renderer.setPixelRatio(window.devicePixelRatio);
     }
   };
+
   //入场动画
   enterSceneAnimate() {
     const v = new Vector3();
-    v.x = 0;
-    v.y = 30;
-    v.z = 7;
+    v.x = 41.95;
+    v.y = 26.12;
+    v.z = 34.46;
     const tween = new Tween(this.__camera.position).to(v, Static.DURATION);
     tween.onUpdate(() => {
       this.__camera.lookAt(new Vector3(0, 0, 0));
@@ -112,9 +114,9 @@ export class Platform extends EventDispatcher {
     this.setGlbLoading();
   }
   modelInit() {
-    const g = new GlbLoader();
+    // const g = new GlbLoader();
     const g1 = new PcdLoader();
-    this.__models.add(g, g1);
+    this.__models.add( g1);
   }
   //添加灯光
   getLights() {
@@ -144,6 +146,7 @@ export class Platform extends EventDispatcher {
   //动画
   animate = (time: number) => {
     requestAnimationFrame(this.animate);
+    // console.log("Initial Camera Rotation:", this.__camera.rotation,this.__camera.position);
     if (this._controls) this._controls.update();
     this.__renderer.render(this.__scene, this.__camera);
     TWEEN.update(time);
