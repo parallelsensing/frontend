@@ -14,7 +14,7 @@ export default class MapScene {
     this._map.setBearing(-20);
     this._markers = this.addDestinationMarkers(destArrays);
   }
-  flyTo = (center:[number,number]) => {
+  flyTo = (center: [number, number]) => {
     this._map.flyTo({
       center: center,
       zoom: 17.1, // starting zoom
@@ -50,10 +50,10 @@ export default class MapScene {
   };
   goToDist = () => {
     for (let i = 0; i < this._markers.length; i++) {
-    console.log(this._markers[i]);
-    const markerCenter = this._markers[i]._lngLat;
-      this._markers[i].getElement().addEventListener('click',  ()=> {
-       this.flyTo(markerCenter)
+      const marker = this._markers[i];
+      const markerCenter = marker.getLngLat();
+      this._markers[i].getElement().addEventListener('click', () => {
+         this.flyTo([markerCenter.lng,markerCenter.lat])
       });
     }
   };

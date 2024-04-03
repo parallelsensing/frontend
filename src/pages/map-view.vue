@@ -3,10 +3,7 @@
     access-token="pk.eyJ1IjoidHpxMTAzMiIsImEiOiJjbHUyZWxuYTUwMWlrMndsM3VxaHJpcmd6In0.qE_R5khyiy6PYCjUuTkywQ"
     :center="mapCenter" @mb-created="onMapCreated">
   </MapboxMap>
-  <!-- <div ref="markerInfo" id="markerInfo">
-    <p>点击进入中科院自动化研究所</p>
-    <img src="/img/CASIA.jpg" alt="图片">
-  </div> -->
+
   <div v-for="(item, index) in items" :key="index" class="markerInfo" ref="markerDivArray">
     <p>双击进入{{ item.name }}</p>
     <img :src="item.title" alt="图片">
@@ -26,7 +23,7 @@
     </v-list>
   </div>
   <div class="floating-button"> <!-- 悬浮按钮容器 -->
-    <v-btn color="primary" @click="goBack(mapCenter)">Go Back to CASIA</v-btn>
+    <v-btn color="primary" @click="goBack(mapCenter)">Go Back to center</v-btn>
   </div>
 </template>
 <script setup lang="ts">
@@ -95,9 +92,6 @@ const onMapCreated = (mapInstance: any) => {
   mapScene.toPlatformPage()
   flyToDist(mapCenter.value)
 };
-
-
-
 </script>
 <style scoped>
 .markerInfo {
