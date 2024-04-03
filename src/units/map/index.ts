@@ -1,6 +1,5 @@
 import mapboxgl from 'mapbox-gl';
 import { useRouter } from 'vue-router';
-
 mapboxgl.accessToken = 'YOUR_MAPBOX_ACCESS_TOKEN';
 export default class MapScene {
   _map: mapboxgl.Map;
@@ -52,7 +51,7 @@ export default class MapScene {
   goToDist = () => {
     for (let i = 0; i < this._markers.length; i++) {
     console.log(this._markers[i]);
-    const markerCenter = this._markers[i]._lngLat
+    const markerCenter = this._markers[i]._lngLat;
       this._markers[i].getElement().addEventListener('click',  ()=> {
        this.flyTo(markerCenter)
       });

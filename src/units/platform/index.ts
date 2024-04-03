@@ -13,8 +13,8 @@ import {
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/Addons.js';
 import TWEEN, { Tween } from 'three/examples/jsm/libs/tween.module.js';
-import { GlbLoader, LOAD_EVENT } from './glbLoader';
-import { PcdLoader } from './pcdLoader';
+import { GlbLoader, LOAD_EVENT } from './glb-loader';
+import { PcdLoader } from './pcd-loader';
 
 /**
  * 版本

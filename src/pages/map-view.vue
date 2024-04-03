@@ -12,11 +12,11 @@
     <img :src="item.title" alt="图片">
   </div>
   <div class="floating-input">
-    <v-text-field solo hide-details label="目的地"  append-inner-icon="search" v-model="keyWord" class="input-search"
+    <v-text-field solo hide-details label="目的地"  append-inner-icon="search" v-model.trim="keyWord" class="input-search"
       autocomplete="off" ref="search">
     </v-text-field>
 
-    <v-list v-if="filterItems.length>0 " class="border-list">
+    <v-list v-show="filterItems.length>0&&showList " class="border-list">
       <v-list-item v-for="(item, index) in filterItems" :key="index" @click="itemClick(item)">
         <v-list-item-content>
           <v-list-item-title>{{ item.name }}</v-list-item-title>
@@ -24,10 +24,9 @@
         </v-list-item-content>
       </v-list-item>
     </v-list>
-
   </div>
   <div class="floating-button"> <!-- 悬浮按钮容器 -->
-    <v-btn color="primary" @click="goBack(mapCenter)">Go Back to CASIA</v-btn>
+    <v-btn color="primary" @click="goBack(mapCenter)">Go Back to Center</v-btn>
   </div>
 </template>
 <script setup lang="ts">
@@ -63,6 +62,14 @@ let filterItems = computed(() => {
   const filter = items.value.filter(item => item.name.includes(keyWord.value))
   return filter;
 });
+let showList = ref<boolean>(true)
+// const hidList = ()=>{
+//   showList.value = false
+//   keyWord.value = ''
+// }
+// const displayList = ()=>{
+//   showList.value = true
+// }
 
 let flyToDist = (LngLat: [number, number],zoom?:number) => {
   mapBox.value.map.flyTo({
@@ -73,7 +80,9 @@ let flyToDist = (LngLat: [number, number],zoom?:number) => {
   })
 }
 const itemClick = (item: any) => {
+  showList.value = true
   flyToDist(item.LngLat,17)
+
 }
 const goBack = (center: [number, number]) => {
   flyToDist(center)

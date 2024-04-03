@@ -14,7 +14,7 @@ export class PcdLoader extends Object3D{
   _color: Color
   constructor(){
     super();
-    // this._booth = booth;
+
     this._loader = new PCDLoader();
     this._color = new Color(0x00ffff)
 
