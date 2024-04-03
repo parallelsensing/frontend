@@ -1,27 +1,22 @@
 import mapboxgl from 'mapbox-gl';
 import { useRouter } from 'vue-router';
-
 mapboxgl.accessToken = 'YOUR_MAPBOX_ACCESS_TOKEN';
 export default class MapScene {
   _map: mapboxgl.Map;
-  _marker: mapboxgl.Marker;
   _mapcenter: [number, number];
-  constructor(map: mapboxgl.Map) {
+  _markers: mapboxgl.Marker[];
+  constructor(map: mapboxgl.Map, destArrays: any) {
     this._mapcenter = [116.3262, 39.978041];
     this._map = map;
     this._map.setCenter(this._mapcenter);
     this._map.setZoom(5);
     this._map.setPitch(62);
     this._map.setBearing(-20);
-    this._marker = new mapboxgl.Marker();
-    this._marker.setLngLat(this._mapcenter).addTo(this._map);
+    this._markers = this.addDestinationMarkers(destArrays);
   }
-  getMapContainer = () => {
-    this._map.getContainer;
-  };
-  flyTo = () => {
+  flyTo = (center:[number,number]) => {
     this._map.flyTo({
-      center: [116.3262, 39.978041],
+      center: center,
       zoom: 17.1, // starting zoom
       pitch: 62, // starting pitch
       bearing: -20, // starting bearing
@@ -30,22 +25,44 @@ export default class MapScene {
       // easing:
     });
   };
+  //为目的地添加marker
+  addDestinationMarkers = (DestArray: any) => {
+    const destMarkers = [];
+    for (let i = 0; i < DestArray.length; i++) {
+      const destMarker = new mapboxgl.Marker();
+      destMarker.setLngLat(DestArray[i].LngLat).addTo(this._map);
+      destMarkers.push(destMarker);
+    }
+    return destMarkers;
+  };
+  addMarkerInfo = (markerInfoArray: HTMLElement[]) => {
+    for (let i = 0; i < this._markers.length; i++) {
+      this._markers[i].getElement().addEventListener('mouseover', (e) => {
+        markerInfoArray[i].style.display = 'block';
+        markerInfoArray[i].style.left = e.pageX + 10 + 'px'; // 位置调整
+        markerInfoArray[i].style.top = e.pageY + 10 + 'px'; // 位置调整
+      });
 
+      this._markers[i].getElement().addEventListener('mouseout', function () {
+        markerInfoArray[i].style.display = 'none';
+      });
+    }
+  };
+  goToDist = () => {
+    for (let i = 0; i < this._markers.length; i++) {
+    console.log(this._markers[i]);
+    const markerCenter = this._markers[i]._lngLat;
+      this._markers[i].getElement().addEventListener('click',  ()=> {
+       this.flyTo(markerCenter)
+      });
+    }
+  };
   toPlatformPage = () => {
     const router = useRouter();
-    this._marker.getElement().addEventListener('click', function () {
-      router.push('/platform');
-    });
-  };
-
-  addMarkerInfo = (markerInfo: HTMLElement) => {
-    this._marker.getElement().addEventListener('mouseover', (e) => {
-      markerInfo.style.display = 'block';
-      markerInfo.style.left = e.pageX + 10 + 'px'; // 位置调整
-      markerInfo.style.top = e.pageY + 10 + 'px'; // 位置调整
-    });
-    this._marker.getElement().addEventListener('mouseout', function () {
-      markerInfo.style.display = 'none';
-    });
+    for (let i = 0; i < this._markers.length; i++) {
+      this._markers[i].getElement().addEventListener('dblclick', function () {
+        router.push('/platform');
+      });
+    }
   };
 }
