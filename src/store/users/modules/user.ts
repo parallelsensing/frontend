@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import type { loginForm, loginResponseData } from "@/type/userType";
+import type { loginForm, loginResponseData } from "@/type/user-type";
 import { reqLogin } from "@/api/user";
 //引入操作本地存储的工具方法
 import { SET_TOKEN, GET_TOKEN } from "@/units/token";
