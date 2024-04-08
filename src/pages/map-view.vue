@@ -28,7 +28,6 @@
   </div>
 </template>
 
-
 <script setup lang="ts">
 import { MapboxMap } from '@studiometa/vue-mapbox-gl';
 import { ref, computed } from 'vue'
@@ -37,19 +36,19 @@ import MapScene from '@/units/map/index'
 const markerDivArray = ref([]);
 const items = ref([
   {
-    title: "中国科学院自动化研究所", LngLat:[116.3262, 39.978041], img:"/img/CASIA.jpg",ref:'Zky'
+    title: "中国科学院自动化研究所", LngLat:[116.3262, 39.978041], img:"/img/CASIA.jpg"
   },
   {
-    title: "A", LngLat: [114.3262, 39.978041], img:"/img/CASIA.jpg",ref:'Tam'
+    title: "A", LngLat: [114.3262, 39.978041], img:"/img/CASIA.jpg"
   },
   {
-    title: "B", LngLat: [118.3262, 39.978041],img:"/img/CASIA.jpg",ref:'Tt'
+    title: "B", LngLat: [118.3262, 39.978041],img:"/img/CASIA.jpg"
   },
   {
-    title: "C", LngLat: [116.3262, 37.978041],img:"/img/CASIA.jpg",ref:'Gg'
+    title: "C", LngLat: [116.3262, 37.978041],img:"/img/CASIA.jpg"
   },
   {
-    title: "D", LngLat: [116.3262, 41.978041], img:"/img/CASIA.jpg",ref:'Tam'
+    title: "D", LngLat: [116.3262, 41.978041], img:"/img/CASIA.jpg"
   },
 ]);
 
