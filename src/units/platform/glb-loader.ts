@@ -22,7 +22,7 @@ export class GlbLoader extends Object3D {
     dracoLoader.setDecoderConfig({ type: 'js' });
     dracoLoader.preload();
     this._loader.setDRACOLoader(dracoLoader);
-    this._loader.load('./model/test38-9.glb', this.onLoad, this.onLoading, this.onLoadError);
+    this._loader.load('./model/horse.glb', this.onLoad, this.onLoading, this.onLoadError);
   }
 
   onLoad = (gltf: any) => {
@@ -30,7 +30,7 @@ export class GlbLoader extends Object3D {
     this._model = model;
     model.rotation.x = -90;
     model.rotation.z = 90;
-    // model.scale.set(10,10,10)
+    model.scale.set(10,10,10)
     // model.position.set(-10,0,0)
     this.add(model);
     console.log(gltf);

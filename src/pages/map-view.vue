@@ -1,22 +1,23 @@
 <template>
-  <MapboxMap ref="mapBox" style="height: 100vh"
+  <MapboxMap ref="mapBox" style="height: 100vh" @click="inputBlur"
     access-token="pk.eyJ1IjoidHpxMTAzMiIsImEiOiJjbHUyZWxuYTUwMWlrMndsM3VxaHJpcmd6In0.qE_R5khyiy6PYCjUuTkywQ"
     :center="mapCenter" @mb-created="onMapCreated">
   </MapboxMap>
 
   <div v-for="(item, index) in items" :key="index" class="markerInfo" ref="markerDivArray">
-    <p>双击进入{{ item.name }}</p>
-    <img :src="item.title" alt="图片">
+    <p>双击进入{{ item.title }}</p>
+    <img :src="item.img" alt="图片">
   </div>
+ 
   <div class="floating-input">
-    <v-text-field solo hide-details label="目的地" append-inner-icon="search" v-model.trim="keyWord" class="input-search"
+    <v-text-field solo hide-details label="目的地" prepend-inner-icon="mdi-magnify" @focus="displayList" close-on-blur v-model.trim="keyWord" class="input-search"
       autocomplete="off" ref="search">
     </v-text-field>
-
+ 
     <v-list v-show="filterItems.length>0&&showList " class="border-list">
       <v-list-item v-for="(item, index) in filterItems" :key="index" @click="itemClick(item)">
         <v-list-item-content>
-          <v-list-item-title>{{ item.name }}</v-list-item-title>
+          <v-list-item-title>{{ item.title }}</v-list-item-title>
           <v-list-item-title-subtitle>经度：{{ item.LngLat[0]}}，纬度{{ item.LngLat[1]}}</v-list-item-title-subtitle>
         </v-list-item-content>
       </v-list-item>
@@ -26,6 +27,8 @@
     <v-btn color="primary" @click="goBack(mapCenter)">Go Back to center</v-btn>
   </div>
 </template>
+
+
 <script setup lang="ts">
 import { MapboxMap } from '@studiometa/vue-mapbox-gl';
 import { ref, computed } from 'vue'
@@ -34,39 +37,46 @@ import MapScene from '@/units/map/index'
 const markerDivArray = ref([]);
 const items = ref([
   {
-    name: "中国科学院自动化研究所", LngLat:[116.3262, 39.978041], title:"/img/CASIA.jpg",ref:'Zky'
+    title: "中国科学院自动化研究所", LngLat:[116.3262, 39.978041], img:"/img/CASIA.jpg",ref:'Zky'
   },
   {
-    name: "A", LngLat: [114.3262, 39.978041], title:"/img/CASIA.jpg",ref:'Tam'
+    title: "A", LngLat: [114.3262, 39.978041], img:"/img/CASIA.jpg",ref:'Tam'
   },
   {
-    name: "B", LngLat: [118.3262, 39.978041],title:"/img/CASIA.jpg",ref:'Tt'
+    title: "B", LngLat: [118.3262, 39.978041],img:"/img/CASIA.jpg",ref:'Tt'
   },
   {
-    name: "C", LngLat: [116.3262, 37.978041],title:"/img/CASIA.jpg",ref:'Gg'
+    title: "C", LngLat: [116.3262, 37.978041],img:"/img/CASIA.jpg",ref:'Gg'
   },
   {
-    name: "D", LngLat: [116.3262, 41.978041], title:"/img/CASIA.jpg",ref:'Tam'
+    title: "D", LngLat: [116.3262, 41.978041], img:"/img/CASIA.jpg",ref:'Tam'
   },
 ]);
 
-let keyWord = ref()
+let keyWord = ref('')
 let search = ref('')
 let mapBox = ref()
 const mapCenter = ref<[number, number]>([116.3262, 39.978041]);
 const map = ref();
-let filterItems = computed(() => {
-  const filter = items.value.filter(item => item.name.includes(keyWord.value))
-  return filter;
+// let filterItems = computed(() => {
+//   const filter = items.value.filter(item => item.title.includes(keyWord.value))
+//   return filter;
+// });
+const filterItems = computed(() => {
+  if (keyWord.value.trim() === '') {
+    return [];
+  } else {
+    return items.value.filter(item => item.title.includes(keyWord.value));
+  }
 });
 let showList = ref<boolean>(true)
-// const inputBlur = ()=>{
-//   showList.value = false
-//   keyWord.value = ''
-// }
-// const displayList = ()=>{
-//   showList.value = true
-// }
+console.log(keyWord)
+const inputBlur = ()=>{
+  keyWord.value = ''
+}
+const displayList = ()=>{
+  showList.value = true
+}
 
 let flyToDist = (LngLat: [number, number],zoom?:number) => {
   mapBox.value.map.flyTo({
@@ -79,6 +89,8 @@ let flyToDist = (LngLat: [number, number],zoom?:number) => {
 const itemClick = (item: any) => {
   showList.value = true
   flyToDist(item.LngLat,17)
+  keyWord.value = ''
+  
 
 }
 const goBack = (center: [number, number]) => {
