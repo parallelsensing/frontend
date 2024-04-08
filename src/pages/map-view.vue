@@ -58,10 +58,7 @@ let search = ref('')
 let mapBox = ref()
 const mapCenter = ref<[number, number]>([116.3262, 39.978041]);
 const map = ref();
-// let filterItems = computed(() => {
-//   const filter = items.value.filter(item => item.title.includes(keyWord.value))
-//   return filter;
-// });
+
 const filterItems = computed(() => {
   if (keyWord.value.trim() === '') {
     return [];
