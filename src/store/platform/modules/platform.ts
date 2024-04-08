@@ -2,6 +2,8 @@
 import type { IModel } from '@/type/base';
 import { Platform,EVENT } from '@/units/platform';
 import {defineStore} from 'pinia';
+
+
 // import { DefaultLoadingManager } from 'three';
 
 const usePlatform = defineStore({
@@ -11,11 +13,9 @@ const usePlatform = defineStore({
     loaded: false,
     errorMsg: '',
     info: <IModel>({}),
-    fold: false,
-    instance: <{platform:Platform|undefined, }>{
+    ModelContainers: <{platform:Platform|undefined}>{
       platform:undefined,
-      visitor:undefined
-    }  
+    },
   }),
   getters:{
     isLoading():boolean {
@@ -24,17 +24,15 @@ const usePlatform = defineStore({
     loadingMsg():string {
       return this.loadingPercent == 100?'模型加载成功' : `模型已加载:${this.loadingPercent.toFixed(2) }%`;    
     },
-
- 
   },
   actions:{
     addCanvas(canvas:HTMLCanvasElement) {
-      this.instance.platform = new Platform();
-      this.instance.platform.addCanvas(canvas);
-      this.instance.platform.addEventListener(EVENT.LOADING, this.onLoading);
+      this.ModelContainers.platform = new Platform();
+      this.ModelContainers.platform.addCanvas(canvas);
+      this.ModelContainers.platform.addEventListener(EVENT.LOADING, this.onLoading);
     },
     start(){
-      this.instance.platform?.start()
+      this.ModelContainers.platform?.start()
     },
     onLoading(e:any) {
       const { data } = e;

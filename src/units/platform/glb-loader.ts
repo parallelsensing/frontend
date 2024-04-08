@@ -3,7 +3,7 @@ import { GLTFLoader } from 'three/examples/jsm/Addons.js';
 import { DRACOLoader } from 'three/examples/jsm/Addons.js';
 // import { IModel } from '../../type/base';
 
-export const LOAD_EVENT = {
+export const GLB_LOAD_EVENT = {
   LOADING: 'modelLoading',
   LOADED: 'modelLoaded',
   LOAD_FAIL: 'modelLoadFail'
@@ -36,7 +36,7 @@ export class GlbLoader extends Object3D {
     console.log(gltf);
   };
   onLoading = (e:Event)=>{
-    const event = {type:LOAD_EVENT.LOADING,data:e} as never;
+    const event = {type:GLB_LOAD_EVENT.LOADING,data:e} as never;
     this.dispatchEvent(event)
   };
   // onLoading = () => {};
