@@ -8,17 +8,16 @@
     <p>双击进入{{ item.title }}</p>
     <img :src="item.img" alt="图片">
   </div>
- 
-  <div class="floating-input">
-    <v-text-field solo hide-details label="目的地" prepend-inner-icon="mdi-magnify" @focus="displayList" close-on-blur v-model.trim="keyWord" class="input-search"
-      autocomplete="off" ref="search">
+
+  <div class="floating-search">
+    <v-text-field solo hide-details label="目的地" prepend-inner-icon="mdi-magnify" @focus="displayList" close-on-blur
+      v-model.trim="keyWord" class="input-search" autocomplete="off" ref="search">
     </v-text-field>
- 
-    <v-list v-show="filterItems.length>0&&showList " class="border-list">
+    <v-list v-show="filterItems.length > 0 && showList" class="border-list">
       <v-list-item v-for="(item, index) in filterItems" :key="index" @click="itemClick(item)">
         <v-list-item-content>
           <v-list-item-title>{{ item.title }}</v-list-item-title>
-          <v-list-item-title-subtitle>经度：{{ item.LngLat[0]}}，纬度{{ item.LngLat[1]}}</v-list-item-title-subtitle>
+          <v-list-item-title-subtitle>经度：{{ item.LngLat[0] }}，纬度{{ item.LngLat[1] }}</v-list-item-title-subtitle>
         </v-list-item-content>
       </v-list-item>
     </v-list>
@@ -37,19 +36,19 @@ import MapScene from '@/units/map/index'
 const markerDivArray = ref([]);
 const items = ref([
   {
-    title: "中国科学院自动化研究所", LngLat:[116.3262, 39.978041], img:"/img/CASIA.jpg",ref:'Zky'
+    title: "中国科学院自动化研究所", LngLat: [116.3262, 39.978041], img: "/img/CASIA.jpg"
   },
   {
-    title: "A", LngLat: [114.3262, 39.978041], img:"/img/CASIA.jpg",ref:'Tam'
+    title: "A", LngLat: [114.3262, 39.978041], img: "/img/CASIA.jpg"
   },
   {
-    title: "B", LngLat: [118.3262, 39.978041],img:"/img/CASIA.jpg",ref:'Tt'
+    title: "B", LngLat: [118.3262, 39.978041], img: "/img/CASIA.jpg"
   },
   {
-    title: "C", LngLat: [116.3262, 37.978041],img:"/img/CASIA.jpg",ref:'Gg'
+    title: "C", LngLat: [116.3262, 37.978041], img: "/img/CASIA.jpg"
   },
   {
-    title: "D", LngLat: [116.3262, 41.978041], img:"/img/CASIA.jpg",ref:'Tam'
+    title: "D", LngLat: [116.3262, 41.978041], img: "/img/CASIA.jpg"
   },
 ]);
 
@@ -68,26 +67,26 @@ const filterItems = computed(() => {
 });
 let showList = ref<boolean>(true)
 console.log(keyWord)
-const inputBlur = ()=>{
+const inputBlur = () => {
   keyWord.value = ''
 }
-const displayList = ()=>{
+const displayList = () => {
   showList.value = true
 }
 
-let flyToDist = (LngLat: [number, number],zoom?:number) => {
+let flyToDist = (LngLat: [number, number], zoom?: number) => {
   mapBox.value.map.flyTo({
     center: LngLat,
-    zoom: zoom?zoom:7,
+    zoom: zoom ? zoom : 7,
     Pitch: 62,
     bearing: -20
   })
 }
 const itemClick = (item: any) => {
   showList.value = true
-  flyToDist(item.LngLat,17)
+  flyToDist(item.LngLat, 17)
   keyWord.value = ''
-  
+
 
 }
 const goBack = (center: [number, number]) => {
@@ -95,7 +94,7 @@ const goBack = (center: [number, number]) => {
 }
 const onMapCreated = (mapInstance: any) => {
   map.value = mapInstance;
-  let mapScene = new MapScene(map.value,items.value)
+  let mapScene = new MapScene(map.value, items.value)
   mapScene.goToDist()
   mapScene.addMarkerInfo(markerDivArray.value)
   mapScene.toPlatformPage()
@@ -121,7 +120,7 @@ const onMapCreated = (mapInstance: any) => {
   height: auto;
 }
 
-.floating-input {
+.floating-search {
   position: absolute;
   width: 300px;
   top: 20px;
