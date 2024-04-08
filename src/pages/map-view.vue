@@ -9,7 +9,7 @@
     <img :src="item.img" alt="图片">
   </div>
  
-  <div class="floating-input">
+  <div class="floating-search">
     <v-text-field solo hide-details label="目的地" prepend-inner-icon="mdi-magnify" @focus="displayList" close-on-blur v-model.trim="keyWord" class="input-search"
       autocomplete="off" ref="search">
     </v-text-field>
@@ -121,7 +121,7 @@ const onMapCreated = (mapInstance: any) => {
   height: auto;
 }
 
-.floating-input {
+.floating-search {
   position: absolute;
   width: 300px;
   top: 20px;
