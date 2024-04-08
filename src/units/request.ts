@@ -5,8 +5,8 @@ import { ElMessage } from 'element-plus'
 // import { useUserStore } from '../store/users' 
 const request = axios.create({
   // 环境变量.env.development
-   baseURL:import.meta.env.VITE_APP_BASE_API ,
-  // baseURL:'/api',
+  //  baseURL:import.meta.env.VITE_APP_BASE_API ,
+  baseURL:'/api/sensing',
   timeout: 5000,
 })
 //请求使用拦截器

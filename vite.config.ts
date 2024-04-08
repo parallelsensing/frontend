@@ -8,17 +8,11 @@ export default defineConfig({
       VueDevTools(),
     ],
     server: {
-      host: '0.0.0.0',
-      port: 9701,
-      cors: true,
       proxy: {
         '/api': {
-          target: 'http://api.parallelsensing.com/',
+          target: 'http://www.parallelsensing.com',
           changeOrigin: true,
-          secure: true,
-          headers: {
-            Referer: 'http://api.parallelsensing.com/'
-          }
+          rewrite: (path) => path.replace(/^\/api/, '/api'),
         }
       }
     },

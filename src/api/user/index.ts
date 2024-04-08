@@ -4,7 +4,7 @@ import request from "@/units/request";
 import type { loginForm, loginResponseData,userResponseData } from "@/type/user-type";
 enum API {
   LOGIN_URL = "/user/login",
-  USERINFO_URL = "/user/info",
+  USERINFO_URL = "/user/get_users",
 }
 
 //登录接口方法

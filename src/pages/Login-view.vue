@@ -9,7 +9,7 @@
             </v-card-title>
             <v-card-text>
               <v-form @submit.prevent="login">
-                <v-text-field v-model="loginForm.username" label="用户名" prepend-inner-icon="mdi-account"
+                <v-text-field v-model="loginForm.phone" label="用户名" prepend-inner-icon="mdi-account"
                   outlined>
                   </v-text-field>
                 <v-text-field v-model="loginForm.password" label="密码" prepend-inner-icon="mdi-lock"
@@ -27,37 +27,41 @@
 </template>
 <script setup lang="ts">
 import {reactive } from 'vue'
-// import { useUserStore } from '@/store/users';
+import { useUserStore } from '@/store/users';
 import { useRouter } from 'vue-router';
 import { ElNotification } from 'element-plus';
 import {getTime} from '@/units/time'
 
-let loginForm = reactive({ username: 'admin', password: '123456' })
-// let useStore = useUserStore()
+
+
+let loginForm = reactive({ phone: '123456', password: '123456' })
+let useStore = useUserStore()
 let router = useRouter();
 
-// let login = async () => {
-//   try {
-//     await useStore.userLogin(loginForm)
-//     router.push('/home')
-//     ElNotification({
-//       type:'success',
-//       message:`HI,${getTime()}好`
-//     })
-//   } catch (error) {
-//     ElNotification({
-//       type:'error',
-//       message:(error as Error).message
-//     })
-//   }
-// }
-let login =  () => {
-    router.push('/map')
+
+
+let login = async () => {
+  try {
+    await useStore.userLogin(loginForm)
+    router.push('/home')
     ElNotification({
       type:'success',
       message:`HI,${getTime()}好`
     })
+  } catch (error) {
+    ElNotification({
+      type:'error',
+      message:(error as Error).message
+    })
+  }
 }
+// let login =  () => {
+//     router.push('/map')
+//     ElNotification({
+//       type:'success',
+//       message:`HI,${getTime()}好`
+//     })
+// }
 </script>
 
 <style scoped lang="scss">
