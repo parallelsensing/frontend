@@ -5,7 +5,6 @@
     <router-link to="./login">登录</router-link> |
     <router-link to="./platform">点云数据</router-link> |
     <router-link to="./map">地图</router-link> |
-    <router-link to="./search">搜索框</router-link> |
    </div>
   </div>
 </template>
