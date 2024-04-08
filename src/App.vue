@@ -22,7 +22,7 @@ onMounted(()=>{
  axios.get('/api/sensing/user/get_users')
     .then(function (response) {
       // 处理成功响应
-    console.log('APP.vue'+ response.data);
+    console.log(response);
     })
     .catch(function (error) {
       // 处理错误

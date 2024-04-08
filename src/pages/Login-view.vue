@@ -43,7 +43,7 @@ let router = useRouter();
 let login = async () => {
   try {
     await useStore.userLogin(loginForm)
-    router.push('/home')
+    router.push('/map')
     ElNotification({
       type:'success',
       message:`HI,${getTime()}好`

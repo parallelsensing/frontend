@@ -27,7 +27,7 @@ const useUserStore = defineStore({
     async userLogin(data: loginForm) {
       const result: loginResponseData = await reqLogin(data);
       if (result.code == 200) {
-      console.log('ok');
+      console.log('ok',result);
         return "ok";
       } else {
         // return Promise.reject(new Error(result.data.message));
