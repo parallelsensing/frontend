@@ -3,7 +3,6 @@ import './style.css'
 import router from '@/router'
 import APP from '@/App.vue'
 import { createPinia } from 'pinia';
-
 // Vuetify组件库
 import '@mdi/font/css/materialdesignicons.css'
 import 'vuetify/styles'
@@ -16,7 +15,4 @@ const vuetify = createVuetify({
   components,
   directives
 })
-
 createApp(APP).use(pinia).use(router).use(vuetify).mount('#app')
-
-

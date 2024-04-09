@@ -1,18 +1,19 @@
 import { ref } from 'vue'
-
+type AlertType = "error" | "info" | "success" | "warning" | undefined;
 export interface AlertInfo {
   id: string,
-  type: string,
+  type: AlertType,
   message: string
 }
 
+
 export const newAlert = ref<AlertInfo>({
   id: 'alert' + 0,
-  type: '',
+  type: undefined,
   message: ''
 })
 
-export const alert = (type: string, message: string) => {
+export const alert = (type: AlertType, message: string) => {
   newAlert.value.id = Math.random().toString()
   newAlert.value.type = type
   newAlert.value.message = message

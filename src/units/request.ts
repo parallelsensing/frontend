@@ -59,7 +59,7 @@ request.interceptors.response.use(
         break
     }
     errorAlert(message)
-    return Promise.reject(error)
+     return Promise.reject(error)
   },
 )
 
