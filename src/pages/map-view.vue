@@ -8,17 +8,11 @@
     <p>双击进入{{ item.title }}</p>
     <img :src="item.img" alt="图片">
   </div>
-<<<<<<< HEAD
-
-  <div class="floating-search">
-    <v-text-field solo hide-details label="目的地" prepend-inner-icon="mdi-magnify" @focus="displayList" close-on-blur
-      v-model.trim="keyWord" class="input-search" autocomplete="off" ref="search">
-=======
  
   <div class="floating-search">
-    <v-text-field solo hide-details label="目的地" prepend-inner-icon="mdi-magnify" @focus="displayList" close-on-blur v-model.trim="keyWord" class="input-search"
+    <v-text-field solo hide-details label="目的地" prepend-inner-icon="mdi-magnify" @focus="displayList" 
+      close-on-blur v-model.trim="keyWord" class="input-search"
       autocomplete="off" ref="search">
->>>>>>> develop
     </v-text-field>
     <v-list v-show="filterItems.length > 0 && showList" class="border-list">
       <v-list-item v-for="(item, index) in filterItems" :key="index" @click="itemClick(item)">
