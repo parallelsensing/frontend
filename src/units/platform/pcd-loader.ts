@@ -2,7 +2,7 @@
 import { Object3D,Color} from 'three';
 import { PCDLoader } from 'three/examples/jsm/Addons.js';
 
-export const LOAD_EVENT = {
+export const PCD_LOAD_EVENT = {
   LOADING: 'modelLoading',
   LOADED: 'modelLoaded',
   LOAD_FAIL: 'modelLoadFail'
@@ -31,7 +31,7 @@ export class PcdLoader extends Object3D{
     
   };
   onLoading = (e:Event)=>{
-    const event = {type:LOAD_EVENT.LOADING,data:e} as never;
+    const event = {type:PCD_LOAD_EVENT.LOADING,data:e} as never;
     this.dispatchEvent(event)
   };
   onLoadError = (e:any)=>{

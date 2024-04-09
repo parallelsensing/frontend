@@ -8,10 +8,17 @@
     <p>双击进入{{ item.title }}</p>
     <img :src="item.img" alt="图片">
   </div>
+<<<<<<< HEAD
 
   <div class="floating-search">
     <v-text-field solo hide-details label="目的地" prepend-inner-icon="mdi-magnify" @focus="displayList" close-on-blur
       v-model.trim="keyWord" class="input-search" autocomplete="off" ref="search">
+=======
+ 
+  <div class="floating-search">
+    <v-text-field solo hide-details label="目的地" prepend-inner-icon="mdi-magnify" @focus="displayList" close-on-blur v-model.trim="keyWord" class="input-search"
+      autocomplete="off" ref="search">
+>>>>>>> develop
     </v-text-field>
     <v-list v-show="filterItems.length > 0 && showList" class="border-list">
       <v-list-item v-for="(item, index) in filterItems" :key="index" @click="itemClick(item)">
@@ -27,7 +34,6 @@
   </div>
 </template>
 
-
 <script setup lang="ts">
 import { MapboxMap } from '@studiometa/vue-mapbox-gl';
 import { ref, computed } from 'vue'
@@ -36,19 +42,19 @@ import MapScene from '@/units/map/index'
 const markerDivArray = ref([]);
 const items = ref([
   {
-    title: "中国科学院自动化研究所", LngLat: [116.3262, 39.978041], img: "/img/CASIA.jpg"
+    title: "中国科学院自动化研究所", LngLat:[116.3262, 39.978041], img:"/img/CASIA.jpg"
   },
   {
-    title: "A", LngLat: [114.3262, 39.978041], img: "/img/CASIA.jpg"
+    title: "A", LngLat: [114.3262, 39.978041], img:"/img/CASIA.jpg"
   },
   {
-    title: "B", LngLat: [118.3262, 39.978041], img: "/img/CASIA.jpg"
+    title: "B", LngLat: [118.3262, 39.978041],img:"/img/CASIA.jpg"
   },
   {
-    title: "C", LngLat: [116.3262, 37.978041], img: "/img/CASIA.jpg"
+    title: "C", LngLat: [116.3262, 37.978041],img:"/img/CASIA.jpg"
   },
   {
-    title: "D", LngLat: [116.3262, 41.978041], img: "/img/CASIA.jpg"
+    title: "D", LngLat: [116.3262, 41.978041], img:"/img/CASIA.jpg"
   },
 ]);
 

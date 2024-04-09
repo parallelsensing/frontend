@@ -3,7 +3,7 @@
   <canvas ref="canvas" style="width:100%;height:100%"></canvas>
   <div class="loading" v-if="LoadingProgress != 100"></div>
   <div class="progress" v-if="LoadingProgress != 100">
-    <img src="/public/img/loading.gif" alt="" />
+    <img src="/img/loading.gif" alt="" />
    {{LoadingMsg}}
   </div>
 </template>
@@ -50,7 +50,7 @@ onMounted(() => {
   left:0px;
   width: 1920px;
   height: 1080px;
-  background-image: url(/public/img/loading.png);
+  background-image: url(/img/loading.png);
   background-size: cover;
   filter: blur(50px);
   display: block;

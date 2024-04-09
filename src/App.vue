@@ -1,6 +1,7 @@
 
 <template>
   <router-view/>
+  <GlobalAlert/>
 </template>
 
 <style scoped>
@@ -12,25 +13,24 @@
   color: #2c3e50;
 }
 </style>
-
 <script setup lang="ts" >
 // 测试request
-// import axios from 'axios'
-
+import axios from 'axios'
 import  {onMounted} from 'vue';
-import { reqLogin } from './api/user';
+import GlobalAlert from '@/components/global-alert.vue'
+
+
 onMounted(()=>{
- reqLogin({username:'111111',password:'123456'})
-//  axios.get('/api')
-//     .then(function (response) {
-//       // 处理成功响应
-//     console.log(response);
-    
-//     })
-//     .catch(function (error) {
-//       // 处理错误
-//       console.error('Error fetching user information:', error);
-//     });
+
+ axios.get('/api/sensing/user/get_users')
+    .then(function (response) {
+      // 处理成功响应
+    console.log(response);
+    })
+    .catch(function (error) {
+      // 处理错误
+      console.error('Error fetching user information:', error);
+    });
 
 })
 </script>
