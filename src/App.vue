@@ -1,6 +1,7 @@
 
 <template>
   <router-view/>
+  <GlobalAlert/>
 </template>
 
 <style scoped>
@@ -16,6 +17,8 @@
 // 测试request
 import axios from 'axios'
 import  {onMounted} from 'vue';
+import GlobalAlert from '@/components/global-alert.vue'
+
 
 onMounted(()=>{
 

@@ -10,8 +10,6 @@ import 'vuetify/styles'
 import {createVuetify}  from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
-import ElementPlus from 'element-plus';
-import 'element-plus/theme-chalk/index.css';
 import 'mapbox-gl/dist/mapbox-gl.css';
  const pinia = createPinia()
 const vuetify = createVuetify({
@@ -19,6 +17,6 @@ const vuetify = createVuetify({
   directives
 })
 
-createApp(APP).use(pinia).use(router).use(vuetify).use(ElementPlus).mount('#app')
+createApp(APP).use(pinia).use(router).use(vuetify).mount('#app')
 
 

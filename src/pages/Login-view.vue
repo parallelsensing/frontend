@@ -9,13 +9,11 @@
             </v-card-title>
             <v-card-text>
               <v-form @submit.prevent="login">
-                <v-text-field v-model="loginForm.phone" label="用户名" prepend-inner-icon="mdi-account"
+                <v-text-field v-model="loginForm.phone" label="用户名" prepend-inner-icon="mdi-account" outlined>
+                </v-text-field>
+                <v-text-field v-model="loginForm.password" label="密码" prepend-inner-icon="mdi-lock" type="password"
                   outlined>
-                  </v-text-field>
-                <v-text-field v-model="loginForm.password" label="密码" prepend-inner-icon="mdi-lock"
-                type="password"
-                  outlined>
-                  </v-text-field>
+                </v-text-field>
                 <v-btn color="primary" type="submit">登录</v-btn>
               </v-form>
             </v-card-text>
@@ -26,49 +24,48 @@
   </div>
 </template>
 <script setup lang="ts">
-import {reactive } from 'vue'
+import { reactive } from 'vue'
 import { useUserStore } from '@/store/users';
 import { useRouter } from 'vue-router';
-import { ElNotification } from 'element-plus';
-import {getTime} from '@/units/time'
-
-
+// import { ElNotification } from 'element-plus';
+import { getTime } from '@/units/time'
+import { successAlert, errorAlert } from '@/units/alert'
 
 let loginForm = reactive({ phone: '123456', password: '123456' })
 let useStore = useUserStore()
 let router = useRouter();
 
-
-
-let login = async () => {
-  try {
-    await useStore.userLogin(loginForm)
-    router.push('/map')
-    ElNotification({
-      type:'success',
-      message:`HI,${getTime()}好`
-    })
-  } catch (error) {
-    ElNotification({
-      type:'error',
-      message:(error as Error).message
-    })
-  }
-}
-// let login =  () => {
+// let login = async () => {
+//   try {
+//     await useStore.userLogin(loginForm)
 //     router.push('/map')
 //     ElNotification({
 //       type:'success',
 //       message:`HI,${getTime()}好`
 //     })
+//   } catch (error) {
+//     ElNotification({
+//       type:'error',
+//       message:(error as Error).message
+//     })
+//   }
 // }
+let login = async () => {
+  try {
+    await useStore.userLogin(loginForm)
+    router.push('/map')
+    successAlert(`HI,${getTime()}好`)
+  } catch (error) {
+    errorAlert('error')
+  }
+}
 </script>
 
 <style scoped lang="scss">
 .login_container {
   width: 100%;
   height: 100vh;
-  background:url('../assets/image/background.jpg') no-repeat;
+  background: url('../assets/image/background.jpg') no-repeat;
   background-size: cover;
 }
 
@@ -76,7 +73,8 @@ let login = async () => {
   text-align: center;
   background-color: #71b0e4;
 }
+
 .elevation-12 {
   top: 30vh;
 }
-</style>
+</style>@/units/alert/alert

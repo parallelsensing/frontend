@@ -1,7 +1,7 @@
 
 // 二次封装axios
 import axios from 'axios'
-import { ElMessage } from 'element-plus'
+import { errorAlert } from '@/units/alert'
 // import { useUserStore } from '../store/users' 
 const request = axios.create({
   // 环境变量.env.development
@@ -58,10 +58,7 @@ request.interceptors.response.use(
         message = error.response.data.message
         break
     }
-    ElMessage({
-      type: 'error',
-      message,
-    })
+    errorAlert(message)
     return Promise.reject(error)
   },
 )
