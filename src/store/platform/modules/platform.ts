@@ -3,9 +3,6 @@ import type { IModel } from '@/type/base';
 import { Platform,EVENT } from '@/units/platform';
 import {defineStore} from 'pinia';
 
-
-// import { DefaultLoadingManager } from 'three';
-
 const usePlatform = defineStore({
   id: 'platform',
   state:()=>({
@@ -37,15 +34,9 @@ const usePlatform = defineStore({
     onLoading(e:any) {
       const { data } = e;
       this.loadingPercent =(data.loaded / data.total)*100;
+      console.log(this.loadingPercent);
+      
     },
-    // updateLoadingPercent(){
-    //   DefaultLoadingManager.onProgress =(item,loaded,total)=>{
-    //     this.loadingPercent= parseFloat(((loaded/total)*100).toFixed(2)); 
-    //     // this.loadingMsg = "模型加载中："+((loaded/total)*100).toFixed(2)
-    //   }
-    // },
-    // onLoading() {
-    // },
   }
 });
 export default usePlatform;

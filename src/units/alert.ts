@@ -18,7 +18,6 @@ export const alert = (type: AlertType, message: string) => {
   newAlert.value.message = message
 }
 
-
 export const errorAlert = (message: string) => {
   alert('error', message)
 }

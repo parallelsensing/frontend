@@ -35,11 +35,11 @@ export class GlbLoader extends Object3D {
     this.add(model);
     console.log(gltf);
   };
-  onLoading = (e:Event)=>{
-    const event = {type:GLB_LOAD_EVENT.LOADING,data:e} as never;
-    this.dispatchEvent(event)
-  };
-  // onLoading = () => {};
+  // onLoading = (e:Event)=>{
+  //   const event = {type:GLB_LOAD_EVENT.LOADING,data:e} as never;
+  //   this.dispatchEvent(event)
+  // };
+  onLoading = () => {};
   onLoadError = (e: any) => {
     console.log(e + 'error');
   };

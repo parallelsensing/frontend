@@ -13,8 +13,8 @@ import {
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/Addons.js';
 import TWEEN, { Tween } from 'three/examples/jsm/libs/tween.module.js';
-import { GlbLoader, GLB_LOAD_EVENT } from './glb-loader';
-import { PcdLoader } from './pcd-loader';
+// import { GlbLoader, GLB_LOAD_EVENT } from './glb-loader';
+import { PcdLoader,PCD_LOAD_EVENT } from './pcd-loader';
 
 /**
  * 版本
@@ -134,8 +134,12 @@ export class Platform extends EventDispatcher {
     return group;
   }
   setGlbLoading() {
-    const group: any = new GlbLoader();
-    group.addEventListener(GLB_LOAD_EVENT.LOADING, (e: any) => {
+    // const group: any = new GlbLoader();
+    // group.addEventListener(GLB_LOAD_EVENT.LOADING, (e: any) => {
+    //   this.onLoading(e.data);
+    // });
+    const group: any = new PcdLoader();
+    group.addEventListener(PCD_LOAD_EVENT.LOADING, (e: any) => {
       this.onLoading(e.data);
     });
   }
