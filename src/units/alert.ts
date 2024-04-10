@@ -6,7 +6,6 @@ export interface AlertInfo {
   message: string
 }
 
-
 export const newAlert = ref<AlertInfo>({
   id: 'alert' + 0,
   type: undefined,

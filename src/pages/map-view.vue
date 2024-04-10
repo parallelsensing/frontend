@@ -39,7 +39,7 @@ const items = ref([
     title: "中国科学院自动化研究所", LngLat:[116.3262, 39.978041], img:"/img/CASIA.jpg"
   },
   {
-    title: "A", LngLat: [114.3262, 39.978041], img:"/img/CASIA.jpg"
+    title: "中央电视塔", LngLat: [114.3262, 39.978041], img:"/img/CASIA.jpg"
   },
   {
     title: "B", LngLat: [118.3262, 39.978041],img:"/img/CASIA.jpg"
