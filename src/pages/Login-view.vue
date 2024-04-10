@@ -9,7 +9,7 @@
             </v-card-title>
             <v-card-text>
               <v-form @submit.prevent="login">
-                <v-text-field v-model="loginForm.phone" label="用户名" prepend-inner-icon="mdi-account" outlined>
+                <v-text-field v-model="loginForm.phone" label="手机号" prepend-inner-icon="mdi-account" outlined>
                 </v-text-field>
                 <v-text-field v-model="loginForm.password" label="密码" prepend-inner-icon="mdi-lock" type="password"
                   outlined>
@@ -37,17 +37,17 @@ let login = async () => {
     await useStore.userLogin(loginForm)
     router.push('/map')
     successAlert(`HI,${getTime()}好`)
-  } catch (error) {
-    errorAlert('error')
+  } catch (error:any) {
+    console.log(error);
+    errorAlert(error.msg)
   }
 }
 </script>
-
 <style scoped lang="scss">
 .login_container {
   width: 100%;
   height: 100vh;
-  background: url('../assets/image/background.jpg') no-repeat;
+  background: url('/img/background.jpg') no-repeat;
   background-size: cover;
 }
 
@@ -59,4 +59,4 @@ let login = async () => {
 .elevation-12 {
   top: 30vh;
 }
-</style>@/units/alert/alert
+</style>

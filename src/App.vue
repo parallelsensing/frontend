@@ -21,8 +21,8 @@ import GlobalAlert from '@/components/global-alert.vue'
 
 
 onMounted(()=>{
-
- axios.get('/api/sensing/user/get_users')
+ 
+ axios.get(' /api/sensing/item/get_items')
     .then(function (response) {
       // 处理成功响应
     console.log(response);
