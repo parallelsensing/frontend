@@ -24,7 +24,7 @@ const useUserStore = defineStore({
       } else {
         return Promise.reject(result);
       }
-    }
+    },
     // response: ({ body }) => {
     //   //获取请求体携带过来的用户名与密码
     //   const { username, password } = body

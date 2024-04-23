@@ -1,15 +1,6 @@
 import {
-  EventDispatcher,
-  WebGLRenderer,
-  Color,
-  Clock,
-  AmbientLight,
-  DirectionalLight,
-  PerspectiveCamera,
-  Scene,
-  Group,
-  Vector3,
-  AxesHelper
+  EventDispatcher,WebGLRenderer,Color,Clock,BoxGeometry,MeshBasicMaterial,AmbientLight,
+  DirectionalLight,PerspectiveCamera,Scene,Group,Vector3,AxesHelper,Mesh,Raycaster,Vector2
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/Addons.js';
 import TWEEN, { Tween } from 'three/examples/jsm/libs/tween.module.js';
@@ -46,12 +37,24 @@ export class Platform extends EventDispatcher {
   _controls: any; //相机控制器
   _clock = new Clock();
   _axeshelper: any;
+  _boxgeo:BoxGeometry;
+  _boxmat:MeshBasicMaterial;
+  _box:Mesh;
+  _raycaster:Raycaster;// 射线
 
   constructor() {
     super();
     this.__scene = new Scene();
     this.__scene.background = new Color(0x222222);
     this.__camera = new PerspectiveCamera(75, Static.WIDTH / Static.HEIGHT, 0.001, 10000);
+    this._boxgeo = new BoxGeometry(0.9,0.9,0.3);
+    this._boxmat = new MeshBasicMaterial({
+      color:0x00aa00
+    })
+    this._box = new Mesh(this._boxgeo,this._boxmat)
+    this._box.position.set(5,5,5)
+    this._box.name = "传感器1"
+    this._raycaster = new Raycaster();
 
     this.__camera.position.set(2, 4, 6);
     this.__camera.lookAt(new Vector3(0, 0, 0));
@@ -116,7 +119,7 @@ export class Platform extends EventDispatcher {
   modelInit() {
     // const g = new GlbLoader();
     const g1 = new PcdLoader();
-    this.__models.add( g1);
+    this.__models.add( g1,this._box);
   }
   //添加灯光
   getLights() {
@@ -155,4 +158,48 @@ export class Platform extends EventDispatcher {
     this.__renderer.render(this.__scene, this.__camera);
     TWEEN.update(time);
   };
+
+  // raycast = (raycaster:Raycaster, arr:any) => {
+  //   // if(ray.ray.distanceToPoint(this.position) < 3){
+  //   //   arr.push(this);
+  //   // }
+  //   const matrix = new Matrix4()
+  //   matrix.copy(this.matrixWorld).invert();
+  //   const ray = new Ray();
+  //   ray.copy(raycaster.ray).applyMatrix4(matrix);
+  //   this.traverse( ( object ) => {
+  //     const mesh:Mesh = object as Mesh;
+  //     if ( mesh.isMesh && mesh.geometry.boundingBox) {
+  //       if(ray.intersectsBox(mesh.geometry.boundingBox)) {
+  //         arr.push(this);
+  //         return;
+  //       }
+  //     }
+  //   });
+  // };
+
+  cast(x:number, y:number) {
+    const vector2 = new Vector2(x,y)
+    this._raycaster.setFromCamera(vector2, this.__camera);
+    const intersects:any = this._raycaster.intersectObjects(this.__models.children, false);
+  
+    if(intersects.length&&intersects[0].object.name==="传感器1") {
+      intersects[0].object.material.color = new Color(0x00ff00)
+      console.log(intersects);
+      const tween = new TWEEN.Tween(this.__camera.position)
+    tween.to( {x:10,y:10,z:10}, 100)
+    // .easing(TWEEN.Easing.Quadratic.InOut) // 缓动函数
+    .onUpdate(()=>{
+        // 在动画更新时执行的操作，更新相机的位置
+        this.__camera.lookAt(intersects[0].object.position); // 使相机始终朝向目标点
+    })
+    .start(); // 启动Tween动画
+
+    }else{
+      console.log('无拾取');
+      console.log(this.__models.children);
+   
+    }
+   
+  }
 }

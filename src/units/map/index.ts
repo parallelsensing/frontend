@@ -30,7 +30,8 @@ export default class MapScene {
     const destMarkers = [];
     for (let i = 0; i < DestArray.length; i++) {
       const destMarker = new mapboxgl.Marker();
-      destMarker.setLngLat(DestArray[i].LngLat).addTo(this._map);
+      const LngLat:[number,number] = DestArray[i].coordinates
+      destMarker.setLngLat(LngLat).addTo(this._map);
       destMarkers.push(destMarker);
     }
     return destMarkers;

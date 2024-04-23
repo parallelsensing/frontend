@@ -1,6 +1,7 @@
 
 import type { IModel } from '@/type/base';
 import { Platform,EVENT } from '@/units/platform';
+import { MinScene } from '@/units/platform/minScene';
 import {defineStore} from 'pinia';
 
 const usePlatform = defineStore({
@@ -8,11 +9,15 @@ const usePlatform = defineStore({
   state:()=>({
     loadingPercent: 0,
     loaded: false,
+    realtime:<{minScene:MinScene|undefined}>{
+      minScene:undefined,
+    },
     errorMsg: '',
     info: <IModel>({}),
     ModelContainers: <{platform:Platform|undefined}>{
       platform:undefined,
     },
+   
   }),
   getters:{
     isLoading():boolean {
@@ -23,19 +28,27 @@ const usePlatform = defineStore({
     },
   },
   actions:{
-    addCanvas(canvas:HTMLCanvasElement) {
+    platformAddCanvas(canvas:HTMLCanvasElement) {
       this.ModelContainers.platform = new Platform();
       this.ModelContainers.platform.addCanvas(canvas);
       this.ModelContainers.platform.addEventListener(EVENT.LOADING, this.onLoading);
+     
+    },
+    minSceneAddCanvas(canvas:any){
+      this.realtime.minScene = new MinScene();
+      this.realtime.minScene?.addCanvas(canvas)
     },
     start(){
       this.ModelContainers.platform?.start()
+      this.realtime.minScene?.start()
     },
     onLoading(e:any) {
       const { data } = e;
       this.loadingPercent =(data.loaded / data.total)*100;
-      console.log(this.loadingPercent);
       
+    },
+    cast(x:number, y:number) {
+    this.ModelContainers.platform?.cast(x, y);
     },
   }
 });

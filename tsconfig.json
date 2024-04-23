@@ -14,5 +14,6 @@
   "compilerOptions": {
     "module": "NodeNext",
     "noImplicitAny": false,
+    "allowJs": true
   }
 }

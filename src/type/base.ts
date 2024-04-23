@@ -34,3 +34,12 @@ export interface IConfig {
   base: IModel, // 默认位置
   boothes: IModel[] // 展位
 }
+
+export interface DestItemsType {
+  color: string;
+  coordinates: [number, number];
+  description: string;
+  image_url: string;
+  name: string;
+  // 如果需要，可以添加其他属性
+}

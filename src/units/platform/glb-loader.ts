@@ -1,4 +1,4 @@
-import { Object3D } from 'three';
+import { Object3D} from 'three';
 import { GLTFLoader } from 'three/examples/jsm/Addons.js';
 import { DRACOLoader } from 'three/examples/jsm/Addons.js';
 // import { IModel } from '../../type/base';
@@ -43,4 +43,22 @@ export class GlbLoader extends Object3D {
   onLoadError = (e: any) => {
     console.log(e + 'error');
   };
+  // raycast = (raycaster:Raycaster, arr:any) => {
+  //   // if(ray.ray.distanceToPoint(this.position) < 3){
+  //   //   arr.push(this);
+  //   // }
+  //   const matrix = new Matrix4()
+  //   matrix.copy(this.matrixWorld).invert();
+  //   const ray = new Ray();
+  //   ray.copy(raycaster.ray).applyMatrix4(matrix);
+  //   this.traverse( ( object ) => {
+  //     const mesh:Mesh = object as Mesh;
+  //     if ( mesh.isMesh && mesh.geometry.boundingBox) {
+  //       if(ray.intersectsBox(mesh.geometry.boundingBox)) {
+  //         arr.push(this);
+  //         return;
+  //       }
+  //     }
+  //   });
+  // };
 }

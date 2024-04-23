@@ -5,20 +5,18 @@
   </MapboxMap>
 
   <div v-for="(item, index) in items" :key="index" class="markerInfo" ref="markerDivArray">
-    <p>双击进入{{ item.title }}</p>
-    <img :src="item.img" alt="图片">
+    <p>双击进入{{ item.name }}</p>
+    <img :src="item.image_url" alt="图片">
   </div>
- 
   <div class="floating-search">
-    <v-text-field solo hide-details label="目的地" prepend-inner-icon="mdi-magnify" @focus="displayList" 
-      close-on-blur v-model.trim="keyWord" class="input-search"
-      autocomplete="off" ref="search">
+    <v-text-field solo hide-details label="目的地" prepend-inner-icon="mdi-magnify" @focus="displayList" close-on-blur
+      v-model.trim="keyWord" class="input-search" autocomplete="off" ref="search">
     </v-text-field>
     <v-list v-show="filterItems.length > 0 && showList" class="border-list">
       <v-list-item v-for="(item, index) in filterItems" :key="index" @click="itemClick(item)">
         <v-list-item-content>
-          <v-list-item-title>{{ item.title }}</v-list-item-title>
-          <v-list-item-title-subtitle>经度：{{ item.LngLat[0] }}，纬度{{ item.LngLat[1] }}</v-list-item-title-subtitle>
+          <v-list-item-title>{{ item["name"] }}</v-list-item-title>
+          <v-list-item-title-subtitle>经度：{{ item.coordinates[0].toFixed(2) }}，纬度：{{  item.coordinates[1].toFixed(2)}}</v-list-item-title-subtitle>
         </v-list-item-content>
       </v-list-item>
     </v-list>
@@ -32,26 +30,44 @@
 import { MapboxMap } from '@studiometa/vue-mapbox-gl';
 import { ref, computed } from 'vue'
 import MapScene from '@/units/map/index'
+import request from '@/units/request';
+import type {DestItemsType}  from '@/type/base';
 
 const markerDivArray = ref([]);
-const items = ref([
-  {
-    title: "中国科学院自动化研究所", LngLat:[116.3262, 39.978041], img:"/img/CASIA.jpg"
-  },
-  {
-    title: "天安门", LngLat: [116.39145,  39.90732], img:"/img/CASIA.jpg"
-  },
-  {
-    title: "B", LngLat: [118.3262, 39.978041],img:"/img/CASIA.jpg"
-  },
-  {
-    title: "C", LngLat: [116.3262, 37.978041],img:"/img/CASIA.jpg"
-  },
-  {
-    title: "D", LngLat: [116.3262, 41.978041], img:"/img/CASIA.jpg"
-  },
-]);
 
+let items= ref<DestItemsType[]>([
+  {
+    color: "红色", coordinates: [116.3262, 39.978041], description: '123', image_url: "/img/CASIA.jpg", name: "中国科学院自动化研究所",
+  },
+  {
+    color: "红色", coordinates: [116.39145, 39.90732], description: '123', image_url: "/img/CASIA.jpg", name: "天安门"
+  },
+  {
+    color: "红色",  coordinates: [108.964162, 34.218285], description: '123', image_url: "/img/CASIA.jpg", name: "陕西大雁塔"
+  },
+  {
+    color: "红色", coordinates: [116.307157, 39.919174], description: '123', image_url: "/img/CASIA.jpg", name: "中央电视塔"
+  },
+  {
+    color: "红色",  coordinates: [117.3833, 34.4167], description: '123', image_url: "/img/CASIA.jpg", name: "秦始皇陵兵马俑"
+  },
+])
+request.get('/item/get_items')
+  .then(function (response) {
+     const data: DestItemsType[] = response.data.map((item:DestItemsType) => ({
+          color:item.color,
+          coordinates: item.coordinates,
+          description:item.description,
+          img: item.image_url,
+          name: item.name
+      }));
+    // 处理成功响应
+    items.value = data;
+  })
+  .catch(function (error) {
+    // 处理错误
+    console.error('Error fetching user information:', error);
+  });
 let keyWord = ref('')
 let search = ref('')
 let mapBox = ref()
@@ -62,11 +78,12 @@ const filterItems = computed(() => {
   if (keyWord.value.trim() === '') {
     return [];
   } else {
-    return items.value.filter(item => item.title.includes(keyWord.value));
+    return items.value.filter(item => item["name"].includes(keyWord.value));
   }
 });
-let showList = ref<boolean>(true)
 
+
+let showList = ref<boolean>(true)
 const inputBlur = () => {
   keyWord.value = ''
 }
@@ -84,10 +101,9 @@ let flyToDist = (LngLat: [number, number], zoom?: number) => {
 }
 const itemClick = (item: any) => {
   showList.value = true
-  flyToDist(item.LngLat, 17)
+  flyToDist(item.coordinates, 17)
+
   keyWord.value = ''
-
-
 }
 const goBack = (center: [number, number]) => {
   flyToDist(center)

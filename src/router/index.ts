@@ -2,6 +2,7 @@ import { createRouter, createWebHistory,  } from "vue-router";
 import type { RouteRecordRaw } from 'vue-router';
 import Home from "@/components/home-view.vue";
 
+
 const routes: Array <RouteRecordRaw> = [
   {
     name: 'home',
@@ -24,6 +25,19 @@ const routes: Array <RouteRecordRaw> = [
   },
 
   {
+    path: '/bigScreen',
+    name: 'bigScreen',
+    component: () => import(/* webpackChunkName: "LSD.bighome" */ '@/views/view-home.vue'),
+    children:[
+      {
+        path: '/index',
+        name: 'index',
+        component: () => import(/* webpackChunkName: "LSD.bighome" */ '@/views/indexs/view-index.vue'),
+      }
+    ]
+  }, 
+
+  {
     name: 'platform',
     path: '/platform',
     component: ()=>import('@/pages/platform-view.vue'),
@@ -33,8 +47,9 @@ const routes: Array <RouteRecordRaw> = [
   {
     name: '404',
     path: '/404',
-    component: import('@/pages/404-view.vue'),
+    component: ()=>import('@/pages/404-view.vue'),
   },
+
 ];
 
 const history = createWebHistory();
