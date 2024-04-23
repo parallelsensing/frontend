@@ -4,7 +4,7 @@ Mock.setup({
     timeout: '200-600'
 })
 
-const Random = Mock.Random;
+// const Random = Mock.Random;
 // 用户总览
 function countUserNum() {
     const a = Mock.mock({
