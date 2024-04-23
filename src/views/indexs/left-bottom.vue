@@ -210,7 +210,7 @@
         position: absolute;
         height: 2px;
         width: 104%;
-        background-image: url("../../assets/img/zuo_xuxian.png");
+        background-image: url("@/assets/img/zuo_xuxian.png");
         bottom: -10px;
         left: -2%;
         background-size: cover;
