@@ -175,11 +175,11 @@ export default {
     }
 
     .zuo {
-      background: url("../../assets/img/xiezuo.png") no-repeat;
+      background: url("@/assets/img/xiezuo.png") no-repeat;
     }
 
     .you {
-      background: url("../../assets/img/xieyou.png") no-repeat;
+      background: url("@/assets/img/xieyou.png") no-repeat;
     }
   }
 
