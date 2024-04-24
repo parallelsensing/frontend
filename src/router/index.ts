@@ -24,6 +24,7 @@ const routes: Array <RouteRecordRaw> = [
     props: true,
   },
 
+<<<<<<< HEAD
   // {
   //   path: '/bigScreen',
   //   name: 'bigScreen',
@@ -36,6 +37,8 @@ const routes: Array <RouteRecordRaw> = [
   //     }
   //   ]
   // }, 
+=======
+>>>>>>> develop
 
   {
     name: 'platform',
