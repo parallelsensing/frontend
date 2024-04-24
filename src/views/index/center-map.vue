@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { ref,nextTick } from "vue";
-import { centerMap, GETNOBASE } from "@/api";
-import { registerMap, getMap } from "echarts/core";
+import { centerMap} from "@/api";
 import { optionHandle, regionCodes } from "./center.map";
 import BorderBox13 from "@/components/datav/border-box-13";
 import { ElMessage } from "element-plus";
-
 import type { MapdataType } from "./center.map";
 
 const option = ref({});
@@ -20,15 +18,12 @@ withDefaults(
     title: "地图",
   }
 );
-
 const dataSetHandle = async (regionCode: string, list: object[]) => {
-  const geojson: any = await getGeojson(regionCode);
+ 
   let cityCenter: any = {};
   let mapData: MapdataType[] = [];
   //获取当前地图每块行政区中心点
-  geojson.features.forEach((element: any) => {
-    cityCenter[element.properties.name] = element.properties.centroid || element.properties.center;
-  });
+
   //当前中心点如果有此条数据中心点则赋值x，y当然这个x,y也可以后端返回进行大点，前端省去多行代码
   list.forEach((item: any) => {
     if (cityCenter[item.name]) {
@@ -57,23 +52,7 @@ const getData = async (regionCode: string) => {
       ElMessage.error(err);
     });
 };
-const getGeojson = (regionCode: string) => {
-  return new Promise<boolean>( async (resolve) => {
-    let mapjson = getMap(regionCode);
-    if (mapjson) {
-      mapjson = mapjson.geoJSON;
-      resolve(mapjson);
-    } else {
-      mapjson = await GETNOBASE(`./map-geojson/${regionCode}.json`).then((data) => data);
-      code.value = regionCode;
-      registerMap(regionCode, {
-        geoJSON: mapjson as any,
-        specialAreas: {},
-      });
-      resolve(mapjson);
-    }
-  });
-};
+
 getData(code.value);
 
 const mapClick = (params: any) => {
