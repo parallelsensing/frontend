@@ -1,9 +1,9 @@
 import { createApp} from 'vue'
+import { createPinia } from 'pinia';
 
-import './style.css'
 import router from '@/router'
 import APP from '@/App.vue'
-import { createPinia } from 'pinia';
+import './style.css'
 // Vuetify组件库
 import '@mdi/font/css/materialdesignicons.css'
 import 'vuetify/styles'
@@ -11,18 +11,22 @@ import {createVuetify}  from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 import 'mapbox-gl/dist/mapbox-gl.css';
+import '@/assets/css/main.scss'
+import '@/assets/css/tailwind.css'
 
-import "vue-easytable/libs/theme-default/index.css";
-import  '@/assets/css/public.scss'
-import "@/assets/css/index.scss"
+import {registerEcharts} from "@/plugins/echarts"
+//不使用mock 请注释掉
+import { mockXHR } from "@/mock/index";
+mockXHR()
 
-
-import DataVVue3 from '@kjgl77/datav-vue3'
+const app = createApp(APP)
+registerEcharts(app)
  const pinia = createPinia()
+ 
 const vuetify = createVuetify({
   components,
   directives
 })
-createApp(APP).use(DataVVue3).use(pinia).use(router).use(vuetify).mount('#app')
+app.use(pinia).use(router).use(vuetify).mount('#app')
 
 

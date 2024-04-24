@@ -17,7 +17,7 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import { type AlertInfo, newAlert } from '@/units/alert'
+import { type AlertInfo, newAlert } from '@/utils/alert'
 
 // 定义 Map，存储Alert信息集合，使用Map便于删除
 const alertMap = ref<Map<string, AlertInfo>>(new Map)

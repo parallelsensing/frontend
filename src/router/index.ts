@@ -23,7 +23,18 @@ const routes: Array <RouteRecordRaw> = [
     component: ()=>import('@/pages/map-view.vue'),
     props: true,
   },
-
+  {
+    path: '/bigScreen',
+    name: 'bigScreen',
+    component: () => import('@/views/HomeView.vue'),
+    children:[
+      {
+        path: '/index',
+        name: 'index',
+        component: () => import('@/views/index/index.vue'),
+      }
+    ]
+  },
   {
     name: 'platform',
     path: '/platform',

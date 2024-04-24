@@ -1,6 +1,6 @@
 //统一管理项目用户相关的接口
 
-import request from "@/units/request";
+import request from "@/utils/request";
 import type { loginForm, loginResponseData,userResponseData } from "@/type/user-type";
 enum API {
   LOGIN_URL = "/user/login",

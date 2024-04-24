@@ -29,8 +29,8 @@
 <script setup lang="ts">
 import { MapboxMap } from '@studiometa/vue-mapbox-gl';
 import { ref, computed } from 'vue'
-import MapScene from '@/units/map/index'
-import request from '@/units/request';
+import MapScene from '@/utils/map/index'
+import request from '@/utils/request';
 import type {DestItemsType}  from '@/type/base';
 
 const markerDivArray = ref([]);

@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import usePlatform from '@/store/platform/modules/platform';
+import usePlatform from '@/stores/platform/modules/platform';
 import { onMounted, ref, computed } from 'vue';
 const store = usePlatform();
 const canvas = ref<HTMLCanvasElement>();
