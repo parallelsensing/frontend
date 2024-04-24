@@ -30,7 +30,6 @@ import {
     GeoComponent,
     MarkPointComponent
   ])
-
   export const registerEcharts= (app:any)=>{
     app.component('v-chart', ECharts)
   }
