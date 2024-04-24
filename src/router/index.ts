@@ -24,18 +24,18 @@ const routes: Array <RouteRecordRaw> = [
     props: true,
   },
 
-  {
-    path: '/bigScreen',
-    name: 'bigScreen',
-    component: () => import(/* webpackChunkName: "LSD.bighome" */ '@/views/view-home.vue'),
-    children:[
-      {
-        path: '/index',
-        name: 'index',
-        component: () => import(/* webpackChunkName: "LSD.bighome" */ '@/views/indexs/view-index.vue'),
-      }
-    ]
-  }, 
+  // {
+  //   path: '/bigScreen',
+  //   name: 'bigScreen',
+  //   component: () => import(/* webpackChunkName: "LSD.bighome" */ '@/views/view-home.vue'),
+  //   children:[
+  //     {
+  //       path: '/index',
+  //       name: 'index',
+  //       component: () => import(/* webpackChunkName: "LSD.bighome" */ '@/views/indexs/view-index.vue'),
+  //     }
+  //   ]
+  // }, 
 
   {
     name: 'platform',
