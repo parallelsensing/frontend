@@ -19,13 +19,15 @@ export class PcdLoader extends Object3D{
     this._loader = new PCDLoader();
     this._color = new Color(0xffffff)
 
-    this._loader.load('./model/bunny.pcd', this.onLoad, this.onLoading, this.onLoadError);
+    this._loader.load('./model/GlobalMap.pcd', this.onLoad, this.onLoading, this.onLoadError);
   }
   onLoad = (points:any)=>{
     points.material.color = this._color // 模型颜色
+    points.position.set(-12,2,-15)
     points.rotation.y = 0;
     points.rotation.z = 11.2;
     points.rotation.x = 11;
+    points.scale.set(2,2,2)
     this.add(points)
 
     

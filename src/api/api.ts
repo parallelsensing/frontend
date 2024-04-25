@@ -8,7 +8,7 @@ import { StorageEnum, RequestEnum } from "@/enums";
 import { getLocalStorage } from "@/utils";
 
 import UtilVar from "../config/UtilVar";
-const baseUrl = UtilVar.baseUrl;
+let baseUrl = UtilVar.baseUrl;
 const CancelToken = axios.CancelToken;
 
 export { baseUrl };
@@ -17,7 +17,7 @@ export { baseUrl };
 axios.interceptors.request.use(
   function (config: AxiosRequestConfig): any {
     // 在发送请求之前做些什么 传token
-    const token: any = getLocalStorage(StorageEnum.GB_TOKEN_STORE);
+    let token: any = getLocalStorage(StorageEnum.GB_TOKEN_STORE);
     if (token) {
       // @ts-ignore
       config.headers.common[RequestEnum.GB_TOKEN_KEY] = token;
@@ -60,7 +60,7 @@ axios.interceptors.response.use(
   },
   (error: any) => {
     console.log("error", error);
-    const err = {
+    let err = {
       success: false,
       msg: "未知异常，请联系管理员！",
       code: 400,
@@ -78,7 +78,7 @@ axios.interceptors.response.use(
 );
 
 //判断是否是加密参数，是的话处理
-const isEncryptionParam = (params: Params) => {
+let isEncryptionParam = (params: Params) => {
   return params;
 };
 /**
@@ -136,7 +136,7 @@ interface fileconfigs {
     "Content-Type": string;
   };
 }
-const configs: fileconfigs = {
+let configs: fileconfigs = {
   headers: { "Content-Type": "multipart/form-data" },
 };
 /**

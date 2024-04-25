@@ -1,12 +1,11 @@
 
 <template>
   
-  <!-- <div id="app">
+  <div id="app">
     <router-view/>
   <GlobalAlert/>
-  </div> -->
-  <router-view/>
-  <GlobalAlert/>
+  </div> 
+
  
  
 </template>

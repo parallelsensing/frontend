@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import { RouterView } from "vue-router";
 import ScaleScreen from "@/components/scale-screen";
-import Headers from "./view-header.vue";
+import Headers from "./header.vue";
 import Setting from "./setting.vue";
 import { useSettingStore } from "@/stores/index";
 import { storeToRefs } from "pinia";

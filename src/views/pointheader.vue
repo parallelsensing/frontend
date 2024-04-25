@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import { reactive } from "vue";
 import dayjs from 'dayjs';
-import type {DateDataType} from "./index.d"
-import {useSettingStore} from "@/stores/setting/setting"
+import type { DateDataType } from "./index.d"
+import { useSettingStore } from '../stores/index'
 
 const dateData = reactive<DateDataType>({
   dateDay: "",
   dateYear: "",
   dateWeek: "",
-  timing:null
+  timing: null
 });
 
-const { setSettingShow} =useSettingStore()
-const weekday= ["周日", "周一", "周二", "周三", "周四", "周五", "周六"]
+const { checkoutPage } = useSettingStore()
+const weekday = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"]
 const timeFn = () => {
   dateData.timing = setInterval(() => {
     dateData.dateDay = dayjs().format("YYYY-MM-DD hh : mm : ss");
@@ -28,24 +28,42 @@ timeFn()
     <div class="youjuxing"></div>
     <div class="guang"></div>
     <div class="d-flex jc-center">
+
       <div class="title">
-        <span class="title-text">中国科学院自动化研究所</span>
+        <span class="title-text">点云场景</span>
+        <div class="checkoutpage" @click="checkoutPage">大屏</div>
       </div>
     </div>
     <div class="timers">
       {{ dateData.dateYear }} {{ dateData.dateWeek }} {{ dateData.dateDay }}
-
-      <div class="setting_icon"   @click="setSettingShow(true)">
-          <img src="@/assets/img/headers/setting.png" alt="设置">
-      </div>
     </div>
+
   </div>
 </template>
 
 <style scoped lang="scss">
+
+.checkoutpage {
+  float: left;
+  left: 420px;
+  bottom: 10px;
+  position: absolute;
+  width: 15%;
+  height: 50%;
+  border: 1px solid #00eded;
+  border-radius: 10px;
+  color: #00f7f6;
+  text-align: center;
+  line-height: 26px;
+  letter-spacing: 6px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 237, 237, 0.5), 0 0 6px rgba(0, 237, 237, 0.4);
+  z-index: 100000;
+}
+
 .title_wrap {
   height: 60px;
-  background-image: url("@/assets/img/top.png");
+  background-image: url("../assets/img/top.png");
   background-size: cover;
   background-position: center center;
   position: relative;
@@ -54,7 +72,7 @@ timeFn()
   .guang {
     position: absolute;
     bottom: -26px;
-    background-image: url("@/assets/img/guang.png");
+    background-image: url("../assets/img/guang.png");
     background-position: 80px center;
     width: 100%;
     height: 56px;
@@ -66,7 +84,7 @@ timeFn()
     top: -2px;
     width: 140px;
     height: 6px;
-    background-image: url("@/assets/img/headers/juxing1.png");
+    background-image: url("../assets/img/headers/juxing1.png");
   }
 
   .zuojuxing {
@@ -86,42 +104,34 @@ timeFn()
     display: flex;
     align-items: center;
 
-    .setting_icon {
-      width: 20px;
-      height: 20px;
-      cursor: pointer;
-      margin-left: 12px;
-      img{
-        width: 100%;
-        height: 100%;
-      }
-    }
+   
   }
 }
+
 .title {
+  overflow: hidden;
+  /* 清除浮动 */
   position: relative;
   width: 500px;
+  left: 765px;
   text-align: center;
   background-size: cover;
-  left: 700px;
   color: transparent;
   height: 60px;
   line-height: 46px;
 
   .title-text {
+    float: left;
     font-size: 38px;
     font-weight: 900;
     letter-spacing: 6px;
-    width: 100%;
-    background: linear-gradient(
-      92deg,
-      #0072ff 0%,
-      #00eaff 48.8525390625%,
-      #01aaff 100%
-    );
+    width: 80%;
+    background: linear-gradient(92deg,
+        #0072ff 0%,
+        #00eaff 48.8525390625%,
+        #01aaff 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
 }
 </style>
-...

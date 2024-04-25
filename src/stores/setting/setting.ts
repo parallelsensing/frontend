@@ -1,7 +1,11 @@
-import { ref,} from 'vue'
+import { ref, computed, reactive } from 'vue'
 import { defineStore } from 'pinia'
+
+import { useRouter } from 'vue-router';
 // import { storeToRefs } from 'pinia';
+
 export const useSettingStore = defineStore('setting', () => {
+  const router = useRouter();
   const settingShow = ref(false);//设置弹窗显隐
   const isScale = ref(false);//是否进行全局适配
   const indexConfig = ref({
@@ -21,6 +25,11 @@ export const useSettingStore = defineStore('setting', () => {
   })
   const setSettingShow = (flag: boolean) => {
     settingShow.value = flag
+  }
+  const checkoutPage = () => {
+    console.log(router);
+    
+    router.push('/index')
   }
   const setIsScale = (flag: boolean) => {
     isScale.value = flag
@@ -47,5 +56,5 @@ export const useSettingStore = defineStore('setting', () => {
       isScale: isScale.value
     }))
   }
-  return { settingShow, setSettingShow, isScale, setIsScale, initSetting, setSettingData, defaultOption, indexConfig, setIndexConfig }
+  return { settingShow, setSettingShow,checkoutPage, isScale, setIsScale, initSetting, setSettingData, defaultOption, indexConfig, setIndexConfig }
 })

@@ -83,8 +83,8 @@ const loopAnim = () => {
   loopCount++
   startAnim(() => {
     const isTruely = typeof props.loop === 'boolean' && props.loop
-    if (isTruely || props.loop as number > loopCount) {
-      delay1(() => {
+    if (isTruely || props.loop > loopCount) {
+      delay(() => {
         countUp.value?.reset()
         loopAnim()
       }, props.delay)
@@ -112,7 +112,7 @@ onUnmounted(() => {
 
 let dalayRafId: number
 // delay to execute callback function
-const delay1 = (cb: () => unknown, seconds = 1) => {
+const delay = (cb: () => unknown, seconds = 1) => {
   let startTime: number
   function count(timestamp: number) {
     if (!startTime) startTime = timestamp

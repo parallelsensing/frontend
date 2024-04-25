@@ -16,16 +16,15 @@ const routes: Array <RouteRecordRaw> = [
     component: ()=>import('@/pages/Login-view.vue'),
     props: true,
   },
-
   {
-    name: 'Map',
-    path: '/map',
-    component: ()=>import('@/pages/map-view.vue'),
+    path: '/point',
+    name: 'point',
+    component: () => import('@/views/point-view.vue'),
     props: true,
   },
   {
-    path: '/bigScreen',
-    name: 'bigScreen',
+    path: '/big',
+    name: 'big',
     component: () => import('@/views/HomeView.vue'),
     children:[
       {
@@ -35,6 +34,14 @@ const routes: Array <RouteRecordRaw> = [
       }
     ]
   },
+
+  {
+    name: 'Map',
+    path: '/map',
+    component: ()=>import('@/pages/map-view.vue'),
+    props: true,
+  },
+
   {
     name: 'platform',
     path: '/platform',

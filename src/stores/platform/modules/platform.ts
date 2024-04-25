@@ -28,9 +28,9 @@ const usePlatform = defineStore({
     },
   },
   actions:{
-    platformAddCanvas(canvas:HTMLCanvasElement) {
+    platformAddCanvas(canvas:HTMLElement,size:[number,number]) {
       this.ModelContainers.platform = new Platform();
-      this.ModelContainers.platform.addCanvas(canvas);
+      this.ModelContainers.platform.addCanvas(canvas,size);
       this.ModelContainers.platform.addEventListener(EVENT.LOADING, this.onLoading);
      
     },
