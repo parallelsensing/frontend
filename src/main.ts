@@ -1,32 +1,28 @@
-import { createApp} from 'vue'
+import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 
-import router from '@/router'
-import APP from '@/App.vue'
-import './style.css'
+import router from '@/router';
+import APP from '@/App.vue';
+import './style.css';
 // Vuetify组件库
-import '@mdi/font/css/materialdesignicons.css'
-import 'vuetify/styles'
-import {createVuetify}  from 'vuetify'
-import * as components from 'vuetify/components'
-import * as directives from 'vuetify/directives'
-import 'mapbox-gl/dist/mapbox-gl.css';
-import '@/assets/css/main.scss'
-import '@/assets/css/tailwind.css'
-
+import '@mdi/font/css/materialdesignicons.css';
+import 'vuetify/styles';
+import { createVuetify } from 'vuetify';
 import {registerEcharts} from "@/plugins/echarts"
-//不使用mock 请注释掉
-import { mockXHR } from "@/mock/index";
-mockXHR()
+import * as components from 'vuetify/components';
+import * as directives from 'vuetify/directives';
+import 'mapbox-gl/dist/mapbox-gl.css';
+import '@/assets/css/main.scss';
+import '@/assets/css/tailwind.css';
 
-const app = createApp(APP)
+//不使用mock 请注释掉
+
+const app = createApp(APP);
 registerEcharts(app)
- const pinia = createPinia()
- 
+const pinia = createPinia();
+
 const vuetify = createVuetify({
   components,
   directives
-})
-app.use(pinia).use(router).use(vuetify).mount('#app')
-
-
+});
+app.use(pinia).use(router).use(vuetify).mount('#app');

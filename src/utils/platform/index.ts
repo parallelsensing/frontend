@@ -1,6 +1,6 @@
 import {
   EventDispatcher,WebGLRenderer,Color,Clock,BoxGeometry,MeshBasicMaterial,AmbientLight,
-  DirectionalLight,PerspectiveCamera,Scene,Group,Vector3,AxesHelper,Mesh,Raycaster,Vector2
+  DirectionalLight,PerspectiveCamera,Scene,Group,Vector3,AxesHelper,Mesh,Raycaster,Vector2,CubeTextureLoader
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/Addons.js';
 import TWEEN, { Tween } from 'three/examples/jsm/libs/tween.module.js';
@@ -20,8 +20,8 @@ export const EVENT = {
 const Static = {
   X: 0,
   Y: 0,
-  WIDTH: 0,
-  HEIGHT: 0,
+  WIDTH: 1920,
+  HEIGHT: 1080,
   DURATION: 1600,
   CAMERA_FAR: 50
 };
@@ -41,22 +41,35 @@ export class Platform extends EventDispatcher {
   _boxmat:MeshBasicMaterial;
   _box:Mesh;
   _raycaster:Raycaster;// 射线
+  _textureCubeLoader:CubeTextureLoader;
+  _textureCube:any;
 
   constructor() {
     super();
     this.__scene = new Scene();
-    this.__scene.background = new Color(0x222222);
+ 
     this.__camera = new PerspectiveCamera(75, Static.WIDTH / Static.HEIGHT, 0.001, 10000);
     this._boxgeo = new BoxGeometry(0.9,0.9,0.3);
     this._boxmat = new MeshBasicMaterial({
       color:0x00aa00
     })
+    this._textureCubeLoader = new CubeTextureLoader().setPath('./texture')
+    this._textureCube = this._textureCubeLoader.load([
+      "1.jpg",
+      "2.jpg",
+      "3.jpg",
+      "4.jpg",
+      "5.jpg",
+      "6.jpg",
+    ])
+    this.__scene.background = this._textureCube;
+    this.__scene.environment = this._textureCube;
     this._box = new Mesh(this._boxgeo,this._boxmat)
     this._box.position.set(5,5,5)
     this._box.name = "传感器1"
     this._raycaster = new Raycaster();
 
-    this.__camera.position.set(2, 4, 6);
+    this.__camera.position.set(43.37, 18.80, 49.60);
     this.__camera.lookAt(new Vector3(0, 0, 0));
     this.__models = new Group();
     this._axeshelper = new AxesHelper(50);
@@ -66,12 +79,15 @@ export class Platform extends EventDispatcher {
    * 装载
    * @param canvas 元素
    */
-  addCanvas(canvas: HTMLCanvasElement) {
+  addCanvas(canvas: HTMLElement ,size:[number,number]) {
     this._canvas = canvas;
-    this.__renderer = new WebGLRenderer({ canvas, antialias: true });
+    this.__renderer = new WebGLRenderer({ antialias: true });
+    this.__renderer.setSize(size[0],size[1])
+    this._canvas.appendChild(this.__renderer.domElement)
     this.__renderer.shadowMap.enabled = true;
-    window.addEventListener('resize', this.onResize);
-    this.onResize();
+ 
+    // window.addEventListener('resize', this.onResize);
+    // this.onResize();
     this.animate(0);
   }
   controlCamera() {
@@ -152,6 +168,8 @@ export class Platform extends EventDispatcher {
   };
   //动画
   animate = (time: number) => {
+    // console.log(this.__camera.position);
+    
     requestAnimationFrame(this.animate);
     // console.log("Initial Camera Rotation:", this.__camera.rotation,this.__camera.position);
     if (this._controls) this._controls.update();

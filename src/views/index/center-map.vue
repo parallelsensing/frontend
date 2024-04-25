@@ -1,88 +1,43 @@
 <script setup lang="ts">
-import { ref,nextTick } from "vue";
-import { centerMap} from "@/api";
-import { optionHandle, regionCodes } from "./center.map";
-import BorderBox13 from "@/components/datav/border-box-13";
-import { ElMessage } from "element-plus";
-import type { MapdataType } from "./center.map";
+import { useRouter } from 'vue-router';
 
-const option = ref({});
-const code = ref("china"); //china 代表中国 其他地市是行政编码
+import usePlatform from '@/stores/platform/modules/platform';
+import { onMounted, ref} from 'vue';
+const store = usePlatform();
+const bigScene = ref<HTMLElement>()
+const bigSceneSize = ref<[number,number]>([700,580])
 
-withDefaults(
-  defineProps<{
-    // 结束数值
-    title: number | string;
-  }>(),
-  {
-    title: "地图",
-  }
-);
-const dataSetHandle = async (regionCode: string, list: object[]) => {
+
+
+let router = useRouter()
+const chexkoutPage = ()=>{
+  router.push("./point")
+}
+const raycast = ()=>{
+  console.log(123);
+}
+
+onMounted(() => {
  
-  let cityCenter: any = {};
-  let mapData: MapdataType[] = [];
-  //获取当前地图每块行政区中心点
+ if (bigScene.value) {
+   store.platformAddCanvas(bigScene.value,bigSceneSize.value); // 装载canvas
 
-  //当前中心点如果有此条数据中心点则赋值x，y当然这个x,y也可以后端返回进行大点，前端省去多行代码
-  list.forEach((item: any) => {
-    if (cityCenter[item.name]) {
-      mapData.push({
-        name: item.name,
-        value: cityCenter[item.name].concat(item.value),
-      });
-    }
-  });
-  await nextTick();
-
-  option.value = optionHandle(regionCode, list, mapData);
-};
-
-const getData = async (regionCode: string) => {
-  centerMap({ regionCode: regionCode })
-    .then((res) => {
-      console.log("中上--设备分布", res);
-      if (res.success) {
-        dataSetHandle(res.data.regionCode, res.data.dataList);
-      } else {
-        ElMessage.error(res.msg);
-      }
-    })
-    .catch((err) => {
-      ElMessage.error(err);
-    });
-};
-
-getData(code.value);
-
-const mapClick = (params: any) => {
-  // console.log(params);
-  let xzqData = regionCodes[params.name];
-  if (xzqData) {
-    getData(xzqData.adcode);
-  } else {
-    window["$message"].warning("暂无下级地市");
-  }
-};
+   store.start(); // 按照config开始执行
+ }
+});
 </script>
 
 <template>
   <div class="centermap">
     <div class="maptitle">
       <div class="zuo"></div>
-      <span class="titletext">{{ title }}</span>
+      <span class="titletext"> 点云场景</span>
       <div class="you"></div>
     </div>
     <div class="mapwrap">
       <BorderBox13>
-        <div class="quanguo" @click="getData('china')" v-if="code !== 'china'">中国</div>
-        <v-chart
-          class="chart"
-          :option="option"
-          ref="centerMapRef"
-          @click="mapClick"
-          v-if="JSON.stringify(option) != '{}'"
-        />
+        <div @click="raycast" class="bigScene" ref="bigScene"></div>
+        <div class="checkoutpoint" @click="chexkoutPage()">大场景</div>
       </BorderBox13>
     </div>
   </div>
@@ -129,11 +84,16 @@ const mapClick = (params: any) => {
   .mapwrap {
     height: 580px;
     width: 100%;
-    // padding: 0 0 10px 0;
     box-sizing: border-box;
     position: relative;
-
-    .quanguo {
+    .bigScene {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      /* 父容器必须设置为相对定位 */
+      z-index: 100;
+    }
+    .checkoutpoint {
       position: absolute;
       right: 20px;
       top: -46px;
