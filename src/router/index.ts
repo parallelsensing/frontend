@@ -43,13 +43,6 @@ const routes: Array <RouteRecordRaw> = [
   },
 
   {
-    name: 'platform',
-    path: '/platform',
-    component: ()=>import('@/pages/platform-view.vue'),
-    props: true,
-    meta: { title: 'model' }
-  },
-  {
     name: '404',
     path: '/404',
     component: ()=>import('@/pages/404-view.vue'),

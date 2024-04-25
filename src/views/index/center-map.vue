@@ -13,8 +13,10 @@ let router = useRouter()
 const chexkoutPage = ()=>{
   router.push("./point")
 }
-const raycast = ()=>{
-  console.log(123);
+const onCast = (event: MouseEvent) => {
+  const screenX = event.clientX;
+  const screenY = event.clientY;
+  store.cast(screenX, screenY);
 }
 
 onMounted(() => {
@@ -36,7 +38,7 @@ onMounted(() => {
     </div>
     <div class="mapwrap">
       <BorderBox13>
-        <div @click="raycast" class="bigScene" ref="bigScene"></div>
+        <div @click="onCast" class="bigScene" ref="bigScene"></div>
         <div class="checkoutpoint" @click="chexkoutPage()">大场景</div>
       </BorderBox13>
     </div>

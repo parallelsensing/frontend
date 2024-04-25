@@ -10,7 +10,6 @@ declare module 'vue' {
     BorderBox13: typeof import('./src/components/datav/border-box-13/border-box-13.vue')['default']
     CapsuleChart: typeof import('./src/components/datav/capsule-chart/capsule-chart.vue')['default']
     CountUp: typeof import('./src/components/count-up/count-up.vue')['default']
-    ElButton: typeof import('element-plus/es')['ElButton']
     ElDrawer: typeof import('element-plus/es')['ElDrawer']
     ElRadio: typeof import('element-plus/es')['ElRadio']
     ElRadioGroup: typeof import('element-plus/es')['ElRadioGroup']
