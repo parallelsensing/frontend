@@ -29,7 +29,7 @@ import { useUserStore } from '@/stores/users';
 import { useRouter } from 'vue-router';
 import { getTime } from '@/utils/time'
 import { successAlert, errorAlert } from '@/utils/alert'
-let loginForm = reactive({ phone: '123456', password: '123456' })
+let loginForm = reactive({ phone: '15801585812', password: '123456' })
 let useStore = useUserStore()
 let router = useRouter();
 let login = async () => {
