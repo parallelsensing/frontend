@@ -3,7 +3,7 @@
  <div class="home">
    <div id="nav">
     <router-link to="./login">登录</router-link> |
-    <router-link to="./platform">点云数据</router-link> |
+    <router-link to="./point">点云数据</router-link> |
     <router-link to="./map">地图</router-link> |
    </div>
   </div>

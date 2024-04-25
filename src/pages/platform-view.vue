@@ -23,6 +23,7 @@ const minCanvas = ref<any>();
 const LoadingProgress = computed(() => store.loadingPercent)
 const LoadingMsg = computed(() => store.loadingMsg)
 function onCast(e: MouseEvent) {
+     // 获取屏幕坐标
   const x = (e.clientX / window.innerWidth) * 2 - 1;
   const y = - (e.clientY / window.innerHeight) * 2 + 1;
   store.cast(x, y);
