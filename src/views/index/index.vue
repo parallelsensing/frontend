@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import ItemWrap from "@/components/item-wrap";
-import LeftTop from "./left-top.vue";
+// import LeftTop from "./left-top.vue";
 import LeftCenter from "./left-center.vue";
 import LeftBottom from "./left-bottom.vue";
 import CenterMap from "./center-map.vue";
@@ -15,7 +15,7 @@ import RightBottom from "./right-bottom.vue";
     <div class="contetn_left">
      
       <ItemWrap class="contetn_left-top contetn_lr-item" title="设备总览">
-        <LeftTop />
+        <!-- <LeftTop /> -->
       </ItemWrap>
       <ItemWrap class="contetn_left-center contetn_lr-item" title="用户总览">
         <LeftCenter />
