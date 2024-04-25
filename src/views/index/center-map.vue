@@ -1,16 +1,17 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
-
+// import useRealtimeStore from '@/stores/realtime/modules/realtime'
 import usePlatform from '@/stores/platform/modules/platform';
-import { onMounted, ref} from 'vue';
+import { onMounted, ref } from 'vue';
 const store = usePlatform();
 const bigScene = ref<HTMLElement>()
-const bigSceneSize = ref<[number,number]>([700,580])
-
+const bigSceneSize = ref<[number, number]>([700, 580])
+// const realtimeShow = ref<boolean>(false)
+// const realtimeStore = useRealtimeStore()
 
 
 let router = useRouter()
-const chexkoutPage = ()=>{
+const chexkoutPage = () => {
   router.push("./point")
 }
 const onCast = (event: MouseEvent) => {
@@ -20,12 +21,11 @@ const onCast = (event: MouseEvent) => {
 }
 
 onMounted(() => {
- 
- if (bigScene.value) {
-   store.platformAddCanvas(bigScene.value,bigSceneSize.value); // 装载canvas
 
-   store.start(); // 按照config开始执行
- }
+  if (bigScene.value) {
+    store.platformAddCanvas(bigScene.value, bigSceneSize.value); // 装载canvas
+    store.start(); // 按照config开始执行
+  }
 });
 </script>
 
@@ -88,6 +88,7 @@ onMounted(() => {
     width: 100%;
     box-sizing: border-box;
     position: relative;
+
     .bigScene {
       width: 100%;
       height: 100%;
@@ -95,6 +96,7 @@ onMounted(() => {
       /* 父容器必须设置为相对定位 */
       z-index: 100;
     }
+
     .checkoutpoint {
       position: absolute;
       right: 20px;
