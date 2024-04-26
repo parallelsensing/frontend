@@ -6,13 +6,13 @@ import Home from "@/components/home-view.vue";
 const routes: Array <RouteRecordRaw> = [
   {
     name: 'home',
-    path: '/',
+    path: '/home',
     component: Home,
     props: true,
   },
   {
     name: 'login',
-    path: '/login',
+    path: '/',
     component: ()=>import('@/pages/Login-view.vue'),
     props: true,
   },
