@@ -14,8 +14,9 @@ import * as directives from 'vuetify/directives';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import '@/assets/css/main.scss';
 import '@/assets/css/tailwind.css';
-
+import { mockXHR } from "@/mock/index";
 //不使用mock 请注释掉
+mockXHR()
 
 const app = createApp(APP);
 registerEcharts(app)
