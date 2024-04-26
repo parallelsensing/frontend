@@ -113,7 +113,7 @@ timeFn()
   /* 清除浮动 */
   position: absolute;
   width: 500px;
-  left: 765px;
+  left:40%;
   text-align: center;
   background-size: cover;
   color: transparent;
