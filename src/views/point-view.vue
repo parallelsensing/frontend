@@ -33,7 +33,7 @@ onMounted(() => {
 </script>
 
 <template>
-   <ScaleScreen
+   <!-- <ScaleScreen
     width="1920"
     height="1080"
     :delay="500"
@@ -55,22 +55,22 @@ onMounted(() => {
   <Headers />
     <RouterView />
   </div>
-  </ScaleScreen>
-  <!-- <div class="content_wrap">
+  </ScaleScreen> -->
+  <div class="content_wrap">
     <div ref="canvas" class="canvas" @click="onCast"></div>
-    <div class="loading" v-if="LoadingProgress != 100"></div>
+   
   <div class="progress" v-if="LoadingProgress != 100">
     <img src="/img/loading.gif" alt="" />
     {{ LoadingMsg }}
   </div>
     <Headers />
     <RouterView />
-  </div> -->
+  </div>
 </template>
 <style lang="scss" scoped>
 .content_wrap {
-  width: 1920px;
-  height: 911px;
+  width: 100%;
+  height: 100%;
   position: absolute;
   left: 0px;
   // padding: 16px 16px 16px 16px;
@@ -83,8 +83,8 @@ onMounted(() => {
 
 .canvas {
   position: absolute;
-  width: 1920px;
-  height: 1080px;
+  width: 100%;
+  height: 100%;
 
 }
 .progress {

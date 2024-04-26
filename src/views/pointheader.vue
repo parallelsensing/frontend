@@ -20,7 +20,7 @@ const timeFn = () => {
   }, 1000);
 };
 timeFn()
-console.log(window.innerWidth);
+
 
 </script>
 
@@ -30,7 +30,6 @@ console.log(window.innerWidth);
     <div class="youjuxing"></div>
     <div class="guang"></div>
     <div class="d-flex jc-center">
-
       <div class="title">
         <span class="title-text">点云场景</span>
         <div class="checkoutpage" @click="checkoutPage">大屏</div>
@@ -44,8 +43,6 @@ console.log(window.innerWidth);
 </template>
 
 <style scoped lang="scss">
-
-
 .checkoutpage {
   float: left;
   left: 420px;
@@ -66,13 +63,12 @@ console.log(window.innerWidth);
 
 .title_wrap {
   position: absolute;
-  top: 20px;
+  top: 10px;
   height: 60px;
-    width:  1920px;
+  width: 100%;
   background-image: url("@/assets/img/top.png");
   background-size: cover;
   background-position: center center;
-  // position: relative;
   margin-bottom: 4px;
 
   .guang {
@@ -109,8 +105,6 @@ console.log(window.innerWidth);
     font-size: 18px;
     display: flex;
     align-items: center;
-
-   
   }
 }
 
