@@ -29,11 +29,11 @@ timeFn()
     <div class="zuojuxing"></div>
     <div class="youjuxing"></div>
     <div class="guang"></div>
-    
-      <div class="title">
-        <span class="title-text">点云场景</span>
-        <div class="checkoutpage" @click="checkoutPage">大屏</div>
-      </div>
+
+    <div class="title">
+      <span class="title-text">点云场景</span>
+      <div class="checkoutpage" @click="checkoutPage">大屏</div>
+    </div>
     <div class="timers">
       {{ dateData.dateYear }} {{ dateData.dateWeek }} {{ dateData.dateDay }}
     </div>
@@ -42,7 +42,6 @@ timeFn()
 </template>
 
 <style scoped lang="scss">
-
 .title_wrap {
   position: absolute;
   top: 10px;
@@ -86,7 +85,7 @@ timeFn()
   /* 清除浮动 */
   position: absolute;
   width: 40%;
-  left:30%;
+  left: 30%;
   text-align: center;
   background-size: cover;
   color: transparent;
@@ -94,9 +93,7 @@ timeFn()
   line-height: 46px;
 
   .title-text {
-    
-    // float: left;
-    display: inline-block; 
+    display: inline-block;
     left: 25%;
     font-size: 38px;
     font-weight: 900;
@@ -109,31 +106,32 @@ timeFn()
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
+
   .checkoutpage {
-  float: left;
-  right: 40px;
-  bottom: 10px;
-  position: absolute;
-  width: 15%;
-  height: 50%;
-  border: 1px solid #00eded;
-  border-radius: 10px;
-  color: #00f7f6;
-  text-align: center;
-  line-height: 26px;
-  letter-spacing: 6px;
-  cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 237, 237, 0.5), 0 0 6px rgba(0, 237, 237, 0.4);
-  z-index: 100000;
-}
+    float: left;
+    right: 40px;
+    bottom: 10px;
+    position: absolute;
+    width: 15%;
+    height: 50%;
+    border: 1px solid #00eded;
+    border-radius: 10px;
+    color: #00f7f6;
+    text-align: center;
+    line-height: 26px;
+    letter-spacing: 6px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 237, 237, 0.5), 0 0 6px rgba(0, 237, 237, 0.4);
+    z-index: 100000;
+  }
 }
 
 .timers {
-    position: absolute;
-    right: 25px;
-    top: 30px;
-    font-size: 18px;
-    display: flex;
-    align-items: center;
-  }
+  position: absolute;
+  right: 25px;
+  top: 30px;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+}
 </style>

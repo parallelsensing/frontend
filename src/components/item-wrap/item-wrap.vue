@@ -21,7 +21,8 @@ const props = withDefaults(
     <div
       :class="title !== '' ? 'item_title_content' : 'item_title_content_def'"
     >
-      <slot></slot></div>
+      <slot></slot>
+      </div>
       </BorderBox13>
 </template>
 
