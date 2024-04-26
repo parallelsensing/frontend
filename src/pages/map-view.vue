@@ -22,7 +22,7 @@
     </v-list>
   </div>
   <div class="floating-button"> <!-- 悬浮按钮容器 -->
-    <v-btn color="primary" @click="goBack(mapCenter)">Go Back to center</v-btn>
+    <v-btn color="primary" @click="goBack(mapCenter)">主视角</v-btn>
   </div>
 </template>
 
