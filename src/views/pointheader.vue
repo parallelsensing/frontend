@@ -20,6 +20,8 @@ const timeFn = () => {
   }, 1000);
 };
 timeFn()
+console.log(window.innerWidth);
+
 </script>
 
 <template>
@@ -66,10 +68,11 @@ timeFn()
   position: absolute;
   top: 20px;
   height: 60px;
+    width:  1920px;
   background-image: url("@/assets/img/top.png");
   background-size: cover;
   background-position: center center;
-  position: relative;
+  // position: relative;
   margin-bottom: 4px;
 
   .guang {
@@ -114,7 +117,7 @@ timeFn()
 .title {
   overflow: hidden;
   /* 清除浮动 */
-  position: relative;
+  position: absolute;
   width: 500px;
   left: 765px;
   text-align: center;
