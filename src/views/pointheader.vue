@@ -43,6 +43,7 @@ timeFn()
 
 <style scoped lang="scss">
 
+
 .checkoutpage {
   float: left;
   left: 420px;
@@ -62,8 +63,10 @@ timeFn()
 }
 
 .title_wrap {
+  position: absolute;
+  top: 20px;
   height: 60px;
-  background-image: url("../assets/img/top.png");
+  background-image: url("@/assets/img/top.png");
   background-size: cover;
   background-position: center center;
   position: relative;
@@ -72,7 +75,7 @@ timeFn()
   .guang {
     position: absolute;
     bottom: -26px;
-    background-image: url("../assets/img/guang.png");
+    background-image: url("@/assets/img/guang.png");
     background-position: 80px center;
     width: 100%;
     height: 56px;
@@ -84,7 +87,7 @@ timeFn()
     top: -2px;
     width: 140px;
     height: 6px;
-    background-image: url("../assets/img/headers/juxing1.png");
+    background-image: url("@/assets/img/headers/juxing1.png");
   }
 
   .zuojuxing {
@@ -98,7 +101,7 @@ timeFn()
 
   .timers {
     position: absolute;
-    right: 0;
+    right: 25px;
     top: 30px;
     font-size: 18px;
     display: flex;

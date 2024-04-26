@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { RouterView } from "vue-router";
 import Headers from "./pointheader.vue";
+import ScaleScreen from "@/components/scale-screen";
 import usePlatform from '@/stores/platform/modules/platform';
 import { onMounted, ref,computed } from 'vue';
 const LoadingProgress = computed(() => store.loadingPercent)
@@ -8,6 +9,11 @@ const LoadingMsg = computed(() => store.loadingMsg)
 const store = usePlatform();
 const canvas = ref<HTMLElement>()
 const canvasSize = ref<[number, number]>([window.innerWidth, window.innerHeight])
+import { storeToRefs } from "pinia";
+import { useSettingStore } from "@/stores/index";
+const settingStore = useSettingStore();
+const { isScale } = storeToRefs(settingStore);
+const wrapperStyle = {};
 const onCast = (event: MouseEvent) => {
   const screenX = event.clientX;
   const screenY = event.clientY;
@@ -27,7 +33,30 @@ onMounted(() => {
 </script>
 
 <template>
+   <ScaleScreen
+    width="1920"
+    height="1080"
+    :delay="500"
+    :fullScreen="false"
+    :boxStyle="{
+      background: '#03050C',
+      overflow:  'auto',
+    }"
+    :wrapperStyle="wrapperStyle"
+    :autoScale="isScale"
+  >
   <div class="content_wrap">
+    <div ref="canvas" class="canvas" @click="onCast"></div>
+    <div class="loading" v-if="LoadingProgress != 100"></div>
+  <div class="progress" v-if="LoadingProgress != 100">
+    <img src="/img/loading.gif" alt="" />
+    {{ LoadingMsg }}
+  </div>
+  <Headers />
+    <RouterView />
+  </div>
+  </ScaleScreen>
+  <!-- <div class="content_wrap">
     <div ref="canvas" class="canvas" @click="onCast"></div>
     <div class="loading" v-if="LoadingProgress != 100"></div>
   <div class="progress" v-if="LoadingProgress != 100">
@@ -36,7 +65,7 @@ onMounted(() => {
   </div>
     <Headers />
     <RouterView />
-  </div>
+  </div> -->
 </template>
 <style lang="scss" scoped>
 .content_wrap {
@@ -44,7 +73,7 @@ onMounted(() => {
   height: 911px;
   position: absolute;
   left: 0px;
-  padding: 16px 16px 16px 16px;
+  // padding: 16px 16px 16px 16px;
   box-sizing: border-box;
   background-image: url("@/assets/img/pageBg.png");
   background-size: cover;

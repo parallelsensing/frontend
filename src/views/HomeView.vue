@@ -14,7 +14,7 @@ const wrapperStyle = {};
 </script>
 
 <template>
-  <scale-screen
+  <ScaleScreen
     width="1920"
     height="1080"
     :delay="500"
@@ -31,7 +31,7 @@ const wrapperStyle = {};
       <RouterView />
       <MessageContent />
     </div>
-  </scale-screen>
+  </ScaleScreen>
   <Setting />
 </template>
 <style lang="scss" scoped>
