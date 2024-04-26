@@ -7,12 +7,13 @@ const LoadingProgress = computed(() => store.loadingPercent)
 const LoadingMsg = computed(() => store.loadingMsg)
 const store = usePlatform();
 const canvas = ref<HTMLElement>()
-const canvasSize = ref<[number, number]>([1920, 1080])
+const canvasSize = ref<[number, number]>([window.innerWidth, window.innerHeight])
 const onCast = (event: MouseEvent) => {
   const screenX = event.clientX;
   const screenY = event.clientY;
   store.cast(screenX, screenY);
 }
+
 
 
 onMounted(() => {
@@ -40,7 +41,7 @@ onMounted(() => {
 <style lang="scss" scoped>
 .content_wrap {
   width: 1920px;
-  height: 1080px;
+  height: 911px;
   position: absolute;
   left: 0px;
   padding: 16px 16px 16px 16px;
@@ -48,6 +49,7 @@ onMounted(() => {
   background-image: url("@/assets/img/pageBg.png");
   background-size: cover;
   background-position: center center;
+  overflow: hidden;
 }
 
 .canvas {
