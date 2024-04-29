@@ -1,36 +1,41 @@
-import { createRouter, createWebHistory,  } from "vue-router";
+import { createRouter, createWebHistory } from 'vue-router';
 import type { RouteRecordRaw } from 'vue-router';
-import Home from "@/components/home-view.vue";
+import Home from '@/components/home-view.vue';
 
-
-const routes: Array <RouteRecordRaw> = [
+const routes: Array<RouteRecordRaw> = [
   {
     name: 'home',
     path: '/home',
     component: Home,
-    props: true,
+    props: true
   },
   {
     name: 'login',
     path: '/',
-    component: ()=>import('@/pages/Login-view.vue'),
-    props: true,
+    component: () => import('@/pages/Login-view.vue'),
+    props: true
   },
   {
     path: '/point',
     name: 'point',
     component: () => import('@/views/point-view.vue'),
-    props: true,
+    props: true
+  },
+  {
+    path: '/ros',
+    name: 'ros',
+    component: () => import('@/pages/ros-3d.vue'),
+    props: true
   },
   {
     path: '/big',
     name: 'big',
     component: () => import('@/views/HomeView.vue'),
-    children:[
+    children: [
       {
         path: '/index',
         name: 'index',
-        component: () => import('@/views/index/index.vue'),
+        component: () => import('@/views/index/index.vue')
       }
     ]
   },
@@ -38,22 +43,21 @@ const routes: Array <RouteRecordRaw> = [
   {
     name: 'Map',
     path: '/map',
-    component: ()=>import('@/pages/map-view.vue'),
-    props: true,
+    component: () => import('@/pages/map-view.vue'),
+    props: true
   },
 
   {
     name: '404',
     path: '/404',
-    component: ()=>import('@/pages/404-view.vue'),
-  },
-
+    component: () => import('@/pages/404-view.vue')
+  }
 ];
 
 const history = createWebHistory();
 const router = createRouter({
   history,
-  routes,
+  routes
 });
 
 export default router;
