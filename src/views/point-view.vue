@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { RouterView } from "vue-router";
 import Headers from "./pointheader.vue";
-import ScaleScreen from "@/components/scale-screen";
+
 import usePlatform from '@/stores/platform/modules/platform';
 import { onMounted, ref,computed } from 'vue';
 const LoadingProgress = computed(() => store.loadingPercent)
@@ -9,16 +9,11 @@ const LoadingMsg = computed(() => store.loadingMsg)
 const store = usePlatform();
 const canvas = ref<HTMLElement>()
 const canvasSize = ref<[number, number]>([window.innerWidth, window.innerHeight])
-
-
 const onCast = (event: MouseEvent) => {
   const screenX = event.clientX;
   const screenY = event.clientY;
   store.cast(screenX, screenY);
 }
-
-
-
 onMounted(() => {
 
   if (canvas.value) {

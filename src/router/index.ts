@@ -28,6 +28,12 @@ const routes: Array<RouteRecordRaw> = [
     props: true
   },
   {
+    path: '/rostest',
+    name: 'rostest',
+    component: () => import('@/pages/ros-test.vue'),
+    props: true
+  },
+  {
     path: '/big',
     name: 'big',
     component: () => import('@/views/HomeView.vue'),
