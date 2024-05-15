@@ -11,6 +11,7 @@ import { createVuetify } from 'vuetify';
 import {registerEcharts} from "@/plugins/echarts"
 import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
+
 import 'mapbox-gl/dist/mapbox-gl.css';
 import '@/assets/css/main.scss';
 import '@/assets/css/tailwind.css';

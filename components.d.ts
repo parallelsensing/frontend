@@ -7,6 +7,8 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    Avatar: typeof import('./src/components/Avatar/index.vue')['default']
+    BackTop: typeof import('./src/components/BackTop/index.vue')['default']
     BorderBox13: typeof import('./src/components/datav/border-box-13/border-box-13.vue')['default']
     CapsuleChart: typeof import('./src/components/datav/capsule-chart/capsule-chart.vue')['default']
     CountUp: typeof import('./src/components/count-up/count-up.vue')['default']
@@ -17,10 +19,12 @@ declare module 'vue' {
     GlobalAlert: typeof import('./src/components/global-alert.vue')['default']
     HomeView: typeof import('./src/components/home-view.vue')['default']
     ItemWrap: typeof import('./src/components/item-wrap/item-wrap.vue')['default']
+    Message: typeof import('./src/components/Message/index.vue')['default']
     MessageContent: typeof import('./src/components/Plugins/MessageContent/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     ScaleScreen: typeof import('./src/components/scale-screen/scale-screen.vue')['default']
     SeamlessScroll: typeof import('./src/components/seamless-scroll/seamless-scroll.vue')['default']
+    Search: typeof import('./src/components/Search/index.vue')['default']
   }
 }
