@@ -1,33 +1,69 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HomeEntre from '@/pages/home-entre.vue';
-import NotFound from '@/pages/error-404.vue';
+import type { RouteRecordRaw } from 'vue-router';
+import Home from '@/components/home-view.vue';
 
+const routes: Array<RouteRecordRaw> = [
+  {
+    name: 'home',
+    path: '/home',
+    component: Home,
+    props: true
+  },
+  {
+    name: 'login',
+    path: '/',
+    component: () => import('@/views/Login-view.vue'),
+    props: true
+  },
+  {
+    path: '/point',
+    name: 'point',
+    component: () => import('@/views/point-view.vue'),
+    props: true
+  },
+  // {
+  //   path: '/ros',
+  //   name: 'ros',
+  //   component: () => import('@/pages/ros-3d.vue'),
+  //   props: true
+  // },
+  // {
+  //   path: '/rostest',
+  //   name: 'rostest',
+  //   component: () => import('@/pages/ros-test.vue'),
+  //   props: true
+  // },
+  {
+    path: '/big',
+    name: 'big',
+    component: () => import('@/views/HomeView.vue'),
+    children: [
+      {
+        path: '/index',
+        name: 'index',
+        component: () => import('@/views/index/index.vue')
+      }
+    ]
+  },
+
+  {
+    name: 'Map',
+    path: '/map',
+    component: () => import('@/views/map-view.vue'),
+    props: true
+  },
+
+  {
+    name: '404',
+    path: '/404',
+    component: () => import('@/views/404-view.vue')
+  }
+];
+
+const history = createWebHistory();
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    {
-      path: '/',
-      name: 'home',
-      component: HomeEntre
-    },
-    {
-      path: '/work',
-      name: 'work',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('@/pages/main-surface.vue')
-    },
-    {
-      name: '404',
-      path: '/404',
-      component: NotFound
-    },
-    {
-      path: '/:catchAll(.*)', // 此处需特别注意至于最底部
-      redirect: '/404'
-    }
-  ]
+  history,
+  routes
 });
 
 export default router;

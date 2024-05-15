@@ -1,14 +1,30 @@
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 
-import App from './App.vue';
-import router from './router';
+import router from '@/router';
+import APP from '@/App.vue';
+import './style.css';
+// Vuetify组件库
+import '@mdi/font/css/materialdesignicons.css';
+import 'vuetify/styles';
+import { createVuetify } from 'vuetify';
+import {registerEcharts} from "@/plugins/echarts"
+import * as components from 'vuetify/components';
+import * as directives from 'vuetify/directives';
 
-import '@/styles/main.scss';
+import 'mapbox-gl/dist/mapbox-gl.css';
+import '@/assets/css/main.scss';
+import '@/assets/css/tailwind.css';
+import { mockXHR } from "@/mock/index";
+//不使用mock 请注释掉
+mockXHR()
 
-const app = createApp(App);
+const app = createApp(APP);
+registerEcharts(app)
+const pinia = createPinia();
 
-app.use(createPinia());
-app.use(router);
-
-app.mount('#app');
+const vuetify = createVuetify({
+  components,
+  directives
+});
+app.use(pinia).use(router).use(vuetify).mount('#app');

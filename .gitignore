@@ -26,9 +26,11 @@ coverage
 *.njsproj
 *.sln
 *.sw?
-
 *.tsbuildinfo
+<<<<<<< HEAD
 
 package-lock.json
+=======
+>>>>>>> develop
 .vscode
 
