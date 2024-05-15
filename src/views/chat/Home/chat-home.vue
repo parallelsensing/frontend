@@ -36,7 +36,11 @@ import MessageItem from '@/components/Message/index.vue';
 import Search from '@/components/Search/index.vue';
 import BackTop from '@/components/BackTop/index.vue';
 import { fetchSendMessage } from '@/api/chat';
+
+
+
 highjs.highlightAll(); 
+
 marked.setOptions({
   highlight: function (code:any, lang:any) {
     if (lang && highjs.getLanguage(lang)) {
@@ -44,7 +48,7 @@ marked.setOptions({
     }
     return highjs.highlightAuto(code).value;
   },
-});
+} as any);
 
 const state = reactive({
   loading: false,
@@ -64,7 +68,7 @@ watch([isChat, scrollRef], () => {
   if (isChat.value && scrollRef.value!) {
     // 这里使用 MutationObserver 来监听元素属性的变化，
     // MutationObserver Api参考: https://developer.mozilla.org/zh-CN/docs/Web/API/MutationObserver
-    observer.value = new MutationObserver((entries) => {
+    observer.value = new MutationObserver(() => {
       if (!falg) {
         requestAnimationFrame(() => {
           onScrollEnd();
@@ -169,7 +173,7 @@ const sendMessage = async (searchValue: string) => {
   onScrollEnd();
   nextTick(() => {
     new Typed(`#text-id-${activeId}`, {
-      strings: ['', marked(content)], //输入内容, 支持html标签
+      strings: ['', marked(content) as any], //输入内容, 支持html标签
       typeSpeed: 5,
       showCursor: false,
       onComplete: () => {

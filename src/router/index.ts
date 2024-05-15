@@ -12,7 +12,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     name: 'login',
     path: '/',
-    component: () => import('@/pages/Login-view.vue'),
+    component: () => import('@/views/Login-view.vue'),
     props: true
   },
   {
@@ -21,18 +21,18 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/point-view.vue'),
     props: true
   },
-  {
-    path: '/ros',
-    name: 'ros',
-    component: () => import('@/pages/ros-3d.vue'),
-    props: true
-  },
-  {
-    path: '/rostest',
-    name: 'rostest',
-    component: () => import('@/pages/ros-test.vue'),
-    props: true
-  },
+  // {
+  //   path: '/ros',
+  //   name: 'ros',
+  //   component: () => import('@/pages/ros-3d.vue'),
+  //   props: true
+  // },
+  // {
+  //   path: '/rostest',
+  //   name: 'rostest',
+  //   component: () => import('@/pages/ros-test.vue'),
+  //   props: true
+  // },
   {
     path: '/big',
     name: 'big',
@@ -49,14 +49,14 @@ const routes: Array<RouteRecordRaw> = [
   {
     name: 'Map',
     path: '/map',
-    component: () => import('@/pages/map-view.vue'),
+    component: () => import('@/views/map-view.vue'),
     props: true
   },
 
   {
     name: '404',
     path: '/404',
-    component: () => import('@/pages/404-view.vue')
+    component: () => import('@/views/404-view.vue')
   }
 ];
 

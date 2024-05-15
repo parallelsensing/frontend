@@ -4,7 +4,7 @@ import Headers from "./pointheader.vue";
 import useMinScene from '@/stores/chatRobot/modules/chatRobot'
 import usePlatform from '@/stores/platform/modules/platform';
 import { onMounted, ref, computed } from 'vue';
-import chatHome from "@/pages/chat/Home/chat-home.vue";
+import chatHome from "@/views/chat/Home/chat-home.vue";
 const LoadingProgress = computed(() => store.loadingPercent)
 const LoadingMsg = computed(() => store.loadingMsg)
 const store = usePlatform();
