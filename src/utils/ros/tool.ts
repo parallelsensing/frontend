@@ -26,6 +26,7 @@ const drawDemo = (cloudPointObj:ROS3D.PointCloud2)=>{
     // }
   msg.data = Array.from(uint8Arr) as number[];
   msg.width = msg.data.length / msg.point_step;
+ console.log(123+msg.data.length);
  
   cloudPointObj.processMessage(msg);
   

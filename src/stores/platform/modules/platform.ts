@@ -1,7 +1,7 @@
 
 import type { IModel } from '@/type/base';
 import { Platform,EVENT } from '@/utils/platform';
-import { MinScene } from '@/utils/platform/minScene';
+
 import {defineStore} from 'pinia';
 
 const usePlatform = defineStore({
@@ -9,9 +9,7 @@ const usePlatform = defineStore({
   state:()=>({
     loadingPercent: 0,
     loaded: false,
-    realtime:<{minScene:MinScene|undefined}>{
-      minScene:undefined,
-    },
+ 
     errorMsg: '',
     info: <IModel>({}),
     ModelContainers: <{platform:Platform|undefined}>{
@@ -32,15 +30,10 @@ const usePlatform = defineStore({
       this.ModelContainers.platform = new Platform();
       this.ModelContainers.platform.addCanvas(canvas,size);
       this.ModelContainers.platform.addEventListener(EVENT.LOADING, this.onLoading);
-     
     },
-    minSceneAddCanvas(canvas:any){
-      this.realtime.minScene = new MinScene();
-      this.realtime.minScene?.addCanvas(canvas)
-    },
+  
     start(){
       this.ModelContainers.platform?.start()
-      this.realtime.minScene?.start()
     },
     onLoading(e:any) {
       const { data } = e;

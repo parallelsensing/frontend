@@ -30,7 +30,8 @@ onMounted(() => {
   ros.on('connection', function () {
     console.log('Connected to websocket server.');
     // drawDemo(imClient, viewer);
-
+    drawDemo(imClient);
+    console.log(123);
   });
   ros.on('error', function (error) {
 
@@ -45,7 +46,6 @@ onMounted(() => {
     name: "/livox/lidar",
     messageType: "sensor_msgs/PointCloud2",
   });
-  ros.connect("ws://192.168.3.5:9090");
   listener.subscribe((message) => {
     console.log(
       "Received message on " + listener.name + ": " + message
@@ -90,11 +90,6 @@ onMounted(() => {
     max_pts: 5000000,  //最大绘制点数，生效
     // colorsrc: 'rgb'
   });
-  console.log(1)
-  setTimeout(() => {
-    drawDemo(imClient);
-  }, 2000); 
-  console.log(2)
 })
 </script>
 

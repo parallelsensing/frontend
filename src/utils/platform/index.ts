@@ -46,8 +46,6 @@ export class Platform extends EventDispatcher {
   __scene: Scene; // 场景
   __models: Group; // 展位
   __renderer: any = null; // 渲染器
-  _loader: any = null; // 加载器
-  _pcdloader: any = null;
   _config: any; // 配置信息
   _controls: any; //相机控制器
   _clock = new Clock();
@@ -148,9 +146,11 @@ export class Platform extends EventDispatcher {
     this.setGlbLoading();
   }
   modelInit() {
-    // const g = new GlbLoader();
+    // const g = new GlbLoader('./model/RobotExpressive.glb');
     const g1 = new PcdLoader();
     this.__models.add(g1, this._box);
+
+    
   }
   //添加灯光
   getLights() {
