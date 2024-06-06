@@ -74,6 +74,7 @@
 import WOW from 'wow.js'
 import { onMounted } from 'vue'
 // 百度地图BMap构造函数
+/*
 let BMap = null
 onMounted(() => {
   BMap = window.BMap
@@ -98,6 +99,7 @@ onMounted(() => {
   var wow = new WOW()
   wow.init()
 })
+*/
 function submitForm() {
   window.open(
     'https://neveryu.github.io/web-bookmarks/interview/',

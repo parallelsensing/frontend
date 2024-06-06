@@ -3,7 +3,7 @@
     <div class="logo">
       <img src="@/assets/img/logo_white.png" alt="logo图" />
     </div>
-    <p class="title">公司企业网站模板</p>
+    <p class="title">北京中科智传科技有限公司</p>
     <p class="address_tel_fax">
       <p>地址：{{ address }}</p>
       <p>QQ群：<a style="color:#fff" target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=ce9f5f0d1d7553fb5634521f79a89668ad0d798eb35047f93300df63ebae4c05">{{ qqgroup }}</a></p>

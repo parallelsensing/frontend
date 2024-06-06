@@ -1,33 +1,67 @@
 <template>
   <div id="HomePage">
-    <!-- 轮播图 -->
-    <swiper
-      id="swiper"
-      :modules="modules"
-      :slides-per-view="1"
-      :space-between="0"
-      navigation
-      lazy
-      loop
-      autoplay
-      :pagination="{
-        clickable: true
-      }"
-    >
-      <swiper-slide
-        class="banner-swiper"
-        v-for="(item, index) in swiperList"
-        :key="index"
-      >
-        <img class="swiper-lazy" :data-src="item.img" alt="轮播图" />
-        <div class="swiper-lazy-preloader"></div>
-        <div class="swiper-slide-title">
-          <h1>{{ item.title }}</h1>
-          <p>{{ item.content }}</p>
+    <section class="HomePage-banner">
+      <!--视频页面-->
+      <div class="HomePage-banner-img">
+        <img id="banner-img"
+          autoplay="" loop="" playsinline="" muted="" style="width:100%;margin-top:20px;"
+          src="@/assets/img/banner.jpg">
+        </img>
+        <div class="HomePage-banner-text">
+          <h1>
+            <span >塑造认知传感<br></span>
+            <span >开拓时空智能</span>
+          </h1>
+          <button
+              @click = "jumpto_product"
+              class="btn btn-default btn-sm"
+              onmouseenter="this.style.borderColor='#ffffff'; this.style.backgroundColor='#ffffff'; this.style.color='#3f3f3f';"
+              onmouseleave="this.style.backgroundColor='transparent'; this.style.borderColor='#ffffff'; this.style.color='#ffffff';"
+            >
+            了解更多
+          </button>
         </div>
-      </swiper-slide>
-    </swiper>
+      </div>
+    </section>
 
+    <!-- 轮播图 -->
+    <div class = "swiper-container">
+      <swiper
+        id="swiper"
+        :modules="modules"
+        :slides-per-view="1"
+        :space-between="0"
+        navigation
+        lazy
+        loop
+        autoplay
+        :pagination="{
+          clickable: true
+        }"
+      >
+        <swiper-slide
+          class="banner-swiper"
+          v-for="(item, index) in swiperList"
+          :key="index"
+        >
+          <img class="swiper-lazy" :data-src="item.img" alt="轮播图" />
+          <div class="swiper-lazy-preloader"></div>
+          <div class="swiper-slide-title">
+            <h1>{{ item.title }}</h1>
+            <p>{{ item.content }}</p>
+          </div>
+        </swiper-slide>
+      </swiper>
+      <div class ="swiper-static-title">
+        <h1>应用领域:</h1>
+      </div>
+    </div>
+    <!--产品介绍-->
+    <div class="image-stack">
+      <div class="image-item" v-for="(image, index) in images" :key="index" :class="['image-item-' + index]">
+        <img :src="image" alt="">
+      </div>
+    </div>
     <!-- 大数据管理系统 -->
     <div id="bigData" class="container-fuild">
       <div class="row bigData-container">
@@ -40,14 +74,14 @@
         </div>
         <div class="col-xs-12 col-sm-12 col-md-6">
           <h2 class="bigData-title">
-            大数据管理系统
-            <small>/ Big Data Management System</small>
+            智能雷达
+            <small>/ Lidar</small>
           </h2>
           <p>
-            当今最领先的响应式自助建站平台。无论您是普通互联网用户，还是专业网站制作人员，都能使用起飞页设计出最具专业水准的网站。想创建一个简单的单页式站点，还是一个专业的公司网站，亦或是一个别具一格的博客？起飞页可以满足您的所有需求。
+            简介1
           </p>
           <p>
-            我们的流线式网页布局设计方案和可视化图文内容编辑模式让网站制作和维护成为一件轻松惬意的事。无论您是普通互联网用户，还是专业网站制作人员。
+            简介2
           </p>
           <h2 class="bigData-device">PC/PAD/Phone &nbsp; 全设备支持</h2>
           <a href="javascript:;" class="btn btn-lg btn-block btn-info"
@@ -180,10 +214,14 @@ import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
 import 'swiper/css/lazy'
 import 'swiper/css/autoplay'
+import { useRouter } from 'vue-router'
 
-import banner1 from '@/assets/img/banner1.png'
-import banner2 from '@/assets/img/banner2.jpg'
 
+import swiper1 from '@/assets/img/swiper1.png'
+import swiper2 from '@/assets/img/swiper2.png'
+import product1 from '@/assets/img/products1.png'
+import product2 from '@/assets/img/products2.png'
+import product3 from '@/assets/img/products3.png'
 import logo_hp from '@/assets/img/logo_hp.png'
 import logo_kk from '@/assets/img/logo_kk.png'
 import logo_toyota from '@/assets/img/logo_toyota.png'
@@ -193,29 +231,34 @@ import img_computer from '@/assets/img/computer.png'
 import img_qq from '@/assets/img/qq.png'
 import img_skill from '@/assets/img/skill.png'
 
+const router = useRouter();
 const swiperList = [
   {
-    img: banner1,
-    title: '您身边的IT专家1',
-    content: '宣传简介您身边的IT专家1宣传简介您身边的IT专家1'
+    img: swiper1,
+    title: '',
+    content: ''
   },
   {
-    img: banner2,
-    title: '您身边的IT专家2',
-    content: '宣传简介您身边的IT专家2宣传简介您身边的IT专家2'
+    img: swiper2,
+    title: '',
+    content: ''
   },
   {
-    img: banner1,
-    title: '您身边的IT专家3',
-    content: '宣传简介您身边的IT专家3宣传简介您身边的IT专家3'
+    img: swiper1,
+    title: '',
+    content: ''
   },
   {
-    img: banner2,
-    title: '您身边的IT专家4',
-    content: '宣传简介您身边的IT专家4宣传简介您身边的IT专家4'
+    img: swiper2,
+    title: '',
+    content: ''
   }
 ]
-
+const images =[
+  product1,
+  product2,
+  product3
+]
 const modules = [Navigation, Pagination, Scrollbar, A11y, Lazy, Autoplay]
 
 const customerList = [
@@ -328,6 +371,9 @@ const serverList = [
   }
 ]
 
+function jumpto_product(){
+    router.push({path:'/software'})
+}
 // const { proxy } = getCurrentInstance() //获取上下文实例，ctx=vue2的this
 onMounted(() => {
   // console.log('mounted', proxy)
@@ -348,11 +394,65 @@ onMounted(() => {
 #HomePage {
   width: 100%;
 }
+.HomePage-banner{
+  position: relative;
+}
+.HomePage-banner-text{
+  position: absolute;
+  top: 0px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #fff;
+  /*background-color: rgba(0, 0, 0, 0.5);*/
 
+}
+.HomePage-banner-text p{
+  font-size: 120px;
+  pointer-events: none; /* 让文字不遮挡视频的交互*/
+}
+.HomePage-banner-text h1{
+  font-size: 88px;
+  font-weight: bolder;
+  pointer-events: none; /* 让文字不遮挡视频的交互*/
+}
+.HomePage-banner-text button{
+  width: 200px;
+  height: 50px;
+  margin-top: 40px;
+  border-radius: 40px;
+  font-size: 20px;
+}
+.HomePage-banner-text button:hover{
+  background-color: #ccc;
+}
+.swiper-container {
+  position: relative;
+}
+.swiper-static-title{
+  position: relative;
+  top: 40px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: #000000;
+  z-index: 1;
+  pointer-events: none; /* 让文字不遮挡视频的交互*/
+  >h1{font-size: 44px;}
+}
 /* 顶部轮播图 */
 #swiper {
   width: 100%;
-  height: 600px;
+  height: 100%;
 }
 
 #swiper .banner-swiper {
@@ -374,7 +474,7 @@ onMounted(() => {
   width: 100%;
   height: 100%;
   color: #fff;
-  background: rgba(51, 51, 51, 0.534);
+  /*background: rgba(51, 51, 51, 0.534);*/
   text-align: center;
   line-height: 80px;
 }
@@ -389,7 +489,62 @@ onMounted(() => {
   margin-top: 1%;
   font-weight: 700;
 }
+.image-stack {
+  top:40px;
+  position:relative;
+  width: 100%; /* 设置容器宽度 */
+  height: 800px; /* 设置容器高度 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
 
+.image-item {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.image-item-0 {
+  left: 0;
+  clip-path: polygon(0 0, 33.33% 0, 33.33% 100%, 0 100%);
+  transition: transform 0.3s ease-in-out;
+  transform-origin: 16.67% center; /* 设置缩放中心点为图片中心 */
+  flex-shrink: 0;
+}
+
+.image-item-1 {
+  left: 0;
+  clip-path: polygon(33.33% 0, 66.67% 0, 66.67% 100%, 33.33% 100%);
+  transition: transform 0.3s ease-in-out;
+  transform-origin: 50% center; /* 设置缩放中心点为图片中心 */
+  flex-shrink: 0;
+}
+
+.image-item-2 {
+  left: 0;
+  clip-path: polygon(66.67% 0, 100% 0, 100% 100%, 66.67% 100%);
+  transition: transform 0.3s ease-in-out;
+  transform-origin: 83.33% center; /* 设置缩放中心点为图片中心 */
+  flex-shrink: 0;
+}
+.image-item-0:hover {
+  transform: scale(1.1);
+}
+
+.image-item-1:hover {
+  transform: scale(1.1);
+}
+
+.image-item-2:hover {
+  transform: scale(1.1);
+}
+.image-item img {
+  width: 100%;
+  height: 100%;
+}
 /* 大数据管理系统 */
 #bigData {
   padding: 100px;

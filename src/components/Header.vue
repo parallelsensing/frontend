@@ -1,7 +1,7 @@
 <template>
   <!-- 头部整体盒子 -->
   <div id="header" class="container-fuild">
-    <!-- 头部顶部 -->
+    <!-- 头部顶部
     <div class="header-top container-fuild hidden-xs">
       <div class="container">
         <div class="server pull-left">
@@ -21,12 +21,13 @@
           >
         </div>
       </div>
-    </div>
+    </div>-->
     <!-- 电脑导航 -->
     <div class="header-nav container hidden-xs">
       <!-- 导航logo -->
       <div class="header-nav-logo">
-        <img src="@/assets/img/logo_black.png" />
+        <img src="@/assets/img/logo_black.png"
+        @click = "jumptomain"/>
       </div>
       <!-- 导航内容 -->
       <ul class="header-nav-wrapper">
@@ -114,7 +115,7 @@ const navList = [
     path: '/software',
     children: [
       {
-        name: '智能小镇管理系统',
+        name: '智能雷达',
         path: '/software/smartTown'
       },
       {
@@ -124,17 +125,17 @@ const navList = [
     ]
   },
   {
-    name: '相关服务',
+    name: '应用行业',
     path: '/service',
     children: []
   },
   {
-    name: '新闻动态',
+    name: '新闻中心',
     path: '/newsinformation',
     children: []
   },
   {
-    name: '公司介绍',
+    name: '关于我们',
     path: '/companyintroduction',
     children: []
   },
@@ -153,6 +154,9 @@ function navClick(index, name) {
   navIndex.value = index
   sessionStorage.setItem('navIndex', index)
   menuName.value = name
+}
+function jumptomain(){
+    router.push({path:'/HomePage'})
 }
 function menuClick() {
   if (menuClass.value == 'glyphicon glyphicon-menu-down') {
@@ -198,7 +202,7 @@ function menuClick() {
 
 /* 导航栏logo图片 */
 #header .header-nav .header-nav-logo img {
-  width: 95px;
+  width: 150px;
   height: 45px;
   position: absolute;
   top: 0;
