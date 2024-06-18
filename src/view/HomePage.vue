@@ -60,7 +60,17 @@
     <div class="image-stack">
       <div class="image-item" v-for="(image, index) in images" :key="index" :class="['image-item-' + index]">
         <img :src="image" alt="">
+        <div class="overlay" :class="['overlay-' + index]" @mouseenter="handleMouseEnter(index)" @mouseleave="handleMouseLeave">
+          <div class="overlay-content">
+            <ul>
+              <li v-for="link in image.links" :key="link.url">
+                <a :href="link.url">{{ link.text }}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
+
     </div>
     <!-- 大数据管理系统
     <div id="bigData" class="container-fuild">
@@ -234,6 +244,17 @@ import img_tel from '@/assets/img/tel.png'
 import img_computer from '@/assets/img/computer.png'
 import img_qq from '@/assets/img/qq.png'
 import img_skill from '@/assets/img/skill.png'
+import { ref } from 'vue';
+
+const isHovered = ref(-1);
+
+const handleMouseEnter = (index) => {
+  isHovered.value = index;
+};
+
+const handleMouseLeave = () => {
+  isHovered.value = -1;
+};
 const router = useRouter();
 const swiperList = [
   {
@@ -546,6 +567,58 @@ onMounted(() => {
 .image-item img {
   width: 100%;
   height: 100%;
+}
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.overlay-0 {
+  clip-path: polygon(0 0, 33.33% 0, 33.33% 100%, 0 100%);
+}
+
+.overlay-1 {
+  clip-path: polygon(33.33% 0, 66.67% 0, 66.67% 100%, 33.33% 100%);
+}
+
+.overlay-2 {
+  clip-path: polygon(66.67% 0, 100% 0, 100% 100%, 66.67% 100%);
+}
+
+.overlay.show {
+  opacity: 1;
+}
+
+.overlay-content {
+  color: #fff;
+  text-align: center;
+}
+
+.overlay-content ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.overlay-content li {
+  margin-bottom: 10px;
+}
+
+.overlay-content a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.overlay-content a:hover {
+  text-decoration: underline;
 }
 /* 大数据管理系统 */
 #bigData {
