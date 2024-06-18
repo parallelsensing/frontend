@@ -62,7 +62,7 @@
         <img :src="image" alt="">
       </div>
     </div>
-    <!-- 大数据管理系统 -->
+    <!-- 大数据管理系统
     <div id="bigData" class="container-fuild">
       <div class="row bigData-container">
         <div class="col-xs-12 col-sm-12 col-md-6 wow zoomIn">
@@ -89,9 +89,9 @@
           >
         </div>
       </div>
-    </div>
+    </div>-->
 
-    <!-- 您身边的IT专家 -->
+    <!-- 您身边的IT专家
     <div id="contactUs" class="container-fuild text-center">
       <div class="container contactUs-container wow slideInUp">
         <h1>您身边的IT专家</h1>
@@ -109,9 +109,9 @@
           <span></span>
         </div>
       </div>
-    </div>
+    </div>-->
 
-    <!-- 客户评价 -->
+    <!-- 客户评价
     <div id="customer" class="container-fuild">
       <div class="container customer-container">
         <p class="customer-title text-center">客户评价</p>
@@ -166,15 +166,15 @@
           </div>
         </div>
       </div>
-    </div>
-
+    </div>-->
     <!-- 为什么选择我们 -->
     <div id="whyChooseUs" class="conatiner-fuild">
       <div class="container">
         <div class="whyChooseUs-title text-center">
-          <p>为什么选择我们的服务</p>
-          <p>THE REASON TO CHOOSING US</p>
+          <p>新闻资讯</p>
+          <p>NEWS</p>
         </div>
+        <!--
         <div class="row">
           <div
             class="col-xs-12 col-sm-6 col-md-3 server-wrapper"
@@ -196,9 +196,13 @@
               ></div>
             </div>
           </div>
-        </div>
+        </div>-->
+        <NewsContainer>
+        </NewsContainer>
       </div>
     </div>
+
+
   </div>
 </template>
 
@@ -216,7 +220,7 @@ import 'swiper/css/lazy'
 import 'swiper/css/autoplay'
 import { useRouter } from 'vue-router'
 
-
+import NewsContainer from '@/components/ClickableContain.vue'
 import swiper1 from '@/assets/img/swiper1.png'
 import swiper2 from '@/assets/img/swiper2.png'
 import product1 from '@/assets/img/products1.png'
@@ -230,7 +234,6 @@ import img_tel from '@/assets/img/tel.png'
 import img_computer from '@/assets/img/computer.png'
 import img_qq from '@/assets/img/qq.png'
 import img_skill from '@/assets/img/skill.png'
-
 const router = useRouter();
 const swiperList = [
   {
@@ -370,7 +373,6 @@ const serverList = [
     content: '<p>由技术支持工程师，负责问题解答</p>需求受理及故障受理'
   }
 ]
-
 function jumpto_product(){
     router.push({path:'/software'})
 }
