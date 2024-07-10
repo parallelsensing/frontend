@@ -14,7 +14,7 @@
 #app {
   width: 100vw;
   height: 100vh;
-  background-color: #03050C;
+  background-color: #ffffff;
 }
 </style>
 <script setup lang="ts" >

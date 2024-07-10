@@ -11,7 +11,7 @@
 
 <script setup lang="ts">
 </script>
-<style scoped>
+<style lang="scss" scoped>
   #nav {
     padding: 10px;
     a {

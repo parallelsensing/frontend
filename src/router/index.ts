@@ -16,23 +16,29 @@ const routes: Array<RouteRecordRaw> = [
     props: true
   },
   {
+    name: 'register',
+    path: '/register',
+    component: () => import('@/views/Register-view.vue'),
+    props: true
+  },
+  {
     path: '/point',
     name: 'point',
     component: () => import('@/views/point-view.vue'),
     props: true
   },
-  // {
-  //   path: '/ros',
-  //   name: 'ros',
-  //   component: () => import('@/pages/ros-3d.vue'),
-  //   props: true
-  // },
-  // {
-  //   path: '/rostest',
-  //   name: 'rostest',
-  //   component: () => import('@/pages/ros-test.vue'),
-  //   props: true
-  // },
+  {
+    path: '/ros',
+    name: 'ros',
+    component: () => import('@/views/ros-3d.vue'),
+    props: true
+  },
+  {
+    path: '/rostest',
+    name: 'rostest',
+    component: () => import('@/views/ros-test.vue'),
+    props: true
+  },
   {
     path: '/big',
     name: 'big',

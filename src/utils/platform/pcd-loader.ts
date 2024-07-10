@@ -1,5 +1,5 @@
 
-import { Object3D,Color} from 'three';
+import { Object3D, Color } from 'three';
 import { PCDLoader } from 'three/examples/jsm/Addons.js';
 
 export const PCD_LOAD_EVENT = {
@@ -8,12 +8,12 @@ export const PCD_LOAD_EVENT = {
   LOAD_FAIL: 'modelLoadFail'
 };
 
-export class PcdLoader extends Object3D{
-  _loader:PCDLoader; //加载器
-  _booth:any;//模型信息
-  _model:Object3D|undefined = undefined; // 模型
+export class PcdLoader extends Object3D {
+  _loader: PCDLoader; //加载器
+  _booth: any;//模型信息
+  _model: Object3D | undefined = undefined; // 模型
   _color: Color
-  constructor(){
+  constructor() {
     super();
 
     this._loader = new PCDLoader();
@@ -21,23 +21,22 @@ export class PcdLoader extends Object3D{
 
     this._loader.load('./model/GlobalMap.pcd', this.onLoad, this.onLoading, this.onLoadError);
   }
-  onLoad = (points:any)=>{
+  onLoad = (points: any) => {
     points.material.color = this._color // 模型颜色
-    points.position.set(-12,2,-15)
+    points.position.set(-12, 2, -15)
     points.rotation.y = 0;
     points.rotation.z = 11.2;
     points.rotation.x = 11;
-    points.scale.set(2,2,2)
+    points.scale.set(2, 2, 2)
     this.add(points)
-
-    
   };
-  onLoading = (e:Event)=>{
-    const event = {type:PCD_LOAD_EVENT.LOADING,data:e} as never;
+
+  onLoading = (e: ProgressEvent) => {
+    const event = { type: PCD_LOAD_EVENT.LOADING, data: e } as never;
     this.dispatchEvent(event)
   };
-  onLoadError = (e:any)=>{
-    console.log(e +"error");
+  onLoadError = (e: any) => {
+    console.log(e + "error");
 
   }
 }

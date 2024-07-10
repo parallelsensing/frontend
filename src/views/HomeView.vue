@@ -14,18 +14,10 @@ const wrapperStyle = {};
 </script>
 
 <template>
-  <ScaleScreen
-    width="1920"
-    height="1080"
-    :delay="500"
-    :fullScreen="false"
-    :boxStyle="{
-      background: '#03050C',
-      overflow:  'auto',
-    }"
-    :wrapperStyle="wrapperStyle"
-    :autoScale="isScale"
-  >
+  <ScaleScreen width="1920" height="1080" :delay="500" :fullScreen="false" :boxStyle="{
+    background: '#03050C',
+    overflow: 'auto',
+  }" :wrapperStyle="wrapperStyle" :autoScale="isScale">
     <div class="content_wrap">
       <Headers />
       <RouterView />

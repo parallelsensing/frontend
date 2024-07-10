@@ -56,11 +56,10 @@ export class Platform extends EventDispatcher {
   _raycaster: Raycaster; // 射线
   _textureCubeLoader: CubeTextureLoader;
   _textureCube: any;
-
+  // private _loader: PcdLoader;
   constructor() {
-    super();
+    super();// 调用父类（EventDispatcher）的构造函数，初始化事件机制
     this.__scene = new Scene();
-
     this.__camera = new PerspectiveCamera(75, Static.WIDTH / Static.HEIGHT, 0.001, 10000);
     this._boxgeo = new BoxGeometry(0.9, 0.9, 0.3);
     this._boxmat = new MeshBasicMaterial({
@@ -86,8 +85,10 @@ export class Platform extends EventDispatcher {
     this.__camera.lookAt(new Vector3(0, 0, 0));
     this.__models = new Group();
     this._axeshelper = new AxesHelper(50);
+    // this._loader = new PcdLoader();
     this.__scene.add(this.__models, this.getLights(), this.__camera, this._axeshelper);
   }
+
   /**
    * 装载
    * @param canvas 元素
@@ -106,6 +107,7 @@ export class Platform extends EventDispatcher {
   controlCamera() {
     this._controls = new OrbitControls(this.__camera, this.__renderer.domElement);
   }
+
   //尺寸重置
   onResize = () => {
     Static.X = this._canvas?.offsetLeft;
@@ -131,7 +133,7 @@ export class Platform extends EventDispatcher {
     v.x = 41.95;
     v.y = 26.12;
     v.z = 34.46;
-    const tween = new Tween(this.__camera.position).to(v, Static.DURATION);
+    const tween = new Tween(this.__camera.position).to(v, Static.DURATION);//让相机从当前位置平滑移动到v
     tween.onUpdate(() => {
       this.__camera.lookAt(new Vector3(0, 0, 0));
     });
@@ -147,10 +149,12 @@ export class Platform extends EventDispatcher {
   }
   modelInit() {
     // const g = new GlbLoader('./model/RobotExpressive.glb');
+
+    // this.__models.add(this._loader, this._box);
+
     const g1 = new PcdLoader();
     this.__models.add(g1, this._box);
 
-    
   }
   //添加灯光
   getLights() {
@@ -172,7 +176,13 @@ export class Platform extends EventDispatcher {
     // group.addEventListener(GLB_LOAD_EVENT.LOADING, (e: any) => {
     //   this.onLoading(e.data);
     // });
+
+    // this._loader.addEventListener(PCD_LOAD_EVENT.LOADING, (e: any) => {
+    //   this.onLoading(e.data);
+    // });
+
     const group: any = new PcdLoader();
+
     group.addEventListener(PCD_LOAD_EVENT.LOADING, (e: any) => {
       this.onLoading(e.data);
     });
@@ -181,6 +191,7 @@ export class Platform extends EventDispatcher {
     const event = { type: EVENT.LOADING, data: e } as never;
     this.dispatchEvent(event);
   };
+  
   //动画
   animate = (time: number) => {
     // console.log(this.__camera.position);
@@ -194,22 +205,19 @@ export class Platform extends EventDispatcher {
 
   cast(screenX: number, screenY: number) {
     // 获取画布相对于屏幕的偏移量
-    const canvasRect = this.__renderer.domElement.getBoundingClientRect();
-    const canvasOffsetX = canvasRect.left;
-    const canvasOffsetY = canvasRect.top;
 
-    const width = canvasRect.right - canvasRect.left;
-    const height = canvasRect.bottom - canvasRect.top;
+    const { left: canvasOffsetX, top: canvasOffsetY, width, height } = this.__renderer.domElement.getBoundingClientRect();
     console.log(width, height);
 
     // 将屏幕坐标转换为画布坐标
     const canvasX = screenX - canvasOffsetX;
     const canvasY = screenY - canvasOffsetY;
+
     // 将画布坐标转换为标准化设备坐标
-    const mouse = new Vector2();
-    // 当画布尺寸改变的时候需要换分母
-    mouse.x = (canvasX / width) * 2 - 1;
-    mouse.y = -(canvasY / height) * 2 + 1;
+    const mouse = new Vector2(
+      (canvasX / width) * 2 - 1,
+      -(canvasY / height) * 2 + 1
+    );
 
     this._raycaster.setFromCamera(mouse, this.__camera);
     const intersects: any = this._raycaster.intersectObjects(this.__models.children, false);

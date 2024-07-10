@@ -2,10 +2,10 @@
 import type { UserConfig, ConfigEnv } from 'vite';
 import { fileURLToPath, URL } from 'node:url';
 import { defineConfig } from 'vite';
-import AutoImport from 'unplugin-auto-import/vite'
-import Components from 'unplugin-vue-components/vite'
+import AutoImport from 'unplugin-auto-import/vite';
+import Components from 'unplugin-vue-components/vite';
 import { resolve } from "path";
-import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 import vue from '@vitejs/plugin-vue';
 import VueDevTools from 'vite-plugin-vue-devtools';
 export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
@@ -31,7 +31,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
         headers: {
           Referer: 'http://api.parallelsensing.com/'
         },
-        // rewrite: (path:string) => path.replace(/^\/api/, ''),
+        // rewrite: (path:string) => path.replace(/^\/api/, '')
       }
     }
     },

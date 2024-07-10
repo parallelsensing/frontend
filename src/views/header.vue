@@ -38,6 +38,7 @@ timeFn()
       <div class="setting_icon"   @click="setSettingShow(true)">
           <img src="@/assets/img/headers/setting.png" alt="设置">
       </div>
+      
     </div>
   </div>
 </template>

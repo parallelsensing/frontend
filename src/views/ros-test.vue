@@ -1,102 +1,140 @@
 <template>
-  <!-- <div> -->
-    <!-- <v-card>
-      <v-card-title>ros 3d</v-card-title>
-      <v-card-actions>
-        <div v-if="isConnected">
-          <v-btn @click="subscribe">订阅</v-btn><v-btn color="error" @click="closeSocket">关闭</v-btn>
-        </div>
-        <div v-else><v-btn color="primary" @click="connectSocket">连接</v-btn></div>
-      </v-card-actions>
-      <v-card-text> -->
-        <div id="viewer" ref="viewer">显示点云的内容</div>
-      <!-- </v-card-text>
-    </v-card>
-  </div> -->
+  <input type="file" @change="handleFileChange" />
+  <div ref="threeContainer" style="width: 100%; height: 100vh;"></div>
 </template>
-<script lang="ts" setup>
-import { Ros, Topic, TFClient } from 'roslib';
-import {  onMounted } from 'vue';
-import {Viewer,PointCloud2} from '@/utils/ros/ros3d.esm.js'
-import { drawDemo } from '@/utils/ros/tool';
 
-// const isConnected = ref(false);
+<script setup lang="ts">
+import { ref, onMounted, onUnmounted } from 'vue';
+import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+interface Point {
+  x: number;
+  y: number;
+  z: number;
+  intensity: number;
+}
+
+// 响应式变量保存解析后的点
+const points = ref<Point[]>([]);
+
+const threeContainer = ref<HTMLDivElement | null>(null);
+let camera: THREE.PerspectiveCamera;
+let renderer: THREE.WebGLRenderer;
+let controls: OrbitControls;
+
+const handleFileChange = async (event: Event) => {
+  const input = event.target as HTMLInputElement;
+
+  if (input.files && input.files.length > 0) {
+    const file = input.files[0];
+
+    const reader = new FileReader();
+
+    reader.onload = function (event) {
+      const content = event.target!.result as string; // 读取到的文件内容，类型为string
+      console.log(content); // 可以在控制台打印文件内容
+      // 假设文件内容是用逗号分隔的数字字符串
+      const numbersStringArray = content.split(',').map(numStr => numStr.trim());
+      const numbersArray = numbersStringArray.map(numStr => parseInt(numStr, 10));
+
+      const data = new Uint8Array(numbersArray);
+      console.log(data);
+
+      // 在这里调用处理数据的函数，例如解析数据和创建点云等
+      parseData(data);
+      createPointCloud(points.value); // 假设这个函数用于创建点云
+     
+      
+    };
+
+    reader.readAsText(file); // 以文本格式读取文件
+  }
+};
+
+const parseData = (data: Uint8Array) => {
+  const pointStep = 32; // 每个点的字节数
+  const offsetX = 0;    // x 坐标的偏移量
+  const offsetY = 4;    // y 坐标的偏移量
+  const offsetZ = 8;    // z 坐标的偏移量
+  const offsetIntensity = 16; // 强度的偏移量
+  const totalPoints = data.length / pointStep; // 点的总数量
+  console.log(totalPoints);
+
+  for (let i = 0; i < totalPoints - 1; i++) {
+    const baseIndex = i * pointStep;
+
+    const x = new DataView(data.buffer).getFloat32(baseIndex + offsetX, true);
+    const y = new DataView(data.buffer).getFloat32(baseIndex + offsetY, true);
+    const z = new DataView(data.buffer).getFloat32(baseIndex + offsetZ, true);
+    const intensity = new DataView(data.buffer).getFloat32(baseIndex + offsetIntensity, true);
+
+    points.value.push({ x, y, z, intensity });
+  }
+};
+
+const createPointCloud = (points: { x: number, y: number, z: number, intensity: number }[]) => {
+  if (!threeContainer.value) return;
+
+  const scene = new THREE.Scene();
+  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.01, 100000);
+  renderer = new THREE.WebGLRenderer();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  threeContainer.value.appendChild(renderer.domElement);
+
+  const geometry = new THREE.BufferGeometry();
+  const vertices: number[] = [];
+  const colors: number[] = [];
+
+  points.forEach(point => {
+    vertices.push(point.x, point.y, point.z);
+    const color = new THREE.Color(`hsl(${point.intensity}, 100%, 50%)`);
+    colors.push(color.r, color.g, color.b);
+  });
+
+  geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+  geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+
+  const material = new THREE.PointsMaterial({ size: 0.0001, vertexColors: true });
+  const pointCloud = new THREE.Points(geometry, material);
+  scene.add(pointCloud);
+  console.log(scene);
+  camera.position.z = 5;
+
+  controls = new OrbitControls(camera, renderer.domElement);
+  controls.update();
+
+  const animate = () => {
+    requestAnimationFrame(animate);
+    controls.update();
+    renderer.render(scene, camera);
+  };
+
+  animate();
+};
+
+const onWindowResize = () => {
+  if (!threeContainer.value) return;
+  const width = threeContainer.value.clientWidth;
+  const height = threeContainer.value.clientHeight;
+  const aspect = width / height;
+  camera.aspect = aspect;
+  camera.updateProjectionMatrix();
+  renderer.setSize(width, height);
+};
 
 onMounted(() => {
-  const ros = new Ros({
-    url: 'ws://192.168.3.5:9090'
-  });
+  window.addEventListener('resize', onWindowResize);
+});
 
-  ros.on('connection', function () {
-    console.log('Connected to websocket server.');
-    // drawDemo(imClient, viewer);
-    drawDemo(imClient);
-    console.log(123);
-  });
-  ros.on('error', function (error) {
-
-    console.error('Error connecting to websocket server: ', error);
-    // drawDemo(imClient, viewer);
-  });
-  ros.on('close', function () {
-    console.warn('Connection to websocket server closed.');
-  });
-  const listener = new Topic({
-    ros: ros,
-    name: "/livox/lidar",
-    messageType: "sensor_msgs/PointCloud2",
-  });
-  listener.subscribe((message) => {
-    console.log(
-      "Received message on " + listener.name + ": " + message
-    );
-    console.log(viewer);
-  });
-  const viewer = new Viewer({
-    divID: 'viewer',
-    width: window.innerWidth/2,
-    height: window.innerHeight/2,
-    antialias: true,
-    background: '#ffffff',
-    cameraZoomSpeed: 5,//缩放速度
-    alpha: 0.1, //背景色透明度
-    cameraPose: {  //相机初始视角，值越大，总览范围越大
-      x: -60,
-      y: 40,
-      z: 20,
-    },
-    displayPanAndZoomFrame: true, //是否显示坐标轴，默认true
-    // near:5,//相机远近层级的倍数，超过范围则不绘制
-    // far:100,
-    cameraHelper: {},
-
-  });
-  console.log(viewer);
-  const tfClient = new TFClient({
-    ros: ros,
-    angularThres: 0.01,
-    transThres: 0.01,
-    rate: 10.0,
-    fixedFrame: '/world'
-  });
-  const imClient = new PointCloud2({
-    ros: ros,
-    tfClient: tfClient,
-    rootObject: viewer.scene,
-    topic: '/livox/lidar',
-    throttle_rate: 0,
-    material: { size: 1 },
-    compression: 'cbor', //压缩放肆，默认cbor
-    max_pts: 5000000,  //最大绘制点数，生效
-    // colorsrc: 'rgb'
-  });
-})
+onUnmounted(() => {
+  window.removeEventListener('resize', onWindowResize);
+});
 </script>
 
-<style scope>
-#viewer{
-  position: absolute;
-  left: 500px;
-  top: 200px;
+<style>
+html,
+body {
+  margin: 0;
+  overflow: hidden;
 }
 </style>
