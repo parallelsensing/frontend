@@ -133,17 +133,20 @@ const backgroundClass = computed(() => {
 }
 
 .login-btn {
-  width: 100%;
+  width: 80%;
   font-family: '黑体';
   margin-top: 5%;
   font-size: 22px;
   font-weight: 550;
+  display: block;
+  margin: 0 auto;
 }
 
 .register-btn {
-  width: auto;
+  width: 70%;
   font-family: '黑体';
   font-size: 14px;
   font-weight: 600;
+  
 }
 </style>

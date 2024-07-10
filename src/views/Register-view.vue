@@ -1,7 +1,6 @@
 <template>
   <div class="register_container">
     <v-container>
-
       <v-card :class="backgroundClass">
         <v-card-title class="primary">
           <div class="title1">欢迎注册</div>
@@ -9,7 +8,7 @@
         </v-card-title>
         <v-card-text style="margin-top: 5%;">
           <v-form @submit.prevent="register">
-
+          
             <v-text-field v-model="registerForm.username" label="请输入用户名">
               <template v-slot:prepend-inner>
                 <v-icon>
@@ -125,8 +124,7 @@ const backgroundClass = computed(() => {
   border-radius: 10px;
   float: right;
   margin-right: 2vw;
-  /* 或你希望的具体值 */
-  background-color: #f0eaf041;
+  background-color: #f6f5fb;
 }
 
 .large-screen {
@@ -136,8 +134,7 @@ const backgroundClass = computed(() => {
   border-radius: 10px;
   float: right;
   margin-right: 9vw;
-  /* 或你希望的具体值 */
-  background-color: #f0eaf041;
+  background-color: #f6f5fb;
 }
 
 .title1 {
@@ -157,9 +154,11 @@ const backgroundClass = computed(() => {
 }
 
 .register-btn {
-  width: 100%;
+  width: 80%;
   font-family: '黑体';
   font-size: 22px;
   font-weight: 550;
+  display: block;
+  margin: 0 auto;
 }
 </style>
