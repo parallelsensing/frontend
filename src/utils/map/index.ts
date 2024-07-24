@@ -29,7 +29,12 @@ export default class MapScene {
   addDestinationMarkers = (DestArray: any) => {
     const destMarkers = [];
     for (let i = 0; i < DestArray.length; i++) {
-      const destMarker = new mapboxgl.Marker();
+      const img = document.createElement('img');
+      img.src = '/img/位置.png';
+      img.style.width = '50px';
+      img.style.height = '50px';
+
+      const destMarker = new mapboxgl.Marker({ element: img });
       const LngLat:[number,number] = DestArray[i].coordinates
       destMarker.setLngLat(LngLat).addTo(this._map);
       destMarkers.push(destMarker);
@@ -63,7 +68,7 @@ export default class MapScene {
     const router = useRouter();
     for (let i = 0; i < this._markers.length; i++) {
       this._markers[i].getElement().addEventListener('dblclick', function () {
-        router.push('/point');
+        router.push('/dashboard/databoard/index');
       });
     }
   };

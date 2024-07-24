@@ -3,17 +3,16 @@ import { useRouter } from 'vue-router';
 // import useRealtimeStore from '@/stores/realtime/modules/realtime'
 import usePlatform from '@/stores/platform/modules/platform';
 import { onMounted, ref } from 'vue';
+import { Decoration6 as DvDecoration6 } from '@kjgl77/datav-vue3'
+import { BorderBox8 as DvBorderBox8 } from '@kjgl77/datav-vue3';
+
 const store = usePlatform();
 const bigScene = ref<HTMLElement>()
 const bigSceneSize = ref<[number, number]>([700, 580])
+
 // const realtimeShow = ref<boolean>(false)
 // const realtimeStore = useRealtimeStore()
 
-
-let router = useRouter()
-const chexkoutPage = () => {
-  router.push("./point")
-}
 const onCast = (event: MouseEvent) => {
   const screenX = event.clientX;
   const screenY = event.clientY;
@@ -21,31 +20,36 @@ const onCast = (event: MouseEvent) => {
 }
 
 onMounted(() => {
-
   if (bigScene.value) {
     store.platformAddCanvas(bigScene.value, bigSceneSize.value); // 装载canvas
     store.start(); // 按照config开始执行
   }
 });
+
 </script>
 
 <template>
   <div class="centermap">
-    <div class="maptitle">
-      <div class="zuo"></div>
-      <span class="titletext"> 点云场景</span>
-      <div class="you"></div>
-    </div>
+    
     <div class="mapwrap">
-      <BorderBox13>
+      <!-- <dv-border-box8 :color="['#920783', '	#A020F0']"> -->
+        <div class="card-container">
+
         <div @click="onCast" class="bigScene" ref="bigScene"></div>
-        <div class="checkoutpoint" @click="chexkoutPage()">大场景</div>
-      </BorderBox13>
+        </div>
+      <!-- </dv-border-box8> -->
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
+.card-container {
+  width: 730px;
+  height: 630px;
+  border: 1px solid #ddd;
+  border-radius: 30px;
+  box-shadow: 2px 6px 8px 3px rgba(0, 0, 0, 0.15);
+}
 .centermap {
   margin-bottom: 30px;
 
@@ -60,7 +64,10 @@ onMounted(() => {
       font-size: 28px;
       font-weight: 900;
       letter-spacing: 6px;
-      background: linear-gradient(92deg, #0072ff 0%, #00eaff 48.8525390625%, #01aaff 100%);
+      background: linear-gradient(92deg,
+          #9333ed 0%,
+          #920783 48.8525390625%,
+          #9333ed 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       margin: 0 10px;
@@ -85,7 +92,7 @@ onMounted(() => {
 
   .mapwrap {
     height: 580px;
-    width: 100%;
+    width: 580px;
     box-sizing: border-box;
     position: relative;
 

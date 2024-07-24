@@ -1,15 +1,15 @@
 <template>
   <div class="register_container">
     <v-container>
-      <v-card :class="backgroundClass">
+      <v-card class="card-container">
         <v-card-title class="primary">
           <div class="title1">欢迎注册</div>
-          <div class="title2">中国科学院自动化研究所</div>
+          <div class="title2">你的数字时空场景</div>
         </v-card-title>
         <v-card-text style="margin-top: 5%;">
           <v-form @submit.prevent="register">
           
-            <v-text-field v-model="registerForm.username" label="请输入用户名">
+            <v-text-field v-model="registerForm.username" label="请输入用户名" bg-color="#ffffff" density="comfortable" width="90%" class="mx-auto">
               <template v-slot:prepend-inner>
                 <v-icon>
                   <img src="/img/用户.png" alt="Account Icon" style="width: 24px; height: 24px;">
@@ -17,7 +17,7 @@
               </template>
             </v-text-field>
 
-            <v-text-field v-model="registerForm.first_name_last_name" label="请输入姓名">
+            <v-text-field v-model="registerForm.first_name_last_name" label="请输入姓名" bg-color="#ffffff" density="comfortable" width="90%" class="mx-auto">
               <template v-slot:prepend-inner>
                 <v-icon>
                   <img src="/img/姓名.png" alt="Account Icon" style="width: 25px; height: 25px;">
@@ -25,7 +25,7 @@
               </template>
             </v-text-field>
 
-            <v-text-field v-model="registerForm.phone" label="请输入手机号">
+            <v-text-field v-model="registerForm.phone" label="请输入手机号" bg-color="#ffffff" density="comfortable" width="90%" class="mx-auto">
               <template v-slot:prepend-inner>
                 <v-icon>
                   <img src="/img/手机号.png" alt="Account Icon" style="width: 24px; height: 24px;">
@@ -33,7 +33,7 @@
               </template>
             </v-text-field>
 
-            <v-text-field v-model="registerForm.password" label="请输入密码" type="password">
+            <v-text-field v-model="registerForm.password" label="请输入密码" bg-color="#ffffff" density="comfortable" type="password" width="90%" class="mx-auto">
               <template v-slot:prepend-inner>
                 <v-icon>
                   <img src="/img/密码.png" alt="Password Icon" style="width: 24px; height: 24px;">
@@ -41,7 +41,7 @@
               </template>
             </v-text-field>
 
-            <v-text-field v-model="registerForm.password" label="请再次输入确认密码" type="password">
+            <v-text-field v-model="registerForm.password" label="请再次输入确认密码" bg-color="#ffffff" density="comfortable" type="password" width="90%" class="mx-auto">
               <template v-slot:prepend-inner>
                 <v-icon>
                   <img src="/img/密码.png" alt="Password Icon" style="width: 24px; height: 24px;">
@@ -99,9 +99,6 @@ let register = async () => {
   // }
 }
 
-const backgroundClass = computed(() => {
-  return windowWidth.value > 1400 ? 'large-screen' : 'small-screen'
-})
 
 </script>
 <style scoped lang="scss">
@@ -117,24 +114,27 @@ const backgroundClass = computed(() => {
   background-color: #920783;
 }
 
-.small-screen {
+.card-container {
   width: 450px;
-  height: 600px;
-  margin-top: 3vh;
+  height: 570px;
   border-radius: 10px;
   float: right;
-  margin-right: 2vw;
-  background-color: #f6f5fb;
+  background-color: #f9f3fd;
+  box-shadow: 0px 5px 5px 5px rgba(0, 0, 0, 0.15);
 }
 
-.large-screen {
-  width: 450px;
-  height: 600px;
-  margin-top: 14vh;
-  border-radius: 10px;
-  float: right;
-  margin-right: 9vw;
-  background-color: #f6f5fb;
+@media (min-width: 1400px) {
+  .card-container {
+    margin-top: 14vh;
+    margin-right: 9vw;
+  }
+}
+
+@media (max-width: 1399px) {
+  .card-container {
+    margin-top: 3vh;
+    margin-right: 2vw;
+  }
 }
 
 .title1 {
@@ -161,4 +161,6 @@ const backgroundClass = computed(() => {
   display: block;
   margin: 0 auto;
 }
+
+
 </style>

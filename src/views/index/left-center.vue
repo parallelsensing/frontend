@@ -4,7 +4,7 @@ import { graphic } from "echarts/core";
 import { countUserNum } from "@/api";
 import {ElMessage} from "element-plus"
 
-let colors = ["#0BFC7F", "#A0A0A0", "#F48C02", "#F4023C"];
+let colors = ["#A020F0", "#A020F0", "#A020F0", "#A020F0"];
 const option = ref({});
 const state = reactive({
   lockNum: 0,
@@ -21,7 +21,6 @@ const echartsGraphic = (colors: string[]) => {
 };
 const getData = () => {
   countUserNum().then((res) => {
-    console.log("左中--用户总览",res);
     if (res.success) {
       state.lockNum = res.data.lockNum;
       state.offlineNum = res.data.offlineNum;
@@ -46,14 +45,14 @@ const setOption = () => {
       textStyle: {
         rich: {
           value: {
-            color: "#ffffff",
+            color: "#A020F0",
             fontSize: 24,
             fontWeight: "bold",
             lineHeight: 20,
             padding:[4,0,4,0]
           },
           name: {
-            color: "#ffffff",
+            color: "#A020F0",
             lineHeight: 20,
           },
         },
@@ -90,11 +89,11 @@ const setOption = () => {
               lineHeight: 26,
             },
             c: {
-              color: "#31ABE3",
+              color: "#A020F0",
               fontSize: 14,
             },
             per: {
-              color: "#31ABE3",
+              color: "#A020F0",
               fontSize: 14,
             },
           },
@@ -109,7 +108,7 @@ const setOption = () => {
 
         labelLine: {
           show: true,
-          length: 20, // 第一段线 长度
+          length: 10, // 第一段线 长度
           length2: 36, // 第二段线 长度
           smooth: 0.2,
           lineStyle: {},
@@ -119,28 +118,28 @@ const setOption = () => {
             value: state.onlineNum,
             name: "在线",
             itemStyle: {
-              color: echartsGraphic(["#0BFC7F", "#A3FDE0"]),
+              color: echartsGraphic(["#7B68EE", "#D8BFD8"]),
             },
           },
           {
             value: state.offlineNum,
             name: "离线",
             itemStyle: {
-              color: echartsGraphic(["#A0A0A0", "#DBDFDD"]),
+              color: echartsGraphic(["#6A5ACD", "#D8BFD8"]),
             },
           },
           {
             value: state.lockNum,
             name: "锁定",
             itemStyle: {
-              color: echartsGraphic(["#F48C02", "#FDDB7D"]),
+              color: echartsGraphic(["#A020F0", "#D8BFD8"]),
             },
           },
           {
             value: state.alarmNum,
             name: "异常",
             itemStyle: {
-              color: echartsGraphic(["#F4023C", "#FB6CB7"]),
+              color: echartsGraphic(["#8A2BE2", "#D8BFD8"]),
             },
           },
         ],
@@ -154,4 +153,8 @@ const setOption = () => {
   <v-chart class="chart" :option="option" />
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.chart {
+  height: 70%;
+}
+</style>

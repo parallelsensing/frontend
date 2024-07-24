@@ -71,7 +71,6 @@ export class MinScene extends EventDispatcher {
     this._minaxeshelper = new AxesHelper(50);
     this.__minscene.add(this.__minmodels, this.getLights());
   }
-  
   /**
    * 装载
    * @param canvas 元素
@@ -84,7 +83,6 @@ export class MinScene extends EventDispatcher {
     this.animate();
     console.log("这是minScene"+this.__minscene); 
   }
-
   //添加灯光
   getLights() {
     const group = new Group();

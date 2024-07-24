@@ -12,7 +12,6 @@ const data = ref([]);
 const getData = () => {
   ranking()
     .then((res) => {
-      console.log("右中--报警排名", res);
       if (res.success) {
         data.value = res.data;
       } else {
@@ -31,7 +30,7 @@ getData();
 
 <template>
   <div class="right_bottom">
-    <CapsuleChart :config="config" style="width: 100%; height: 260px" :data="data" />
+    <CapsuleChart :config="config" style="width: 100%; height: 650px" :data="data" />
   </div>
 </template>
 
@@ -39,5 +38,6 @@ getData();
 .right_bottom {
   box-sizing: border-box;
   padding: 0 16px;
+  height: 700px;
 }
 </style>

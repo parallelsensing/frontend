@@ -90,7 +90,7 @@ onMounted(() => {
             <div class="capsule-container">
                 <div class="capsule-item" v-for="(capsule, index) in capsuleLength" :key="index">
                     <div class="capsule-item-column" :style="`width: ${capsule * 100}%; background-color: ${mergedConfig.colors[index % mergedConfig.colors.length]
-                    };`">
+                        };`">
                         <div v-if="mergedConfig.showValue" class="capsule-item-value">
                             {{ capsuleValue[index] }}
                         </div>
@@ -118,7 +118,7 @@ onMounted(() => {
     flex-direction: row;
     box-sizing: border-box;
     padding: 10px;
-    color: #fff;
+    color: rgb(0, 0, 0);
 
     .label-column {
         display: flex;

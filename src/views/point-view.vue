@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// import { RouterView } from "vue-router";
+import { RouterView } from "vue-router";
 import Headers from "./pointheader.vue";
 import useMinScene from '@/stores/chatRobot/modules/chatRobot'
 import usePlatform from '@/stores/platform/modules/platform';
@@ -8,12 +8,12 @@ import chatHome from "@/views/chat/Home/chat-home.vue";
 const LoadingProgress = computed(() => store.loadingPercent)
 const LoadingMsg = computed(() => store.loadingMsg)
 const store = usePlatform();
-const minStore = useMinScene();
-const canvas = ref<HTMLElement>();
-const canvasSize = ref<[number, number]>([window.innerWidth, window.innerHeight]);
-const mincanvasSize = ref<[number, number]>([250, 200]);
-const minScene = ref<HTMLElement>();
-const isChatShow = ref(false);
+const minStore = useMinScene()
+const canvas = ref<HTMLElement>()
+const canvasSize = ref<[number, number]>([window.innerWidth, window.innerHeight])
+const mincanvasSize = ref<[number, number]>([250, 200])
+const minScene = ref<HTMLElement>()
+const isChatShow = ref(false)
 
 const onCast = (event: MouseEvent) => {
   const screenX = event.clientX;
@@ -23,7 +23,7 @@ const onCast = (event: MouseEvent) => {
 const onMinCast = (event: MouseEvent) => {
   const screenX = event.clientX;
   const screenY = event.clientY;
-  isChatShow.value = true;
+  isChatShow.value = true
   minStore.cast(screenX, screenY);
 }
 const closeChat = () => {
@@ -31,10 +31,12 @@ const closeChat = () => {
 }
 
 onMounted(() => {
-
   if (canvas.value) {
+
     store.platformAddCanvas(canvas.value, canvasSize.value); // 装载canvas
+
     store.start(); // 按照config开始执行
+
   }
   if (minScene.value) {
     minStore.minSceneAddCanvas(minScene.value, mincanvasSize.value)
@@ -51,10 +53,9 @@ onMounted(() => {
       {{ LoadingMsg }}
     </div>
     <Headers />
-    <!-- <RouterView /> -->
+    <RouterView />
   </div>
   <div id="minScene" ref="minScene" @click="onMinCast"></div>
-
   <div class="chat" v-if="isChatShow">
     <chatHome />
     <div class="close-btn">
@@ -74,10 +75,11 @@ onMounted(() => {
   left: 0px;
   // padding: 16px 16px 16px 16px;
   box-sizing: border-box;
-  background-image: url("@/assets/img/pageBg.png");
+  background-image: url("@/assets/img/bg.png");
   background-size: cover;
   background-position: center center;
   overflow: hidden;
+
 }
 
 .chat {

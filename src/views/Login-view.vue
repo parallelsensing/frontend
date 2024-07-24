@@ -1,21 +1,21 @@
 <template>
   <div class="login-container">
     <v-container>
-      <v-card :class="backgroundClass">
+      <v-card class="card-container">
         <v-card-title class="primary">
           <div class="title1">欢迎登录</div>
-          <div class="title2">中国科学院自动化研究所</div>
+          <div class="title2">你的数字时空场景</div>
         </v-card-title>
         <v-card-text style="margin-top: 5%;">
           <v-form @submit.prevent="handleLogin">
-            <v-text-field v-model="loginForm.phone" label="请输入用户名">
+            <v-text-field v-model="loginForm.phone" label="请输入用户名" bg-color="#ffffff" density="comfortable" >
               <template v-slot:prepend-inner>
                 <v-icon>
                   <img src="/img/用户.png" alt="Account Icon" style="width: 24px; height: 24px;">
                 </v-icon>
               </template>
             </v-text-field>
-            <v-text-field v-model="loginForm.password" label="请输入密码" type="password">
+            <v-text-field v-model="loginForm.password" label="请输入密码"  bg-color="#ffffff" density="comfortable" type="password">
               <template v-slot:prepend-inner>
                 <v-icon>
                   <img src="/img/密码.png" alt="Password Icon" style="width: 24px; height: 24px;">
@@ -64,25 +64,6 @@ const navigateToRegister = () => {
   router.push('/register');
 };
 
-const windowWidth = ref(window.innerWidth);
-const windowHeight = ref(window.innerHeight);
-
-const handleResize = () => {
-  windowWidth.value = window.innerWidth;
-  windowHeight.value = window.innerHeight;
-};
-
-onMounted(() => {
-  window.addEventListener('resize', handleResize);
-});
-
-onBeforeUnmount(() => {
-  window.removeEventListener('resize', handleResize);
-});
-
-const backgroundClass = computed(() => {
-  return windowWidth.value > 1400 ? 'large-screen' : 'small-screen';
-});
 </script>
 
 <style scoped lang="scss">
@@ -98,22 +79,27 @@ const backgroundClass = computed(() => {
   background-color: #920783;
 }
 
-.small-screen,
-.large-screen {
+.card-container {
   width: 360px;
   height: 400px;
   margin-top: 22vh;
   border-radius: 10px;
   float: right;
-  background-color: #f0eaf041;
+  background-color: #f9f3fd;
+  box-shadow: 0px 5px 5px 5px rgba(0, 0, 0, 0.15);
+
 }
 
-.small-screen {
-  margin-right: 3vw;
+@media (min-width: 1400px) {
+  .card-container {
+    margin-right: 10vw;
+  }
 }
 
-.large-screen {
-  margin-right: 10vw;
+@media (max-width: 1399px) {
+  .card-container {
+    margin-right: 3vw;
+  }
 }
 
 .title1 {
@@ -133,7 +119,7 @@ const backgroundClass = computed(() => {
 }
 
 .login-btn {
-  width: 80%;
+  width: 100%;
   font-family: '黑体';
   margin-top: 5%;
   font-size: 22px;
@@ -143,7 +129,7 @@ const backgroundClass = computed(() => {
 }
 
 .register-btn {
-  width: 70%;
+  width: 50%;
   font-family: '黑体';
   font-size: 14px;
   font-weight: 600;

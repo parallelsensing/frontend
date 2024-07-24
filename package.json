@@ -17,10 +17,12 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@dataview/datav-vue3": "0.0.0-test.1672506674342",
     "@jiaminghi/data-view": "^2.10.0",
-    "@kjgl77/datav-vue3": "^1.7.2",
+    "@kjgl77/datav-vue3": "^1.7.3",
     "@mapbox/mapbox-gl-geocoder": "^5.0.2",
     "@mdi/font": "^7.4.47",
+    "@mdi/js": "^7.4.47",
     "@pinia/nuxt": "^0.5.1",
     "@studiometa/vue-mapbox-gl": "^2.5.0",
     "@types/three": "^0.162.0",

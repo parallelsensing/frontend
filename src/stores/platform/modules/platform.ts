@@ -1,3 +1,4 @@
+
 import type { IModel } from '@/type/base';
 import { Platform,EVENT } from '@/utils/platform';
 
@@ -14,6 +15,7 @@ const usePlatform = defineStore({
     ModelContainers: <{platform:Platform|undefined}>{
       platform:undefined,
     },
+   
   }),
   getters:{
     isLoading():boolean {

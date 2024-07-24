@@ -102,7 +102,7 @@ const init = () => {
   camera.position.x = 0;
 
   const loader = new GLTFLoader();
-  loader.load('/public/行政楼03.gltf', (gltf) => {
+  loader.load('/行政楼03.gltf', (gltf) => {
     // gltf.scene.position.set(-150, -100, -2);
     // gltf.scene.rotation.y = Math.PI / 4;
     // gltf.scene.scale.set(8, 8, 8);

@@ -1,18 +1,11 @@
 <template>
-  <section
-    :style="{ ...styles.box, ...boxStyle }"
-    class="v-screen-box"
-    ref="box"
-  >
-    <div
-      :style="{ ...styles.wrapper, ...wrapperStyle }"
-      class="screen-wrapper"
-      ref="screenWrapper"
-    >
+  <section :style="{ ...styles.box, ...boxStyle }" class="v-screen-box" ref="box">
+    <div :style="{ ...styles.wrapper, ...wrapperStyle }" class="screen-wrapper" ref="screenWrapper">
       <slot></slot>
     </div>
   </section>
 </template>
+
 <script lang="ts" setup>
 import { nextTick, onMounted, onUnmounted, reactive, ref, watch } from "vue";
 import type { CSSProperties, PropType } from "vue";
@@ -47,9 +40,11 @@ interface IState {
 type IAutoScale =
   | boolean
   | {
-      x?: boolean;
-      y?: boolean;
-    };
+    x?: boolean;
+    y?: boolean;
+  };
+
+/**接收父组件传递的参数 */
 const props = defineProps({
   width: {
     type: [String, Number] as PropType<string | number>,
@@ -133,9 +128,11 @@ const initSize = () => {
     nextTick(() => {
       // region 获取大屏真实尺寸
       if (props.width && props.height) {
+
         state.width = props.width;
         state.height = props.height;
       } else {
+
         state.width = screenWrapper.value?.clientWidth;
         state.height = screenWrapper.value?.clientHeight;
       }
@@ -143,6 +140,7 @@ const initSize = () => {
 
       // region 获取画布尺寸
       if (!state.originalHeight || !state.originalWidth) {
+
         state.originalWidth = window.screen.width;
         state.originalHeight = window.screen.height;
       }
@@ -157,12 +155,15 @@ const initSize = () => {
  */
 const updateSize = () => {
   if (state.width && state.height) {
+
     screenWrapper.value!.style.width = `${state.width}px`;
     screenWrapper.value!.style.height = `${state.height}px`;
   } else {
+
     screenWrapper.value!.style.width = `${state.originalWidth}px`;
     screenWrapper.value!.style.height = `${state.originalHeight}px`;
   }
+
 };
 const clearScreenWrapperStyle = () => {
   screenWrapper.value!.style.transform = "";
@@ -177,21 +178,27 @@ const autoScale = (scale: number) => {
   const currentWidth = document.body.clientWidth;
   const currentHeight = document.body.clientHeight;
   screenWrapper.value!.style.transform = `scale(${scale},${scale})`;
+
   let mx = Math.max((currentWidth - domWidth * scale) / 2, 0);
   let my = Math.max((currentHeight - domHeight * scale) / 2, 0);
   if (typeof props.autoScale === "object") {
     !props.autoScale.x && (mx = 0);
     !props.autoScale.y && (my = 0);
   }
-  screenWrapper.value!.style.margin = `${my}px ${mx}px`;
+
+  // screenWrapper.value!.style.padding = `0px 0px`;
+
+  screenWrapper.value!.style.margin = `0 ${mx/2}px`;
 };
 const updateScale = () => {
   // 获取真实视口尺寸
   const currentWidth = document.body.clientWidth;
   const currentHeight = document.body.clientHeight;
+
   // 获取大屏最终的宽高
   const realWidth = state.width || state.originalWidth;
   const realHeight = state.height || state.originalHeight;
+
   // 计算缩放比例
   const widthScale = currentWidth / +realWidth;
   const heightScale = currentHeight / +realHeight;
@@ -201,7 +208,7 @@ const updateScale = () => {
     return false;
   }
   // 按照宽高最小比例进行缩放
-  const scale = Math.min(widthScale, heightScale);
+  const scale = Math.min(widthScale, heightScale)*0.88;
   autoScale(scale);
 };
 

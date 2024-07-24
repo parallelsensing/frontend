@@ -122,7 +122,7 @@ timeFn()
     letter-spacing: 6px;
     cursor: pointer;
     box-shadow: 0 2px 4px rgba(0, 237, 237, 0.5), 0 0 6px rgba(0, 237, 237, 0.4);
-    z-index: 100000;
+    // z-index: 100000;
   }
 }
 

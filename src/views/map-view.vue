@@ -1,41 +1,79 @@
 <template>
-  <MapboxMap ref="mapBox" style="height: 100vh" @click="inputBlur"
-    access-token="pk.eyJ1IjoidHpxMTAzMiIsImEiOiJjbHUyZWxuYTUwMWlrMndsM3VxaHJpcmd6In0.qE_R5khyiy6PYCjUuTkywQ"
-    :center="mapCenter" @mb-created="onMapCreated">
-  </MapboxMap>
+  <div>
+    <div v-show="showHeader">
+      <Headerbar></Headerbar>
+    </div>
+    <div>
+      <MapboxMap ref="mapBox" id="map" :style="{ height: mapHeight }" @click="inputBlur"
+        access-token="pk.eyJ1IjoidHpxMTAzMiIsImEiOiJjbHUyZWxuYTUwMWlrMndsM3VxaHJpcmd6In0.qE_R5khyiy6PYCjUuTkywQ"
+        :center="mapCenter" @mb-created="onMapCreated">
+      </MapboxMap>
 
-  <div v-for="(item, index) in items" :key="index" class="markerInfo" ref="markerDivArray">
-    <p>双击进入{{ item.name }}</p>
-    <img :src="item.image_url" alt="图片">
-  </div>
-  <div class="floating-search">
-    <v-text-field solo hide-details label="目的地" prepend-inner-icon="mdi-magnify" @focus="displayList" close-on-blur
-      v-model.trim="keyWord" class="input-search" autocomplete="off" ref="search">
-    </v-text-field>
-    <v-list v-show="filterItems.length > 0 && showList" class="border-list">
-      <v-list-item v-for="(item, index) in filterItems" :key="index" @click="itemClick(item)">
-        <v-list-item-content>
-          <v-list-item-title>{{ item["name"] }}</v-list-item-title>
-          <v-list-item-title-subtitle>经度：{{ item.coordinates[0].toFixed(2) }}，纬度：{{  item.coordinates[1].toFixed(2)}}</v-list-item-title-subtitle>
-        </v-list-item-content>
-      </v-list-item>
-    </v-list>
-  </div>
-  <div class="floating-button"> <!-- 悬浮按钮容器 -->
-    <v-btn color="primary" @click="goBack(mapCenter)">主视角</v-btn>
+      <div v-for="(item, index) in items" :key="index" class="markerInfo" ref="markerDivArray">
+        <p style="font-weight: 400;font-size: 18px;color: aliceblue;">双击进入{{ item.name }}</p>
+        <img :src="item.image_url" alt="图片">
+      </div>
+
+      <div class="floating-search">
+        <div style="width:180px;margin-bottom: 20px;">
+          <datetime></datetime>
+        </div>
+        <div style="width: 100%;background-color: #ffffff; border-radius: 25px;border: #920783 1px solid;">
+          <v-text-field variant="plain" hide-details density="comfortable" label="目的地" @focus="displayList" close-on-blur
+            v-model.trim="keyWord" class="input-search" autocomplete="off" ref="search">
+            <template v-slot:append-inner>
+              <div
+                style="width: 50px;height: 90%;background: #920783; right: -27px;bottom:2px; border-radius: 36px;position: absolute;">
+                <v-icon size="28px" color="white" style="margin-left: 10px;margin-top: 5px">mdi-magnify</v-icon>
+              </div>
+            </template>
+          </v-text-field>
+        </div>
+
+        <v-list v-show="filterItems.length > 0 && showList" class="border-list">
+          <v-list-item v-for="(item, index) in filterItems" :key="index" @click="itemClick(item)">
+            <v-list-item-content>
+              <v-list-item-title>{{ item["name"] }}</v-list-item-title>
+              <v-list-item-title-subtitle>经度：{{ item.coordinates[0].toFixed(2) }}，纬度：{{
+                item.coordinates[1].toFixed(2) }}</v-list-item-title-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </div>
+      <div class="floating-button"> <!-- 悬浮按钮容器 -->
+
+        <v-btn color="primary" @click="zoomIn" variant="text" class="fullscreen-btn" style="border-radius:15px 15px 0 0">
+          <img src="/img/加.png" alt="加">
+        </v-btn>
+        <v-btn color="primary" @click="zoomOut" variant="text" class="fullscreen-btn"
+          style="border-radius:0 0 15px 15px;margin-top: 2px;">
+          <img src="/img/减.png" alt="减">
+        </v-btn>
+        <v-btn color="primary" @click="goBack(mapCenter)" variant="text" class="fullscreen-btn">
+          <img src="/img/主视角.png" alt="主视角  ">
+        </v-btn>
+        <v-btn color="primary" @click="fullScreen" variant="text" class="fullscreen-btn">
+          <img src="/img/扩大.png" alt="扩大">
+        </v-btn>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { MapboxMap } from '@studiometa/vue-mapbox-gl';
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import MapScene from '@/utils/map/index'
 import request from '@/utils/request';
-import type {DestItemsType}  from '@/type/base';
-
+import type { DestItemsType } from '@/type/base';
+import Headerbar from "@/layout/components/Headerbar.vue";
+import datetime from "@/components/date-time/datetime.vue";
+import { useFullscreen } from '@vueuse/core';
+const { isFullscreen, toggle } = useFullscreen();
 const markerDivArray = ref([]);
+const showHeader = ref(true);
 
-let items= ref<DestItemsType[]>([
+let items = ref<DestItemsType[]>([
   {
     color: "红色", coordinates: [116.3262, 39.978041], description: '123', image_url: "/img/CASIA.jpg", name: "中国科学院自动化研究所",
   },
@@ -43,24 +81,24 @@ let items= ref<DestItemsType[]>([
     color: "红色", coordinates: [116.39145, 39.90732], description: '123', image_url: "/img/CASIA.jpg", name: "天安门"
   },
   {
-    color: "红色",  coordinates: [108.964162, 34.218285], description: '123', image_url: "/img/CASIA.jpg", name: "陕西大雁塔"
+    color: "红色", coordinates: [108.964162, 34.218285], description: '123', image_url: "/img/CASIA.jpg", name: "陕西大雁塔"
   },
   {
     color: "红色", coordinates: [116.307157, 39.919174], description: '123', image_url: "/img/CASIA.jpg", name: "中央电视塔"
   },
   {
-    color: "红色",  coordinates: [117.3833, 34.4167], description: '123', image_url: "/img/CASIA.jpg", name: "秦始皇陵兵马俑"
+    color: "红色", coordinates: [117.3833, 34.4167], description: '123', image_url: "/img/CASIA.jpg", name: "秦始皇陵兵马俑"
   },
 ])
 request.get('/item/get_items')
   .then(function (response) {
-     const data: DestItemsType[] = response.data.map((item:DestItemsType) => ({
-          color:item.color,
-          coordinates: item.coordinates,
-          description:item.description,
-          img: item.image_url,
-          name: item.name
-      }));
+    const data: DestItemsType[] = response.data.map((item: DestItemsType) => ({
+      color: item.color,
+      coordinates: item.coordinates,
+      description: item.description,
+      img: item.image_url,
+      name: item.name
+    }));
     // 处理成功响应
     items.value = data;
   })
@@ -73,6 +111,13 @@ let search = ref('')
 let mapBox = ref()
 const mapCenter = ref<[number, number]>([116.3262, 39.978041]);
 const map = ref();
+const mapHeight = computed(() => {
+  return showHeader.value ? 'calc(100vh - 85px)' : '100vh';
+})
+const fullScreen = () => {
+  showHeader.value = !showHeader.value;
+  toggle();
+}
 
 const filterItems = computed(() => {
   if (keyWord.value.trim() === '') {
@@ -94,7 +139,7 @@ const displayList = () => {
 let flyToDist = (LngLat: [number, number], zoom?: number) => {
   mapBox.value.map.flyTo({
     center: LngLat,
-    zoom: zoom ? zoom : 7,
+    zoom: zoom ? zoom : 10,
     Pitch: 62,
     bearing: -20
   })
@@ -106,7 +151,7 @@ const itemClick = (item: any) => {
   keyWord.value = ''
 }
 const goBack = (center: [number, number]) => {
-  flyToDist(center)
+  flyToDist(center, 10)
 }
 const onMapCreated = (mapInstance: any) => {
   map.value = mapInstance;
@@ -116,16 +161,42 @@ const onMapCreated = (mapInstance: any) => {
   mapScene.toPlatformPage()
   flyToDist(mapCenter.value)
 };
+
+const zoomIn = () => {
+  mapBox.value.map.zoomIn();
+};
+
+const zoomOut = () => {
+  mapBox.value.map.zoomOut();
+};
+
+const onFullScreenChange = () => {
+  if (!document.fullscreenElement) {
+    showHeader.value = true;
+  }
+};
+
+onMounted(() => {
+  document.addEventListener('fullscreenchange', onFullScreenChange);
+});
+
+onBeforeUnmount(() => {
+  document.removeEventListener('fullscreenchange', onFullScreenChange);
+});
+
+
 </script>
-<style scoped>
+
+<style lang="scss" scoped>
 .markerInfo {
   position: absolute;
-  background-color: #fff;
+  background-color: #660874a3;
   padding: 10px;
   border: 1px solid #ccc;
   display: none;
   width: auto;
   height: 200px;
+  border-radius: 20px;
 }
 
 .markerInfo img {
@@ -134,12 +205,14 @@ const onMapCreated = (mapInstance: any) => {
   width: 200px;
   /* 设置图片宽度为父div的100% */
   height: auto;
+  border-radius: 10px;
+
 }
 
 .floating-search {
   position: absolute;
   width: 300px;
-  top: 20px;
+  top: 100px;
   left: 20px;
   z-index: 1000;
   /* display: flex; */
@@ -148,14 +221,17 @@ const onMapCreated = (mapInstance: any) => {
 
 .floating-button {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  top: 30vh;
+  right: 15px;
   z-index: 1000;
   /* 确保按钮在地图上方 */
 }
 
 .input-search {
-  width: 100%;
+  width: 80%;
   margin: auto;
   top: 20px;
   left: 20px;
@@ -176,17 +252,21 @@ const onMapCreated = (mapInstance: any) => {
 }
 
 .border-list {
+  padding: 30px 0 0 0;
   border: 1px solid #eee !important;
-
+  color: #fff;
+  background-color: #660874a3;
   width: 300px;
   height: auto;
+  top: -30px;
+  z-index: -1;
+  border-radius: 20px;
 }
 
 .list-content {
   /* display: flex; */
   /* justify-content: center; */
   align-items: center;
-
 }
 
 .list-item-btn {
@@ -195,5 +275,19 @@ const onMapCreated = (mapInstance: any) => {
   width: 10px;
   text-align: center;
   text-size-adjust: 10px;
+}
+
+.fullscreen-btn {
+  width: 55px;
+  height: 65px;
+  background-color: #ffffff;
+  border-radius: 15px;
+  margin-top: 20px;
+  box-shadow: 0px 2px 4px 4px rgba(0, 0, 0, 0.10);
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
 }
 </style>

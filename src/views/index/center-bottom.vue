@@ -8,7 +8,6 @@ const option = ref({});
 const getData = () => {
   installationPlan()
     .then((res) => {
-      console.log("中下--安装计划", res);
       if (res.success) {
         setOption(res.data);
       } else {
@@ -152,4 +151,8 @@ onMounted(() => {
   <v-chart class="chart" :option="option" v-if="JSON.stringify(option) != '{}'" />
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.chart {
+  height: 80%;
+}
+</style>

@@ -23,7 +23,6 @@ const state = reactive<any>({
 const getData = () => {
   rightBottom({ limitNum: 20 })
     .then((res) => {
-      console.log("右下", res);
       if (res.success) {
         state.list = res.data.list;
       } else {

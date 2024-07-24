@@ -31,7 +31,7 @@ function onCast(e: MouseEvent) {
 onMounted(() => {
   if (canvas.value) {
     store.platformAddCanvas(canvas.value,[1920,1080]); // 装载canvas
-    store.minSceneAddCanvas(minCanvas.value)
+  
     store.start(); // 按照config开始执行
   }
 });

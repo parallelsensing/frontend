@@ -2,7 +2,7 @@
 import { reactive, ref } from "vue";
 import { countDeviceNum } from "@/api";
 import CountUp from "@/components/count-up";
-import {ElMessage} from "element-plus"
+import {ElMessage} from "element-plus";
 
 const duration = ref(2);
 const state = reactive({
@@ -15,7 +15,6 @@ const state = reactive({
 
 const getData = () => {
   countDeviceNum().then((res) => {
-    console.log("左上--设备总览",res);
     if (res.success) {
       state.alarmNum = res.data.alarmNum;
       state.offlineNum = res.data.offlineNum;
@@ -33,25 +32,25 @@ getData();
 
 <template>
   <ul class="user_Overview flex">
-    <li class="user_Overview-item" style="color: #00fdfa">
+    <li class="user_Overview-item" style="color: #9400D3;font-weight: 700;">
       <div class="user_Overview_nums allnum">
         <CountUp :endVal="state.totalNum" :duration="duration" />
       </div>
       <p>总设备数</p>
     </li>
-    <li class="user_Overview-item" style="color: #07f7a8">
+    <li class="user_Overview-item" style="color: #9400D3;font-weight: 700;">
       <div class="user_Overview_nums online">
         <CountUp :endVal="state.onlineNum" :duration="duration" />
       </div>
       <p>在线数</p>
     </li>
-    <li class="user_Overview-item" style="color: #e3b337">
+    <li class="user_Overview-item" style="color: #9400D3;font-weight: 700;">
       <div class="user_Overview_nums offline">
         <CountUp :endVal="state.offlineNum" :duration="duration" />
       </div>
       <p>掉线数</p>
     </li>
-    <li class="user_Overview-item" style="color: #f5023d">
+    <li class="user_Overview-item" style="color: #9400D3;font-weight: 700;">
       <div class="user_Overview_nums laramnum">
         <CountUp :endVal="state.alarmNum" :duration="duration" />
       </div>
@@ -104,24 +103,29 @@ getData();
     .allnum {
       &::before {
         background-image: url("@/assets/img/left_top_lan.png");
+        filter: hue-rotate(120deg);
       }
     }
 
     .online {
       &::before {
         background-image: url("@/assets/img/left_top_lv.png");
+        filter: hue-rotate(130deg);
       }
     }
 
     .offline {
       &::before {
         background-image: url("@/assets/img/left_top_huang.png");
+        filter: hue-rotate(220deg);
       }
     }
 
     .laramnum {
       &::before {
         background-image: url("@/assets/img/left_top_hong.png");
+        filter: hue-rotate(310deg);
+
       }
     }
   }

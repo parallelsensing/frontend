@@ -1,17 +1,22 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import type { RouteRecordRaw } from 'vue-router';
-import Home from '@/components/home-view.vue';
+// import Home from '@/components/home-view.vue';
+const Layout = () => import("@/layout/index.vue");
 
 const routes: Array<RouteRecordRaw> = [
+  // {
+  //   name: 'home',
+  //   path: '/home',
+  //   component: Home,
+  //   props: true
+  // },
   {
-    name: 'home',
-    path: '/home',
-    component: Home,
-    props: true
+    path: '/',
+    redirect: '/login'
   },
   {
     name: 'login',
-    path: '/',
+    path: '/login',
     component: () => import('@/views/Login-view.vue'),
     props: true
   },
@@ -21,41 +26,51 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/Register-view.vue'),
     props: true
   },
+
   {
-    path: '/point',
-    name: 'point',
-    component: () => import('@/views/point-view.vue'),
-    props: true
-  },
-  {
-    path: '/ros',
-    name: 'ros',
-    component: () => import('@/views/ros-3d.vue'),
-    props: true
-  },
-  {
-    path: '/rostest',
-    name: 'rostest',
-    component: () => import('@/views/ros-test.vue'),
-    props: true
-  },
-  {
-    path: '/big',
-    name: 'big',
-    component: () => import('@/views/HomeView.vue'),
+    path: '/dashboard',
+    component: Layout,
     children: [
       {
-        path: '/index',
-        name: 'index',
-        component: () => import('@/views/index/index.vue')
+        path: 'assistant',
+        name: 'assistant',
+        component: () => import('@/views/sceneAssistant.vue'),
+      },
+      {
+        path: 'pointscene',
+        name: 'pointscene',
+        component: () => import('@/views/point-view.vue'),
+        meta: { hidden: true, title: "点云大场景" },
+      },
+      {
+        path: 'keyframe',
+        name: 'keyframe',
+        component: () => import('@/views/key-frame.vue'),
+      },
+      {
+        path: 'databoard',
+        name: 'databoard',
+        component: () => import('@/views/HomeView.vue'),
+        children: [
+          {
+            path: 'index',
+            name: 'index',
+            component: () => import('@/views/index/index.vue')
+          }],
+        props: true
       }
     ]
   },
-
   {
     name: 'Map',
     path: '/map',
     component: () => import('@/views/map-view.vue'),
+    props: true
+  },
+  {
+    path: '/ros3d',
+    name: 'ros3d',
+    component: () => import('@/views/ros-3d.vue'),
     props: true
   },
 
@@ -63,6 +78,11 @@ const routes: Array<RouteRecordRaw> = [
     name: '404',
     path: '/404',
     component: () => import('@/views/404-view.vue')
+  }
+  , {
+    name: 'test',
+    path: '/test',
+    component: () => import('@/views/test.vue')
   }
 ];
 

@@ -1,4 +1,3 @@
-
 import { Object3D, Color } from 'three';
 import { PCDLoader } from 'three/examples/jsm/Addons.js';
 
@@ -12,31 +11,45 @@ export class PcdLoader extends Object3D {
   _loader: PCDLoader; //加载器
   _booth: any;//模型信息
   _model: Object3D | undefined = undefined; // 模型
-  _color: Color
+  _color: Color;
+  
   constructor() {
     super();
 
     this._loader = new PCDLoader();
-    this._color = new Color(0xffffff)
+    this._color = new Color(0xffffff);
 
-    this._loader.load('./model/GlobalMap.pcd', this.onLoad, this.onLoading, this.onLoadError);
+    // 增加调试信息
+    console.log('开始加载PCD文件');
+
+    this._loader.load(
+      '/model/bunny.pcd', 
+      this.onLoad, 
+      this.onLoading, 
+      this.onLoadError
+    );
   }
+
   onLoad = (points: any) => {
-    points.material.color = this._color // 模型颜色
-    points.position.set(-12, 2, -15)
+    // console.log('PCD文件加载成功', points);
+    points.material.color = this._color; // 模型颜色
+    points.position.set(-12, 2, -15);
     points.rotation.y = 0;
     points.rotation.z = 11.2;
     points.rotation.x = 11;
-    points.scale.set(2, 2, 2)
-    this.add(points)
+    points.scale.set(2, 2, 2);
+    this.add(points);
   };
 
-  onLoading = (e: ProgressEvent) => {
+  onLoading = (e: Event) => {
+    // console.log('PCD文件加载中', e);
     const event = { type: PCD_LOAD_EVENT.LOADING, data: e } as never;
-    this.dispatchEvent(event)
+    this.dispatchEvent(event);
   };
-  onLoadError = (e: any) => {
-    console.log(e + "error");
 
+  onLoadError = (e: any) => {
+    console.error('PCD文件加载失败', e);
+    const event = { type: PCD_LOAD_EVENT.LOAD_FAIL, data: e } as never;
+    this.dispatchEvent(event);
   }
 }

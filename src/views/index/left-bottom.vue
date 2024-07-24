@@ -73,7 +73,7 @@ onMounted(() => {
             <div class="flex">
               <div class="info">
                 <span class="labels">设备ID：</span>
-                <span class="text-content zhuyao doudong wangguan"> {{ item.gatewayno }}</span>
+                <span class="text-content zhuyao doudong wangguan" style="color: #7f2d6d"> {{ item.gatewayno }}</span>
               </div>
               <div class="info">
                 <span class="labels">时间：</span>
@@ -138,7 +138,7 @@ onMounted(() => {
       .labels {
         flex-shrink: 0;
         font-size: 12px;
-        color: rgba(255, 255, 255, 0.6);
+        color: rgba(114, 46, 101, 0.875);
       }
 
       .zhuyao {
@@ -175,6 +175,7 @@ onMounted(() => {
         bottom: -10px;
         left: -2%;
         background-size: cover;
+        filter: hue-rotate(70deg) saturate(2);
       }
 
       .addresswrap {
@@ -185,7 +186,7 @@ onMounted(() => {
     }
 
     .wangguan {
-      color: #1890ff;
+      color: #000000;
       font-weight: 900;
       font-size: 15px;
       width: 80px;
@@ -210,11 +211,11 @@ onMounted(() => {
     }
 
     .typeRed {
-      color: #fc1a1a;
+      color: #f20202;
     }
 
     .typeGreen {
-      color: #29fc29;
+      color: #7f2d6d;
     }
   }
 }
