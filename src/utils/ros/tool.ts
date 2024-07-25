@@ -5,7 +5,7 @@ import mockMsg from  "./data1";
 
 
 
-const drawDemo = (cloudPointObj:ROS3D.PointCloud2)=>{
+const drawDemo = (cloudPointObj:any)=>{
   // let multiNum = 1;//倍数，原始测试数据 data2 57654*32
   console.log("drawDemo %o", cloudPointObj);
   const msg = mockMsg;

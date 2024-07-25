@@ -19,6 +19,10 @@ const useUserStore = defineStore({
       if (result.code == 200) {
         // console.log('ok',result);
         this.token = result.msg as string;
+        console.log(result);
+        
+        console.log(this.token);
+        
         SET_TOKEN(result.msg as string);
         return 'ok';
       } else {

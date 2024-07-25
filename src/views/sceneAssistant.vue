@@ -133,7 +133,7 @@ const currentMessages = computed(() =>
 const reversedChatList = computed(() => chatList.value.slice().reverse());
 const headers = {
   'Authorization': `Bearer ${API_KEY}`,
-  'Content-Type': 'application/json'
+  'Content-Type': 'text/event-stream'
 };
 
 const toggleMenu = (chat: Chat) => {
@@ -266,7 +266,6 @@ const sendMessage = async () => {
 
       allMessages.value.push(userMessage);
       scrollToBottom();
-
     }
 
 
@@ -276,7 +275,7 @@ const sendMessage = async () => {
       const data = {
         query: newMessage.value,
         inputs: {},
-        response_mode: 'blocking',
+        response_mode: 'streaming',
         conversation_id: selectedChatId.value == null ? '' : conversation_id1!.conversation_id,
         user: 'user123',
         auto_generate_name: true
@@ -285,8 +284,10 @@ const sendMessage = async () => {
       const res = await axios.post(`${BASE_URL}/chat-messages`, data, { headers });
 
       if (res.status === 200) {
+        console.log(res);
+        
         const botText = res.data.answer;
-        const botHtmlText = await marked(botText);
+        // const botHtmlText = await marked(botText);
         if (selectedChatId.value === null) {
           addNewChat(newMessage.value, res.data.conversation_id);
         }
@@ -296,7 +297,7 @@ const sendMessage = async () => {
           id: Date.now() + 1,
           chatId: selectedChatId.value,
           text: botText,
-          htmlText: botHtmlText,
+          htmlText: botText,
           type: 'bot',
           avatar: botAvatar
         };

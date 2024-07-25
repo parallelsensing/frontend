@@ -27,6 +27,9 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
     proxy: {
       '/api': {
         target: 'http://api.parallelsensing.com',
+        // target: 'http://10.11.38.214:9711',
+
+        //10.11.38.214:9711
         changeOrigin: true,
         headers: {
           Referer: 'http://api.parallelsensing.com/'

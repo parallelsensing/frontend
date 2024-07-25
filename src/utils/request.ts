@@ -21,6 +21,8 @@ request.interceptors.request.use(
     return Promise.reject(error);
   }
 );
+
+
 //响应拦截器，参数是成功与失败两个函数。
 request.interceptors.response.use(
   (response) => {
