@@ -7,7 +7,7 @@ import { useRouter } from 'vue-router';
 export const useSettingStore = defineStore('setting', () => {
   const router = useRouter();
   const settingShow = ref(false);//设置弹窗显隐
-  const isScale = ref(false);//是否进行全局适配
+  const isScale = ref(true);//是否进行全局适配,默认1920*1080
   const indexConfig = ref({
     leftBottomSwiper: true,//左轮播
     rightBottomSwiper: true,//右下轮播
@@ -32,7 +32,7 @@ export const useSettingStore = defineStore('setting', () => {
     router.push('/index')
   }
   const setIsScale = (flag: boolean) => {
-    isScale.value = flag
+    isScale.value = true;
     setSettingData()
   }
   const setIndexConfig = (Config: any) => {

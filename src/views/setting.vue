@@ -55,7 +55,7 @@ const indexRadioChange=(flag: boolean)=>{
         <div class="setting_content">
           <el-radio-group v-model="isScaleRadio" @change="(flag:boolean)=>isScaleChange(flag as boolean)">
             <el-radio :label="true">是</el-radio>
-            <el-radio :label="false">否</el-radio>
+            <el-radio :label="true">否</el-radio>
           </el-radio-group>
         </div>
       </div>

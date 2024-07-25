@@ -82,9 +82,9 @@ const navigateToRegister = () => {
 .card-container {
   width: 360px;
   height: 400px;
-  margin-top: 22vh;
+  top:25vh;
   border-radius: 10px;
-  float: right;
+  position: absolute;
   background-color: #f9f3fd;
   box-shadow: 0px 5px 5px 5px rgba(0, 0, 0, 0.15);
 
@@ -92,13 +92,13 @@ const navigateToRegister = () => {
 
 @media (min-width: 1400px) {
   .card-container {
-    margin-right: 10vw;
+    right: 15vw;
   }
 }
 
 @media (max-width: 1399px) {
   .card-container {
-    margin-right: 3vw;
+    right: 10vw;
   }
 }
 

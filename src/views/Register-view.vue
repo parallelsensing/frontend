@@ -118,22 +118,23 @@ let register = async () => {
   width: 450px;
   height: 570px;
   border-radius: 10px;
-  float: right;
+  
+  position: absolute;
   background-color: #f9f3fd;
   box-shadow: 0px 5px 5px 5px rgba(0, 0, 0, 0.15);
 }
 
 @media (min-width: 1400px) {
   .card-container {
-    margin-top: 14vh;
-    margin-right: 9vw;
+    top:20vh;
+    right: 15vw;
   }
 }
 
 @media (max-width: 1399px) {
   .card-container {
-    margin-top: 3vh;
-    margin-right: 2vw;
+    top:6vh;
+    right: 8vw;
   }
 }
 
