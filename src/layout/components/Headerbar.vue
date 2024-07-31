@@ -3,7 +3,7 @@
     <div class="navbar">
         <div class="navbar-left">
             <img src="/img/logo.png" alt="" style="height: 50px;">
-            <h1 style="color: #660874;font-weight: 600;font-size: 28px;margin-left: 20px;">X X X 科技公司</h1>
+            <h1 style="color: #660874;font-weight: 600;font-size: 28px;margin-left: 20px;">北京中科智传科技有限公司</h1>
         </div>
         <div class="navbar-right" style="display: flex;">
             <v-btn @click="toggle" variant="text" class="fullscreen-btn">
@@ -36,7 +36,7 @@ const name = '管理员'
 
 <style lang="scss" scoped>
 .navbar {
-    margin-bottom: 25px;
+    margin-bottom: 15px;
     display: flex;
     align-items: center;
     justify-content: space-between; /* 修改此处 */
@@ -44,7 +44,7 @@ const name = '管理员'
     background-color: #fff;
     padding: 0 20px;
     z-index: 99999999999;
-    box-shadow: 0px 10px 10px 4px rgba(0, 0, 0, 0.15);
+    box-shadow: 0px 2px 15px 4px rgba(0, 0, 0, 0.15);
 
     .navbar-left {
         display: flex;

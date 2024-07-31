@@ -13,6 +13,7 @@ declare module 'vue' {
     CapsuleChart: typeof import('./src/components/datav/capsule-chart/capsule-chart.vue')['default']
     CountUp: typeof import('./src/components/count-up/count-up.vue')['default']
     Datetime: typeof import('./src/components/date-time/datetime.vue')['default']
+    ElDivider: typeof import('element-plus/es')['ElDivider']
     ElDrawer: typeof import('element-plus/es')['ElDrawer']
     ElRadio: typeof import('element-plus/es')['ElRadio']
     ElRadioGroup: typeof import('element-plus/es')['ElRadioGroup']
