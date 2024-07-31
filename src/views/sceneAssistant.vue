@@ -199,7 +199,7 @@ interface Chat {
   status: string;
 }
 
-const BASE_URL = "http://10.11.37.112:5001/v1";
+const BASE_URL = "http://8.140.56.55:5001/v1";
 const userAvatar = '/bot/user.png';
 const botAvatar = '/bot/bot.png';
 
