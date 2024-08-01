@@ -49,8 +49,10 @@
                   <v-btn size="small" variant="text" icon="mdi-content-copy" @click="copyText(message.text)" />
                   <v-btn size="small" variant="text" icon="mdi-cached" @click="resendMessage(message.text)" />
                   <v-btn size="small" variant="text" icon="mdi-share" @click="shareMessage(message.text)" />
-                  <v-btn size="small" variant="text" icon="mdi-thumb-up-outline" @click="feedbackMessage(message, 'like')" />
-                  <v-btn size="small" variant="text" icon="mdi-thumb-down-outline" @click="feedbackMessage(message, 'dislike')" />
+                  <v-btn size="small" variant="text" icon="mdi-thumb-up-outline"
+                    @click="feedbackMessage(message, 'like')" />
+                  <v-btn size="small" variant="text" icon="mdi-thumb-down-outline"
+                    @click="feedbackMessage(message, 'dislike')" />
                 </template>
               </div>
             </div>
@@ -123,7 +125,6 @@
               </div>
             </li>
           </ul>
-
         </div>
 
       </div>
@@ -162,22 +163,6 @@ import { Decoration10 as DvDecoration10 } from '@kjgl77/datav-vue3';
 import { Decoration3 as DvDecoration3 } from '@kjgl77/datav-vue3';
 import axios from 'axios';
 
-
-interface Message {
-  id: string;
-  conversation_id: string;
-  created_at: number;
-  feedback: any;
-  error: any;
-  inputs: any;
-  message_files: any;
-  retriever_resources: any;
-  status: string;
-  answer: string;
-  agent_thoughts: any;
-  query: string;
-}
-
 interface MessageNew {
   id: string;
   chatId: string;
@@ -199,14 +184,21 @@ interface Chat {
   status: string;
 }
 
-const BASE_URL = "http://8.140.56.55:5001/v1";
+interface ListItem {
+  id: number;
+  title: string;
+  subtitle: string;
+  API_KEY: string;
+  image: string;
+}
+
+const BASE_URL = "https://579igzs65868.vicp.fun/v1";
 const userAvatar = '/bot/user.png';
 const botAvatar = '/bot/bot.png';
 
 const isStreaming = ref(false);
 const chatList = ref<Chat[]>([]);
 const selectedChatId = ref<string | null>(null);
-const allMessages = ref<Message[]>([]);
 const newMessage = ref('');
 const editingChatId = ref<string | null>(null);
 const menuVisible = ref<{ [key: number]: boolean }>({});
@@ -217,22 +209,15 @@ const tipShow = ref(true);
 const messages = ref<HTMLElement | null>(null);
 const taskId = ref('');
 const userId = 'abc';
-interface ListItem {
-  id: number;
-  title: string;
-  subtitle: string;
-  API_KEY: string;
-  image: string;
-}
 
 const items = ref<ListItem[]>([
-  { id: 1, title: '知识问答', subtitle: '简单描述基本情况内容 ',API_KEY:"app-5muy7p6a7PL8lOk0RKTUMmE7", image: '/img/a.png' },
-  { id: 2, title: '日常问答', subtitle: '简单描述基本情况内容 ',API_KEY:"app-rNuCcawBtyNvXHGRoTUZa4rS", image: '/img/b.png' },
-  { id: 3, title: '场景问答', subtitle: '简单描述基本情况内容 ',API_KEY:"app-5muy7p6a7PL8lOk0RKTUMmE7", image: '/img/c.png' },
-  { id: 4, title: '知识问答', subtitle: '简单描述基本情况内容 ',API_KEY:"app-rNuCcawBtyNvXHGRoTUZa4rS", image: '/img/d.png' },
-  { id: 5, title: '知识问答', subtitle: '简单描述基本情况内容 ',API_KEY:"app-rNuCcawBtyNvXHGRoTUZa4rS", image: '/img/a.png' },
-  { id: 6, title: '知识问答', subtitle: '简单描述基本情况内容 ',API_KEY:"app-rNuCcawBtyNvXHGRoTUZa4rS", image: '/img/b.png' },
-  { id: 7, title: '知识问答', subtitle: '简单描述基本情况内容 ',API_KEY:"app-rNuCcawBtyNvXHGRoTUZa4rS", image: '/img/c.png' }
+  { id: 1, title: '智慧矿山', subtitle: '简单描述基本情况内容 ', API_KEY: "app-5muy7p6a7PL8lOk0RKTUMmE7", image: '/img/a.png' },
+  { id: 2, title: '校园问答', subtitle: '简单描述基本情况内容 ', API_KEY: "app-rNuCcawBtyNvXHGRoTUZa4rS", image: '/img/b.png' },
+  { id: 3, title: '场景问答', subtitle: '简单描述基本情况内容 ', API_KEY: "app-5muy7p6a7PL8lOk0RKTUMmE7", image: '/img/c.png' },
+  { id: 4, title: '知识问答', subtitle: '简单描述基本情况内容 ', API_KEY: "app-rNuCcawBtyNvXHGRoTUZa4rS", image: '/img/d.png' },
+  { id: 5, title: '知识问答', subtitle: '简单描述基本情况内容 ', API_KEY: "app-rNuCcawBtyNvXHGRoTUZa4rS", image: '/img/a.png' },
+  { id: 6, title: '知识问答', subtitle: '简单描述基本情况内容 ', API_KEY: "app-rNuCcawBtyNvXHGRoTUZa4rS", image: '/img/b.png' },
+  { id: 7, title: '知识问答', subtitle: '简单描述基本情况内容 ', API_KEY: "app-rNuCcawBtyNvXHGRoTUZa4rS", image: '/img/c.png' }
 ]);
 const API_KEY = ref(items.value[1].API_KEY);
 
@@ -253,7 +238,7 @@ const handleClick = (item: ListItem) => {
   selectedAgent.value = item;
   API_KEY.value = item.API_KEY;
   console.log(API_KEY.value);
-  
+
   conversationListMessage();
   startNewChat();
 };
@@ -302,7 +287,7 @@ const menuAction = (action: string, chat: Chat) => {
 
 /**重命名会话 */
 const saveChatName = async () => {
-  dialog.value = false;
+  dialog.value = false;//
   const response = await fetch(`${BASE_URL}/conversations/${editingChatId.value}/name`, {
     method: 'POST',
     headers: headers.value,
@@ -363,7 +348,6 @@ const startNewChat = () => {
 };
 
 const test = () => {
-  console.log(allMessages.value);
   console.log(chatList.value);
 
   conversationListMessage();
@@ -413,8 +397,7 @@ const historyMessage = async (chatId: string) => {
 
     const data = await response.json();
     console.log(data);
-    allMessages.value = data.data;
-    allMessages.value.forEach((element: any) => {
+    data.data.forEach((element: any) => {
       const userMessageItem = {
         id: uuidv4(),
         chatId: element.conversation_id,
@@ -453,7 +436,7 @@ const conversationListMessage = async (lastId = '', limit = 20, pinned = false) 
     url += `&pinned=${pinned}`;
   }
 
-  
+
   try {
     const response = await fetch(url, {
       method: 'GET',

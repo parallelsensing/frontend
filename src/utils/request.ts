@@ -1,27 +1,29 @@
 // 二次封装axios
 import axios from 'axios';
 import { errorAlert } from './alert';
-// import { useUserStore } from '../store/users'
+import { useUserStore } from '@/stores/users/index'
+import { SET_TOKEN } from '@/utils/token';
+
 const request = axios.create({
   // 环境变量.env.development
   //  baseURL:import.meta.env.VITE_APP_BASE_API ,
   baseURL: '/api/sensing',
   timeout: 5000
 });
+
 //请求使用拦截器
 request.interceptors.request.use(
   (config) => {
-    // let userStore = useUserStore()
-    // if (userStore.token) {
-    //   config.headers.token = userStore.token
-    // }
+    let userStore = useUserStore()
+    if (userStore.token) {
+      config.headers.Authorization = `Bearer ${userStore.token}`;
+    }
     return config;
   },
   (error) => {
     return Promise.reject(error);
   }
 );
-
 
 //响应拦截器，参数是成功与失败两个函数。
 request.interceptors.response.use(
@@ -41,6 +43,8 @@ request.interceptors.response.use(
       // 在登录成功后返回当前页面，这一步需要在登录页操作。
       case 401:
         message = '未登录';
+        localStorage.clear();
+        window.location.href = "/";
         break;
       // 403 token过期
       // 登录过期对用户进行提示
@@ -48,6 +52,9 @@ request.interceptors.response.use(
       // 跳转登录页面
       case 403:
         message = '登录过期，请重新登录';
+        localStorage.clear();
+        window.location.href = "/";
+
         break;
       case 404:
         message = '网络请求不存在';

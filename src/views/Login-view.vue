@@ -51,10 +51,12 @@ const router = useRouter();
 
 const handleLogin = async () => {
   try {
-    await userStore.userLogin(loginForm);
-    router.push('/map');
-    successAlert(`HI,${getTime()}好`);
-  } catch (error: any) {
+    const result = await userStore.userLogin(loginForm);
+    if (result === 'ok') {
+        successAlert(`HI,${getTime()}好`);
+        router.push('/map');
+    }
+  } catch (error:any) {
     console.error(error);
     errorAlert(error.msg);
   }

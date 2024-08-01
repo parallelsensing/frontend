@@ -11,8 +11,9 @@ export interface dataType {
 //服务器返回的数据类型
 export interface loginResponseData {  
     "code": number,
-    "data": "string",
-    "msg": "string"
+    "data": any,
+    "msg": string,
+    "token":string
 }
 
 interface userInfo {

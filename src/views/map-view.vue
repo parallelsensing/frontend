@@ -6,7 +6,7 @@
     <div>
       <MapboxMap ref="mapBox" id="map" :style="{ height: mapHeight }" @click="inputBlur"
         access-token="pk.eyJ1IjoidHpxMTAzMiIsImEiOiJjbHUyZWxuYTUwMWlrMndsM3VxaHJpcmd6In0.qE_R5khyiy6PYCjUuTkywQ"
-        :center="mapCenter" @mb-created="onMapCreated">
+        :center="mapCenter" @mb-created="onMapCreated" mapStyle="">
       </MapboxMap>
 
       <div v-for="(item, index) in items" :key="index" class="markerInfo" ref="markerDivArray">
@@ -32,11 +32,11 @@
 
         <v-list v-show="filterItems.length > 0 && showList" class="border-list">
           <v-list-item v-for="(item, index) in filterItems" :key="index" @click="itemClick(item)">
-            <v-list-item-content>
+            <div>
               <v-list-item-title>{{ item["name"] }}</v-list-item-title>
-              <v-list-item-title-subtitle>经度：{{ item.coordinates[0].toFixed(2) }}，纬度：{{
-                item.coordinates[1].toFixed(2) }}</v-list-item-title-subtitle>
-            </v-list-item-content>
+              <div>经度：{{ item.coordinates[0].toFixed(2) }}，纬度：{{
+                item.coordinates[1].toFixed(2) }}</div>
+            </div>
           </v-list-item>
         </v-list>
       </div>
@@ -90,22 +90,24 @@ let items = ref<DestItemsType[]>([
     color: "红色", coordinates: [117.3833, 34.4167], description: '123', image_url: "/img/CASIA.jpg", name: "秦始皇陵兵马俑"
   },
 ])
+
 request.get('/item/get_items')
-  .then(function (response) {
-    const data: DestItemsType[] = response.data.map((item: DestItemsType) => ({
+  .then((response:any) => {
+    const data: DestItemsType[] = response.map((item: any): DestItemsType => ({
       color: item.color,
-      coordinates: item.coordinates,
+      coordinates: item.LngLat,
       description: item.description,
-      img: item.image_url,
+      image_url: item.image_url,
       name: item.name
     }));
     // 处理成功响应
-    items.value = data;
+    // items.value = data;
   })
-  .catch(function (error) {
+  .catch(error => {
     // 处理错误
     console.error('Error fetching user information:', error);
   });
+
 let keyWord = ref('')
 let search = ref('')
 let mapBox = ref()

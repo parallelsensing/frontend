@@ -13,14 +13,23 @@
                 <img src="/img/中英图标.png" alt="中英">
             </v-btn>
 
-            <v-divider class="border-opacity-100 custom-divider" length="60px" color="#828282" vertical></v-divider>
+            <el-divider direction="vertical" style="margin:0;height:48px" />
             <span class="user-info">
-                <span> 
-                <h1 style="color: #660874;font-weight: 600;font-size: 22px;">
-                    {{ 'Hi~' + name }} 
-                </h1>
+                <span>
+                    <h1 style="color: #660874;font-weight: 600;font-size: 22px;">
+                        {{ 'Hi~' + name }}
+                    </h1>
                 </span>
-                <v-avatar class="avatar" x-large image="/img/zky.jpg"></v-avatar>
+                <!-- 头像下拉菜单 -->
+                <el-dropdown>
+                    <template #dropdown>
+                        <el-dropdown-menu>
+                            <el-dropdown-item @click="handleSettings">设置</el-dropdown-item>
+                            <el-dropdown-item @click="handleLogout">注销</el-dropdown-item>
+                        </el-dropdown-menu>
+                    </template>
+                    <v-avatar class="avatar" x-large image="/img/zky.jpg"></v-avatar>
+                </el-dropdown>
             </span>
         </div>
     </div>
@@ -32,6 +41,16 @@ import { useFullscreen } from '@vueuse/core';
 const { isFullscreen, toggle } = useFullscreen();
 // const name = localStorage.getItem('username')
 const name = '管理员'
+
+const handleSettings = () => {
+    console.log('打开设置页面');
+}
+
+const handleLogout = () => {
+    console.log('用户已注销');
+    localStorage.clear();
+    window.location.href = "/";
+}
 </script>
 
 <style lang="scss" scoped>
@@ -39,7 +58,8 @@ const name = '管理员'
     margin-bottom: 15px;
     display: flex;
     align-items: center;
-    justify-content: space-between; /* 修改此处 */
+    justify-content: space-between;
+    /* 修改此处 */
     height: 60px;
     background-color: #fff;
     padding: 0 20px;

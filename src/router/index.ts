@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import type { RouteRecordRaw } from 'vue-router';
+import { errorAlert } from '@/utils/alert';
 // import Home from '@/components/home-view.vue';
 const Layout = () => import("@/layout/index.vue");
 
@@ -90,6 +91,14 @@ const history = createWebHistory();
 const router = createRouter({
   history,
   routes
+});
+
+router.beforeEach((to, from) => {
+  if ((to.name !== 'login' && to.name !== 'register') && !localStorage.getItem('TOKEN')) {
+    errorAlert(`请先登录，跳转至登录页`);
+    return { path: '/login' };
+  }
+  return true;
 });
 
 export default router;
