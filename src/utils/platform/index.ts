@@ -21,7 +21,7 @@ import { OrbitControls } from 'three/examples/jsm/Addons.js';
 import TWEEN, { Tween } from 'three/examples/jsm/libs/tween.module.js';
 // import { GlbLoader, GLB_LOAD_EVENT } from './glb-loader';
 import { PcdLoader, PCD_LOAD_EVENT } from './pcd-loader';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+
 /**
  * 版本
  */
@@ -66,18 +66,22 @@ export class Platform extends EventDispatcher {
     this._boxmat = new MeshBasicMaterial({
       color: 0x00aa00
     });
-    this._textureCubeLoader = new CubeTextureLoader().setPath('/textures/');
+    this._textureCubeLoader = new CubeTextureLoader().setPath('./texture');
     this._textureCube = this._textureCubeLoader.load([
-      '1.png'
-  
+      '1.jpg',
+      '2.jpg',
+      '3.jpg',
+      '4.jpg',
+      '5.jpg',
+      '6.jpg'
     ]);
-    this.__scene.background = this._textureCube;
+    // this.__scene.background = this._textureCube;
+    this.__scene.background = new Color(0x000000);
     this.__scene.environment = this._textureCube;
     this._box = new Mesh(this._boxgeo, this._boxmat);
     this._box.position.set(15, 15, 15);
     this._box.name = '传感器1';
     this._raycaster = new Raycaster();
-    // this.loadArchModel();
 
     this.__camera.position.set(43.37, 18.8, 49.6);
     this.__camera.lookAt(new Vector3(0, 0, 0));
@@ -122,17 +126,6 @@ export class Platform extends EventDispatcher {
     }
   };
 
-  loadArchModel() {
-    const loader = new GLTFLoader();
-    loader.load('/行政楼03.gltf', (gltf) => {
-      // gltf.scene.position.set(-150, -100, -2);
-      // gltf.scene.rotation.y = Math.PI / 4;
-      // gltf.scene.scale.set(8, 8, 8);
-      gltf.scene.rotation.x = Math.PI / 2;
-
-      this.__scene.add(gltf.scene);
-    });
-  }
   //入场动画
   enterSceneAnimate() {
     const v = new Vector3();
@@ -145,25 +138,20 @@ export class Platform extends EventDispatcher {
     });
     tween.onComplete(() => {
       this.controlCamera();
-      // this.modelInit();
-    // this.loadArchModel();
-
+      this.modelInit();
     });
     tween.start();
   }
   start() {
     this.enterSceneAnimate();
-    // this.setGlbLoading();
+    this.setGlbLoading();
   }
   modelInit() {
     // const g = new GlbLoader('./model/RobotExpressive.glb');
     const g1 = new PcdLoader();
-    console.log(g1)
     this.__models.add(g1, this._box);
-    console.log('ssssssssss', this.__models);
-    console.log('场景', this.__scene);
 
-
+    
   }
   //添加灯光
   getLights() {

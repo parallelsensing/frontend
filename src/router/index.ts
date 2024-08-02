@@ -40,7 +40,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: 'pointscene',
         name: 'pointscene',
-        component: () => import('@/views/point-view.vue'),
+        component: () => import('@/views/scene/index.vue'),
         meta: { hidden: true, title: "点云大场景" },
       },
       {
@@ -74,7 +74,12 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/ros-3d.vue'),
     props: true
   },
-
+  {
+    path: '/test1',
+    name: 'test1',
+    component: () => import('@/views/scene/components/PointCloud.vue'),
+    props: true
+  },
   {
     name: '404',
     path: '/404',

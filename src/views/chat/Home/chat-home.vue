@@ -37,8 +37,6 @@ import Search from '@/components/Search/index.vue';
 import BackTop from '@/components/BackTop/index.vue';
 import { fetchSendMessage } from '@/api/chat';
 
-
-
 highjs.highlightAll(); 
 
 marked.setOptions({

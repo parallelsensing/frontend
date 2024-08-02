@@ -2,8 +2,8 @@
     <!-- 顶部导航栏 -->
     <div class="navbar">
         <div class="navbar-left">
-            <img src="/img/logo.png" alt="" style="height: 50px;">
-            <h1 style="color: #660874;font-weight: 600;font-size: 28px;margin-left: 20px;">北京中科智传科技有限公司</h1>
+            <img src="/img/logo.png" alt="" style="height: 40px;margin-left: 10px;">
+            <h1 style="color: #660874;font-weight: 600;font-size: 1.6vw;margin-left: 20px;">北京中科智传科技有限公司</h1>
         </div>
         <div class="navbar-right" style="display: flex;">
             <v-btn @click="toggle" variant="text" class="fullscreen-btn">
@@ -16,7 +16,7 @@
             <el-divider direction="vertical" style="margin:0;height:48px" />
             <span class="user-info">
                 <span>
-                    <h1 style="color: #660874;font-weight: 600;font-size: 22px;">
+                    <h1 style="color: #660874;font-weight: 600;font-size: 1.3vw;">
                         {{ 'Hi~' + name }}
                     </h1>
                 </span>
@@ -64,7 +64,7 @@ const handleLogout = () => {
     background-color: #fff;
     padding: 0 20px;
     z-index: 99999999999;
-    box-shadow: 0px 2px 15px 4px rgba(0, 0, 0, 0.15);
+    box-shadow: 0px 4px 10px 2px rgba(78, 78, 78, 0.2);
 
     .navbar-left {
         display: flex;

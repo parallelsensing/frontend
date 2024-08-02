@@ -1,20 +1,32 @@
 <script setup lang="ts">
 import { RouterView } from "vue-router";
-import Headers from "./pointheader.vue";
 import useMinScene from '@/stores/chatRobot/modules/chatRobot'
 import usePlatform from '@/stores/platform/modules/platform';
 import { onMounted, ref, computed } from 'vue';
-import chatHome from "@/views/chat/Home/chat-home.vue";
-const LoadingProgress = computed(() => store.loadingPercent)
-const LoadingMsg = computed(() => store.loadingMsg)
-const store = usePlatform();
-const minStore = useMinScene()
-const canvas = ref<HTMLElement>()
-const canvasSize = ref<[number, number]>([window.innerWidth, window.innerHeight])
-const mincanvasSize = ref<[number, number]>([250, 200])
-const minScene = ref<HTMLElement>()
-const isChatShow = ref(false)
+import headersall from "../header-all.vue";
+import PointCloud from './components/PointCloud.vue';
+import VideoSurveillance from './components/VideoSurveillance.vue';
 
+import chatHome from "@/views/chat/Home/chat-home.vue";
+const LoadingProgress = computed(() => store.loadingPercent);
+const LoadingMsg = computed(() => store.loadingMsg);
+const store = usePlatform();
+const minStore = useMinScene();
+const canvas = ref<HTMLElement>();
+const canvasSize = ref<[number, number]>([window.innerWidth, window.innerHeight]);
+const mincanvasSize = ref<[number, number]>([250, 200]);
+const minScene = ref<HTMLElement>();
+const isChatShow = ref(false);
+const isPointCloudShow = ref(false);
+const isVideoSurveillance = ref(false);
+
+const showVideoSurveillance = () => {
+  isVideoSurveillance.value = !isVideoSurveillance.value;
+}
+const showPointCloud = () => {
+  isPointCloudShow.value = !isPointCloudShow.value;
+  showVideoSurveillance()
+}
 const onCast = (event: MouseEvent) => {
   const screenX = event.clientX;
   const screenY = event.clientY;
@@ -49,13 +61,20 @@ onMounted(() => {
     <div ref="canvas" class="canvas" @click="onCast"></div>
 
     <div class="progress" v-if="LoadingProgress != 100">
-      <img src="/img/loading.gif" alt="" />
+      <img src="/img/loading.gif" alt=""/>
       {{ LoadingMsg }}
     </div>
-    <Headers />
+    <headersall @click="showPointCloud"/>
     <RouterView />
   </div>
   <div id="minScene" ref="minScene" @click="onMinCast"></div>
+  <div v-if="isPointCloudShow">
+    <PointCloud />
+  </div>
+  <div v-if="isVideoSurveillance">
+    <VideoSurveillance />
+  </div>
+
   <div class="chat" v-if="isChatShow">
     <chatHome />
     <div class="close-btn">
@@ -75,11 +94,9 @@ onMounted(() => {
   left: 0px;
   // padding: 16px 16px 16px 16px;
   box-sizing: border-box;
-  background-image: url("@/assets/img/bg.png");
   background-size: cover;
   background-position: center center;
   overflow: hidden;
-
 }
 
 .chat {

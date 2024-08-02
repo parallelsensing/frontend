@@ -30,6 +30,8 @@
     </div>
 </template>
 
+
+
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -68,16 +70,17 @@ const handleClickClosed = () => {
 
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .sidebar {
     margin: 0 20px 0 0;
-    padding: 0 10px 0px 0px;
+    padding: 15px 10px 0px 0px;
     width: 100px;
     height: 100%;
     background-color: rgb(255, 255, 255);
     position: relative;
-    box-shadow: 4px 15px 8px 2px rgba(0, 0, 0, 0.15);
+    box-shadow: 4px 15px 8px 2px rgba(0, 0, 0, 0.15), inset 0 12px 15px -4px rgba(0, 0, 0, 0.15); // 外部和内部阴影;
     border: none;
+
 }
 
 .image-container {
@@ -136,7 +139,8 @@ const handleClickClosed = () => {
     align-items: center;
     justify-content: center;
     width: 40px;
-    margin-left: 16px;
+    margin-left: 25px;
+
     svg {
         width: 100%;
         height: auto;
@@ -154,7 +158,7 @@ const handleClickClosed = () => {
     }
 }
 
-.custom-tooltip {
+::v-deep .custom-tooltip {
     height: 40px !important;
     font-size: 22px !important;
     background-color: #802f75c8 !important;
@@ -162,11 +166,12 @@ const handleClickClosed = () => {
     border-radius: 4px !important;
 }
 
-.custom-tooltip0 {
+::v-deep .custom-tooltip0 {
     height: 40px !important;
     font-size: 18px !important;
     background-color: #802f75c8 !important;
     color: #ffffff !important;
     border-radius: 4px !important;
+
 }
 </style>

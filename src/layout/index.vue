@@ -4,7 +4,7 @@
             <Hearderbar></Hearderbar>
         </div>
         <div class="main-container">
-            <div v-if="showSidebar" class="sidebar">
+            <div v-if="showSidebar" class="sidebar1">
                 <Sidebar @closeSidebar="handleSidebarClosed" @expandSidebar="handleSidebarExpanded"></Sidebar>
             </div>
             <div v-else @click="handleClickExpand">
@@ -16,7 +16,7 @@
                 </svg>
             </div>
             <div class="content">
-                <router-view></router-view>
+                    <router-view></router-view>
             </div>
         </div>
     </div>
@@ -61,18 +61,18 @@ const handleClickExpand = () => {
     flex-grow: 1;
 }
 
-.sidebar {
-    transform: translateY(-13px);
-    width: 80px;
-    height: calc(100% + 13px);
+.sidebar1 {
+    transform: translateY(-15px);
+    width: 120px;
+    height: calc(100% + 15px);
 }
 
 .content {
-    width: calc(100vw - 80px);
+    width: 100%;
     height: 100%;
     flex-grow: 1;
+    
     position: relative;
     overflow: hidden;
 }
-
 </style>

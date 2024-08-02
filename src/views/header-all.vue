@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import { Decoration3 as DvDecoration3 } from '@kjgl77/datav-vue3';
 
 </script>
@@ -9,9 +8,9 @@ import { Decoration3 as DvDecoration3 } from '@kjgl77/datav-vue3';
     <div class="cont">
       <div class="zuojuxing">
         <img src="@/assets/img/headers/juxing1.png" alt="左边形状"
-          style="position: absolute;width:150px;height: 5px;z-index: 1;top:0px;left: 15vw;filter: hue-rotate(400deg) saturate(2);">
-        <div style="position: absolute;z-index: 1;top:15px">
-          <dv-decoration3 style="width:200px;height:30px;" :color="['#9370DB', '#D8BFD8']" />
+          style="position: absolute;width:40%;height: 5px;z-index: 1;top:0px;left: 30%;filter: hue-rotate(400deg) saturate(2);">
+        <div style="position: absolute;z-index: 2;top:50%; transform: translateY(-50%);">
+          <dv-decoration3 style="width:10vw;height:3vh;" :color="['#9370DB', '#D8BFD8']" />
         </div>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="18 -2 460 56" preserveAspectRatio="none">
           <defs>
@@ -34,16 +33,16 @@ import { Decoration3 as DvDecoration3 } from '@kjgl77/datav-vue3';
             </filter>
           </defs>
           <path
-          d="M 3.2798 2.2847 Q 1.34 5.0694 2.5161 8.2527 L 17.815 35.592 Q 20.273 39.944 23.558 42.641 Q 26.088 45.245 33.001 45 L 455.068 45.052 Q 463.293 45.23 465.762 41.81 Q 468.811 38.178 469.914 35.252 L 484.484 8.2527 Q 485.66 5.0693 483.72 2.2847 Q 481.78 -0.5 478.387 -0.5 L 8.6133 -0.5 Q 5.2196 -0.5 3.2798 2.2847 Z"
+            d="M 3.2798 2.2847 Q 1.34 5.0694 2.5161 8.2527 L 17.815 35.592 Q 20.273 39.944 23.558 42.641 Q 26.088 45.245 33.001 45 L 455.068 45.052 Q 463.293 45.23 465.762 41.81 Q 468.811 38.178 469.914 35.252 L 484.484 8.2527 Q 485.66 5.0693 483.72 2.2847 Q 481.78 -0.5 478.387 -0.5 L 8.6133 -0.5 Q 5.2196 -0.5 3.2798 2.2847 Z"
             fill="#ffffff" filter="url(#shadow1)" />
         </svg>
       </div>
 
       <div class="youjuxing">
         <img src="@/assets/img/headers/juxing1.png" alt="右边形状"
-          style="position: absolute;width:150px;height: 5px;z-index: 1;top:0px;right: 15vw;filter: hue-rotate(400deg) saturate(2);">
-        <div style="position: absolute;z-index: 1;top:15px;right: 0;">
-          <dv-decoration3 style="width:200px;height:30px;" :color="['#9370DB', '#D8BFD8']" />
+          style="position: absolute;width:40%;height: 5px;z-index: 1;top:0px;right: 30%;filter: hue-rotate(400deg) saturate(2);">
+        <div style="position: absolute;z-index: 2;top:50%; transform: translateY(-50%);right: 0;">
+          <dv-decoration3 style="width:10vw;height:3vh;" :color="['#9370DB', '#D8BFD8']" />
         </div>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="18 -2 460 56" preserveAspectRatio="none">
           <defs>
@@ -51,8 +50,10 @@ import { Decoration3 as DvDecoration3 } from '@kjgl77/datav-vue3';
               <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#000000" flood-opacity="0.3" />
             </filter>
           </defs>
-          <path d="M 28.108 31.795 Q 19.999 45.32 35.935 45.002 L 467.438 44 Q 471.385 44.108 473.98 42.426 Q 476.048 40.564 476.049 36.706 L 476.069 4 Q 476.069 3 474.694 1 Q 473.694 0 470.694 -1 L 54.694 0 Q 42.791 0.346 37.765 12.369 Z" fill="#ffffff" filter="url(#shadow0)" />
-            
+          <path
+            d="M 28.108 31.795 Q 19.999 45.32 35.935 45.002 L 467.438 44 Q 471.385 44.108 473.98 42.426 Q 476.048 40.564 476.049 36.706 L 476.069 4 Q 476.069 3 474.694 1 Q 473.694 0 470.694 -1 L 54.694 0 Q 42.791 0.346 37.765 12.369 Z"
+            fill="#ffffff" filter="url(#shadow0)" />
+
         </svg>
       </div>
     </div>
@@ -98,7 +99,7 @@ import { Decoration3 as DvDecoration3 } from '@kjgl77/datav-vue3';
 .title-text {
   position: absolute;
   z-index: 1;
-  font-size: 3.5vh;
+  font-size: 1.8vw;
   font-weight: 900;
   color: #920783;
 }
