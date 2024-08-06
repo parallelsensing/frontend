@@ -1,94 +1,52 @@
 <script setup lang="ts">
-import { useRouter } from 'vue-router';
-// import useRealtimeStore from '@/stores/realtime/modules/realtime'
-import usePlatform from '@/stores/platform/modules/platform';
-import { onMounted, ref } from 'vue';
-import { Decoration6 as DvDecoration6 } from '@kjgl77/datav-vue3'
-import { BorderBox8 as DvBorderBox8 } from '@kjgl77/datav-vue3';
+import { onMounted, ref, computed, watch } from 'vue';
+import { NewPlatform } from "@/utils/newplatform";
 
-const store = usePlatform();
-const bigScene = ref<HTMLElement>()
-const bigSceneSize = ref<[number, number]>([700, 580])
-
-// const realtimeShow = ref<boolean>(false)
-// const realtimeStore = useRealtimeStore()
-
-const onCast = (event: MouseEvent) => {
-  const screenX = event.clientX;
-  const screenY = event.clientY;
-  store.cast(screenX, screenY);
-}
-
-onMounted(() => {
-  if (bigScene.value) {
-    store.platformAddCanvas(bigScene.value, bigSceneSize.value); // 装载canvas
-    store.start(); // 按照config开始执行
+const newPlatform = ref();
+const canvas = ref<HTMLElement>();
+const canvasSize = ref<[number, number]>([800, 800]);
+const isVideoSurveillance = ref(false);
+const loadingData = ref<any>(0);
+const isLoadingComplete = computed(() => {
+  if (loadingData.value === 100) {
+    return false;
+  } else {
+    return true;
   }
 });
+onMounted(() => {
+  if (canvas.value) {
+    newPlatform.value = new NewPlatform(canvas.value, canvasSize.value, (e: any) => {
+      loadingData.value = Math.round(e.data.data);
+    })
+  }
+})
 
 </script>
 
 <template>
   <div class="centermap">
-    
-    <div class="mapwrap">
-      <!-- <dv-border-box8 :color="['#920783', '	#A020F0']"> -->
-        <div class="card-container">
 
-        <div @click="onCast" class="bigScene" ref="bigScene"></div>
-        </div>
-      <!-- </dv-border-box8> -->
+    <div class="mapwrap">
+      <div class="card-container">
+        <div ref="canvas" class="canvas"></div>
+        <div class="progress" v-if="isLoadingComplete">
+      {{ '已加载：' + loadingData + '%' }}
+    </div>
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
-.card-container {
+.centermap {
+  margin-bottom: 30px;
+  overflow: hidden;
+  border-radius: 30px;
+  box-shadow: 2px 6px 8px 3px rgba(0, 0, 0, 0.15);
   width: 730px;
   height: 630px;
   border: 1px solid #ddd;
-  border-radius: 30px;
-  box-shadow: 2px 6px 8px 3px rgba(0, 0, 0, 0.15);
-}
-.centermap {
-  margin-bottom: 30px;
-
-  .maptitle {
-    height: 60px;
-    display: flex;
-    justify-content: center;
-    padding-top: 10px;
-    box-sizing: border-box;
-
-    .titletext {
-      font-size: 28px;
-      font-weight: 900;
-      letter-spacing: 6px;
-      background: linear-gradient(92deg,
-          #9333ed 0%,
-          #920783 48.8525390625%,
-          #9333ed 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin: 0 10px;
-    }
-
-    .zuo,
-    .you {
-      background-size: 100% 100%;
-      width: 29px;
-      height: 20px;
-      margin-top: 8px;
-    }
-
-    .zuo {
-      background: url("@/assets/img/xiezuo.png") no-repeat;
-    }
-
-    .you {
-      background: url("@/assets/img/xieyou.png") no-repeat;
-    }
-  }
 
   .mapwrap {
     height: 580px;
@@ -96,30 +54,27 @@ onMounted(() => {
     box-sizing: border-box;
     position: relative;
 
-    .bigScene {
+    .canvas {
       width: 100%;
       height: 100%;
       position: relative;
-      /* 父容器必须设置为相对定位 */
+
       z-index: 100;
     }
-
-    .checkoutpoint {
-      position: absolute;
-      right: 20px;
-      top: -46px;
-      width: 80px;
-      height: 28px;
-      border: 1px solid #00eded;
-      border-radius: 10px;
-      color: #00f7f6;
-      text-align: center;
-      line-height: 26px;
-      letter-spacing: 6px;
-      cursor: pointer;
-      box-shadow: 0 2px 4px rgba(0, 237, 237, 0.5), 0 0 6px rgba(0, 237, 237, 0.4);
-      z-index: 10;
-    }
   }
+}
+.progress {
+  position: fixed;
+  top: 500px;
+  left: 1000px;
+  width: 300px;
+  height: 80px;
+  z-index: 101;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 20px;
+  color: rgb(0, 0, 0);
 }
 </style>

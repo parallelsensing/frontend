@@ -5,5 +5,6 @@
  *  @param  width 设计宽度
  */
 @function getRootRem($width) {
+  //
   @return math.div(1, math.div($width, 10000)) * 1vw;
 }

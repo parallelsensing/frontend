@@ -91,7 +91,9 @@ import { Decoration1 as DvDecoration1 } from '@kjgl77/datav-vue3';
 
       </div>
       <div class="contetn_center">
-        <CenterMap style="margin-bottom:80px;" title="跳转至大场景" />
+        <div>
+          <CenterMap style="margin-bottom:20px;"/>
+        </div>
         <div class="card-container">
           <div class="title">
             <div class="title-text">
@@ -219,6 +221,8 @@ import { Decoration1 as DvDecoration1 } from '@kjgl77/datav-vue3';
   display: flex;
   flex-direction: column;
   // justify-content: space-around;
+  align-items: center; 
+  justify-content: center; 
 
   .contetn_center-bottom {
     height: 315px;

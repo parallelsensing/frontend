@@ -1,5 +1,5 @@
 <template>
-    <div class="point-cloud" :class="{ 'point-cloud-large': isLarge }">
+    <div :class="['point-cloud', { 'point-cloud-large': isLarge }]" ref="pointCloud">
         <div class="card-container">
             <div class="title" @click="toggleSize">
                 <div class="title-text">
@@ -19,23 +19,48 @@
                 </svg>
             </div>
             <div class="content">
-
+                <div class="ros3d-container">
+                    <ros3d :width="width" :height="height" />
+                </div>
             </div>
         </div>
     </div>
 </template>
-  
+
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted, watch, nextTick } from 'vue';
 import { Decoration1 as DvDecoration1 } from '@kjgl77/datav-vue3';
+import ros3d from '../../ros-3d.vue';
 
 const isLarge = ref(false);
+const pointCloud = ref();
+const width = ref(800);
+const height = ref(500);
 
 const toggleSize = () => {
     isLarge.value = !isLarge.value;
 };
-</script>
 
+const updateDimensions = () => {
+    console.log(pointCloud.value.offsetWidth, pointCloud.value.offsetHeight);
+    
+    if (pointCloud.value) {
+        width.value = pointCloud.value.offsetWidth * 0.8;
+        height.value = pointCloud.value.offsetHeight * 0.8;
+    }
+};
+
+onMounted(() => {
+    updateDimensions();
+    window.addEventListener('resize', updateDimensions);
+});
+
+watch(isLarge, () => {
+    nextTick(() => {
+        updateDimensions();
+    });
+});
+</script>
 
 <style scoped lang="scss">
 .point-cloud {
@@ -44,12 +69,17 @@ const toggleSize = () => {
     height: 30vh;
     top: 10vh;
     right: 30px;
+    background-color: #ffffff;
+    border-radius: 30px;
+
     transition: width 0.3s, height 0.3s;
 }
 
 .point-cloud-large {
     width: 60vw;
     height: 70vh;
+    background-color: #ffffff;
+
 }
 
 .card-container {
@@ -95,11 +125,16 @@ const toggleSize = () => {
 
 .content {
     position: relative;
-    background-color: aqua;
     width: 80%;
     height: 80%;
     justify-content: center;
     align-items: center;
 }
-</style>
 
+.ros3d-container {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+</style>

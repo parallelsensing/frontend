@@ -1,87 +1,73 @@
 <script setup lang="ts">
 import { RouterView } from "vue-router";
-import useMinScene from '@/stores/chatRobot/modules/chatRobot'
-import usePlatform from '@/stores/platform/modules/platform';
-import { onMounted, ref, computed } from 'vue';
+import useNewPlatform from '@/stores/newplatform/modules/newplatform';
+import { onMounted, ref, computed, watch } from 'vue';
 import headersall from "../header-all.vue";
 import PointCloud from './components/PointCloud.vue';
 import VideoSurveillance from './components/VideoSurveillance.vue';
+import { NewPlatform } from "@/utils/newplatform";
 
-import chatHome from "@/views/chat/Home/chat-home.vue";
-const LoadingProgress = computed(() => store.loadingPercent);
-const LoadingMsg = computed(() => store.loadingMsg);
-const store = usePlatform();
-const minStore = useMinScene();
+const store = useNewPlatform();
+const newPlatform = ref();
 const canvas = ref<HTMLElement>();
 const canvasSize = ref<[number, number]>([window.innerWidth, window.innerHeight]);
-const mincanvasSize = ref<[number, number]>([250, 200]);
-const minScene = ref<HTMLElement>();
-const isChatShow = ref(false);
+const loadingData = ref<any>(0);
 const isPointCloudShow = ref(false);
 const isVideoSurveillance = ref(false);
-
+const isLoadingComplete = computed(() => {
+  if(loadingData.value === 100) {
+    return false;
+  } else  {
+    return true;
+  }
+});
 const showVideoSurveillance = () => {
   isVideoSurveillance.value = !isVideoSurveillance.value;
 }
 const showPointCloud = () => {
   isPointCloudShow.value = !isPointCloudShow.value;
-  showVideoSurveillance()
 }
+
 const onCast = (event: MouseEvent) => {
   const screenX = event.clientX;
   const screenY = event.clientY;
-  store.cast(screenX, screenY);
-}
-const onMinCast = (event: MouseEvent) => {
-  const screenX = event.clientX;
-  const screenY = event.clientY;
-  isChatShow.value = true
-  minStore.cast(screenX, screenY);
-}
-const closeChat = () => {
-  isChatShow.value = false
+  // store.cast(screenX, screenY);
+  const sensorName = newPlatform.value.cast(screenX, screenY);
+  if (sensorName === "实时监控") {
+    showVideoSurveillance();
+  } else if (sensorName === "实时点云") {
+    showPointCloud();
+  } else {
+    console.log('无');
+
+  }
 }
 
 onMounted(() => {
   if (canvas.value) {
-
-    store.platformAddCanvas(canvas.value, canvasSize.value); // 装载canvas
-
-    store.start(); // 按照config开始执行
-
+    newPlatform.value = new NewPlatform(canvas.value, canvasSize.value, (e: any) => {
+      loadingData.value = Math.round(e.data.data)
+    })
   }
-  if (minScene.value) {
-    minStore.minSceneAddCanvas(minScene.value, mincanvasSize.value)
-  }
+
 });
+
 </script>
 
 <template>
   <div class="content_wrap">
     <div ref="canvas" class="canvas" @click="onCast"></div>
-
-    <div class="progress" v-if="LoadingProgress != 100">
-      <img src="/img/loading.gif" alt=""/>
-      {{ LoadingMsg }}
+    <headersall />
+    <div class="progress" v-if="isLoadingComplete">
+      {{ '已加载：' + loadingData + '%' }}
     </div>
-    <headersall @click="showPointCloud"/>
-    <RouterView />
   </div>
-  <div id="minScene" ref="minScene" @click="onMinCast"></div>
+
   <div v-if="isPointCloudShow">
     <PointCloud />
   </div>
   <div v-if="isVideoSurveillance">
     <VideoSurveillance />
-  </div>
-
-  <div class="chat" v-if="isChatShow">
-    <chatHome />
-    <div class="close-btn">
-      <button @click="closeChat">
-        <v-icon>mdi-close</v-icon>
-      </button>
-    </div>
   </div>
 </template>
 
@@ -99,39 +85,11 @@ onMounted(() => {
   overflow: hidden;
 }
 
-.chat {
-  position: absolute;
-  right: 170px;
-  bottom: 150px;
-  z-index: 1000000;
-  width: 600px;
-  height: 400px;
-  background-color: rgb(161, 159, 159);
-  opacity: 0.9;
-  animation: fadenum 8s 1;
-
-  .close-btn {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin: 2px;
-
-  }
-}
 
 @keyframes fadenum {
   0% {
     opacity: 0;
   }
-}
-
-#minScene {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  width: 220px;
-  height: 200px;
-  z-index: 10000000000;
 }
 
 .canvas {
@@ -153,7 +111,7 @@ onMounted(() => {
   align-items: center;
   text-align: center;
   font-size: 20px;
-  color: #fff;
+  color: rgb(0, 0, 0);
 }
 
 .progress>img {
@@ -161,16 +119,4 @@ onMounted(() => {
   width: 100px;
   height: 20px;
 }
-
-.loading {
-  position: fixed;
-  top: 0px;
-  left: 0px;
-  width: 1920px;
-  height: 1080px;
-  // background-image: url(/img/loading.png);
-  // background-size: cover;
-  // filter: blur(50px);
-  display: block;
-  z-index: 100;
-}</style>
+</style>

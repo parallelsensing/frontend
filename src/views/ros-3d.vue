@@ -1,15 +1,9 @@
 <template>
   <div>
     <v-card>
-      <v-card-title>ros 3d</v-card-title>
-      <v-card-actions>
-        <div v-if="isConnected">
-          <v-btn @click="subscribe">订阅</v-btn><v-btn color="error" @click="closeSocket">关闭</v-btn>
-        </div>
-        <div v-else><v-btn color="primary" @click="connectSocket">连接</v-btn></div>
-      </v-card-actions>
+     
       <v-card-text>
-        <div id="pointCloudContainer" ref="pointCloudContainer">显示点云的内容</div>
+        <div id="pointCloudContainer" ref="pointCloudContainer"></div>
       </v-card-text>
     </v-card>
   </div>
@@ -24,6 +18,17 @@ import * as THREE from 'three';
 
 import { AxesHelper, Vector3 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+
+const props = defineProps({
+  width: {
+    type: Number,
+    required: true
+  },
+  height: {
+    type: Number,
+    required: true
+  }
+});
 
 const pointCloudContainer = ref<HTMLDivElement>();
 const pointCloudData = ref<any>(null);
@@ -53,6 +58,7 @@ const listener = new Topic({
 ros.on('connection', function () {
   console.log('Connected to websocket server.');
   isConnected.value = true;
+  subscribe();
 });
 ros.on('error', function (error) {
   console.log('Error connecting to websocket server: ', error);
@@ -85,9 +91,12 @@ const subscribe = () => {
 const init = () => {
   if (!pointCloudContainer.value) return;
   scene = new THREE.Scene();
-  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.01, 1000000000);
+
+  console.log('00000000000000',props.width,props.height);
+  
+  camera = new THREE.PerspectiveCamera(75, props.width / props.height, 0.01, 1000000000);
   renderer = new THREE.WebGLRenderer();
-  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setSize(props.width, props.height);
   pointCloudContainer.value.appendChild(renderer.domElement);
   // camera.lookAt(new Vector3(500, 0, 10));
   const light = new THREE.DirectionalLight(0xffffff, 1);
@@ -101,15 +110,15 @@ const init = () => {
   camera.position.y = 0;
   camera.position.x = 0;
 
-  const loader = new GLTFLoader();
-  loader.load('/行政楼03.gltf', (gltf) => {
-    // gltf.scene.position.set(-150, -100, -2);
-    // gltf.scene.rotation.y = Math.PI / 4;
-    // gltf.scene.scale.set(8, 8, 8);
-    gltf.scene.rotation.x = Math.PI / 2;
+  // const loader = new GLTFLoader();
+  // loader.load('/行政楼03.gltf', (gltf) => {
+  //   // gltf.scene.position.set(-150, -100, -2);
+  //   // gltf.scene.rotation.y = Math.PI / 4;
+  //   // gltf.scene.scale.set(8, 8, 8);
+  //   gltf.scene.rotation.x = Math.PI / 2;
 
-    scene.add(gltf.scene);
-  });
+  //   scene.add(gltf.scene);
+  // });
 
   const animate = () => {
     requestAnimationFrame(animate);
@@ -193,5 +202,5 @@ onMounted(() => {
   });
 })
 
-
+connectSocket();
 </script>

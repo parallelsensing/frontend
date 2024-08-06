@@ -5,8 +5,7 @@
                 <div class="title-text">
                     <dv-decoration1 style="width:7vw;height:5vh" :color="['#9400D3', '#9400D3']" />
                     <div style="font-size:1.2vw">实时监控</div>
-                    <dv-decoration1 style="width:7vw;height:5vh;transform: scaleX(-1);"
-                        :color="['#9400D3', '#9400D3']" />
+                    <dv-decoration1 style="width:7vw;height:5vh;transform: scaleX(-1);" :color="['#9400D3', '#9400D3']" />
                 </div>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -1 493 46" preserveAspectRatio="none">
                     <defs>
@@ -20,7 +19,10 @@
                 </svg>
             </div>
             <div class="content">
-
+                <video width="100%" height="100%" controls autoplay loop muted>
+                    <source src="../../../../40.mp4" type="video/mp4">
+                   
+                </video>
             </div>
         </div>
     </div>
@@ -44,12 +46,17 @@ const toggleSize = () => {
     height: 30vh;
     bottom: 10vh;
     right: 30px;
+    border-radius: 30px;
+
+    background-color: #ffffff;
     transition: width 0.3s, height 0.3s;
 }
 
 .point-cloud-large {
     width: 60vw;
     height: 70vh;
+    background-color: #ffffff;
+
 }
 
 .card-container {
@@ -95,9 +102,9 @@ const toggleSize = () => {
 
 .content {
     position: relative;
-    background-color: aqua;
+    // background-color: aqua;
     width: 80%;
-    height: 80%;
+    height: 100%;
     justify-content: center;
     align-items: center;
 }

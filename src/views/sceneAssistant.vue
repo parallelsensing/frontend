@@ -33,12 +33,12 @@
             <!-- 开场问题建议列表 -->
             <div style="text-align: center; margin-top:20%;" v-show="tipShow">
               <h1 style="font-size: 26px; font-weight: bolder;">您好！您可以这样问我</h1>
-              <h1 style="font-size: 22px; font-weight: bolder; margin-top: 20px;">：校车发车时间？
-                <v-icon icon="mdi-star-check-outline"></v-icon>
-              </h1>
-              <h1 style="font-size: 22px; font-weight: bolder; margin-top: 20px;">：学校就医流程？
-                <v-icon icon="mdi-star-check-outline"></v-icon>
-              </h1>
+              <div v-for="(question, index) in selectedAgent.questions" :key="index">
+                <h1 style="font-size: 22px; font-weight: bolder; margin-top: 20px;">：{{ question }}
+                  <v-icon icon="mdi-star-check-outline"></v-icon>
+                </h1>
+              </div>
+
             </div>
             <!-- 聊天对话列表 -->
             <div v-for="message in messageNew" :key="message.id" :class="['message', message.type]">
@@ -190,6 +190,7 @@ interface ListItem {
   subtitle: string;
   API_KEY: string;
   image: string;
+  questions: string[];
 }
 
 const BASE_URL = "https://579igzs65868.vicp.fun/v1";
@@ -211,17 +212,46 @@ const taskId = ref('');
 const userId = 'abc';
 
 const items = ref<ListItem[]>([
-  { id: 1, title: '智慧矿山', subtitle: '简单描述基本情况内容 ', API_KEY: "app-5muy7p6a7PL8lOk0RKTUMmE7", image: '/img/a.png' },
-  { id: 2, title: '校园问答', subtitle: '简单描述基本情况内容 ', API_KEY: "app-rNuCcawBtyNvXHGRoTUZa4rS", image: '/img/b.png' },
-  { id: 3, title: '场景问答', subtitle: '简单描述基本情况内容 ', API_KEY: "app-5muy7p6a7PL8lOk0RKTUMmE7", image: '/img/c.png' },
-  { id: 4, title: '知识问答', subtitle: '简单描述基本情况内容 ', API_KEY: "app-rNuCcawBtyNvXHGRoTUZa4rS", image: '/img/d.png' },
-  { id: 5, title: '知识问答', subtitle: '简单描述基本情况内容 ', API_KEY: "app-rNuCcawBtyNvXHGRoTUZa4rS", image: '/img/a.png' },
-  { id: 6, title: '知识问答', subtitle: '简单描述基本情况内容 ', API_KEY: "app-rNuCcawBtyNvXHGRoTUZa4rS", image: '/img/b.png' },
-  { id: 7, title: '知识问答', subtitle: '简单描述基本情况内容 ', API_KEY: "app-rNuCcawBtyNvXHGRoTUZa4rS", image: '/img/c.png' }
+  {
+    id: 0, title: '智慧矿山', subtitle: '简单描述基本情况内容 ', API_KEY: "app-5muy7p6a7PL8lOk0RKTUMmE7", image: '/img/a.png',questions: [
+      "帮我出一些矿山安全培训的测试题？",
+      "矿山火灾要如何应对？"]
+  },
+  {
+    id: 1, title: '校园问答', subtitle: '简单描述基本情况内容 ', API_KEY: "app-rNuCcawBtyNvXHGRoTUZa4rS", image: '/img/b.png', questions: [
+    "校车发车时间？",
+    "学校就医流程？"]
+  },
+  {
+    id: 2, title: '场景问答', subtitle: '简单描述基本情况内容 ', API_KEY: "app-5muy7p6a7PL8lOk0RKTUMmE7", image: '/img/c.png', questions: [
+      "此场景现有多少工作人员？",
+      "有多少活动机械？"]
+  },
+  {
+    id: 3, title: '知识问答', subtitle: '简单描述基本情况内容 ', API_KEY: "app-rNuCcawBtyNvXHGRoTUZa4rS", image: '/img/d.png', questions: [
+      "9.9和9.11谁大？",
+      "帮我出一些测试题？"]
+  },
+  {
+    id: 4, title: '知识问答', subtitle: '简单描述基本情况内容 ', API_KEY: "app-rNuCcawBtyNvXHGRoTUZa4rS", image: '/img/a.png', questions: [
+       "9.9和9.11谁大？",
+      "帮我出一些测试题？"]
+  },
+  {
+    id: 5, title: '知识问答', subtitle: '简单描述基本情况内容 ', API_KEY: "app-rNuCcawBtyNvXHGRoTUZa4rS", image: '/img/b.png', questions: [
+       "9.9和9.11谁大？",
+      "帮我出一些测试题？"]
+  },
+  {
+    id: 6, title: '知识问答', subtitle: '简单描述基本情况内容 ', API_KEY: "app-rNuCcawBtyNvXHGRoTUZa4rS", image: '/img/c.png', questions: [
+       "9.9和9.11谁大？",
+      "帮我出一些测试题？"]
+  },
 ]);
+const selectedAgent = ref(items.value[0]);
+
 const API_KEY = ref(items.value[1].API_KEY);
 
-const selectedAgent = ref(items.value[1]);
 
 const handleKeydown = (event: KeyboardEvent) => {
   if (event.key === 'Enter' && event.ctrlKey) {
@@ -891,5 +921,4 @@ onMounted(() => {
   /* 轨道背景色 */
   border-radius: 10px;
   /* 轨道的圆角 */
-}
-</style>
+}</style>
