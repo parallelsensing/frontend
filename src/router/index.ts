@@ -98,12 +98,12 @@ const router = createRouter({
   routes
 });
 
-router.beforeEach((to, from) => {
-  if ((to.name !== 'login' && to.name !== 'register') && !localStorage.getItem('TOKEN')) {
-    errorAlert(`请先登录，跳转至登录页`);
-    return { path: '/login' };
-  }
-  return true;
-});
+// router.beforeEach((to, from) => {
+//   if ((to.name !== 'login' && to.name !== 'register') && !localStorage.getItem('TOKEN')) {
+//     errorAlert(`请先登录，跳转至登录页`);
+//     return { path: '/login' };
+//   }
+//   return true;
+// });
 
 export default router;

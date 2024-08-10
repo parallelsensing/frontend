@@ -1,8 +1,7 @@
 // 二次封装axios
 import axios from 'axios';
 import { errorAlert } from './alert';
-import { useUserStore } from '@/stores/users/index'
-import { SET_TOKEN } from '@/utils/token';
+import { useUserStore } from '@/stores/users/index';
 
 const request = axios.create({
   // 环境变量.env.development

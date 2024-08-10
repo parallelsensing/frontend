@@ -1,4 +1,3 @@
-
 import type { UserConfig, ConfigEnv } from 'vite';
 import { fileURLToPath, URL } from 'node:url';
 import { defineConfig } from 'vite';

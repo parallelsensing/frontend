@@ -222,3 +222,4 @@ pre {
   overflow-x: auto;
 }
 </style>
+@/types/chat

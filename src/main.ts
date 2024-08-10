@@ -3,7 +3,6 @@ import { createPinia } from 'pinia';
 
 import router from '@/router';
 import APP from '@/App.vue';
-import './style.css';
 // Vuetify组件库
 import '@mdi/font/css/materialdesignicons.css';
 import 'vuetify/styles';
@@ -16,6 +15,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import '@/assets/css/main.scss';
 import '@/assets/css/tailwind.css';
 import { mockXHR } from "@/mock/index";
+import '@/styles/main.scss';
 //不使用mock 请注释掉
 mockXHR()
 
@@ -27,4 +27,5 @@ const vuetify = createVuetify({
   components,
   directives
 });
+
 app.use(pinia).use(router).use(vuetify).mount('#app');

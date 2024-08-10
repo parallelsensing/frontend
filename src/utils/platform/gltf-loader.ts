@@ -38,7 +38,7 @@ export class GltfLoader extends Object3D {
       model.scale.set(2, 2, 2);
       this.add(model);
       this._model = model;
-      this.dispatchEvent({ type: GLTF_LOAD_EVENT.LOADED, data: gltf });
+
     } else {
       this.onLoadError(new Error("Model not found in GLTF"));
     }

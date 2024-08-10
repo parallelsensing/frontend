@@ -8,6 +8,5 @@
     "lib": [],
     "types": ["node", "jsdom"],
     "moduleResolution": "node" ,// 添加此行
-  
   }
 }
