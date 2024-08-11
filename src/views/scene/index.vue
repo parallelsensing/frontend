@@ -1,55 +1,65 @@
+
 <script setup lang="ts">
-import { RouterView } from "vue-router";
-import useNewPlatform from '@/stores/newplatform/modules/newplatform';
-import { onMounted, ref, computed, watch } from 'vue';
+import { onMounted, ref, computed, onBeforeUnmount } from 'vue';
 import headersall from "../header-all.vue";
 import PointCloud from './components/PointCloud.vue';
 import VideoSurveillance from './components/VideoSurveillance.vue';
 import { NewPlatform } from "@/utils/newplatform";
 
-const store = useNewPlatform();
 const newPlatform = ref();
 const canvas = ref<HTMLElement>();
 const canvasSize = ref<[number, number]>([window.innerWidth, window.innerHeight]);
 const loadingData = ref<any>(0);
 const isPointCloudShow = ref(false);
 const isVideoSurveillance = ref(false);
-const isLoadingComplete = computed(() => {
-  if(loadingData.value === 100) {
-    return false;
-  } else  {
-    return true;
-  }
-});
+const isLoadingIncomplete = computed(() => loadingData.value < 100);
+
+/**显示实时监控 */
 const showVideoSurveillance = () => {
   isVideoSurveillance.value = !isVideoSurveillance.value;
 }
+
+/**显示实时点云 */
 const showPointCloud = () => {
   isPointCloudShow.value = !isPointCloudShow.value;
 }
 
+/**点击canvas时触发*/
 const onCast = (event: MouseEvent) => {
   const screenX = event.clientX;
   const screenY = event.clientY;
-  // store.cast(screenX, screenY);
   const sensorName = newPlatform.value.cast(screenX, screenY);
-  if (sensorName === "实时监控") {
-    showVideoSurveillance();
-  } else if (sensorName === "实时点云") {
-    showPointCloud();
-  } else {
-    console.log('无');
-
+  switch (sensorName) {
+    case "实时监控":
+      showVideoSurveillance();
+      break;
+    case "实时点云":
+      showPointCloud();
+      break;
+    default:
+      console.log('无');
   }
 }
 
+// 组件挂载后初始化
 onMounted(() => {
+  const updateCanvasSize = () => {
+    canvasSize.value = [window.innerWidth, window.innerHeight];
+  };
+
+  window.addEventListener('resize', updateCanvasSize);
+  updateCanvasSize(); // 初始调用
+
   if (canvas.value) {
     newPlatform.value = new NewPlatform(canvas.value, canvasSize.value, (e: any) => {
-      loadingData.value = Math.round(e.data.data)
-    })
+      loadingData.value = Math.round(e.data.data);
+    });
   }
 
+  // 组件卸载时清理
+  onBeforeUnmount(() => {
+    window.removeEventListener('resize', updateCanvasSize);
+  });
 });
 
 </script>
@@ -58,7 +68,7 @@ onMounted(() => {
   <div class="content_wrap">
     <div ref="canvas" class="canvas" @click="onCast"></div>
     <headersall />
-    <div class="progress" v-if="isLoadingComplete">
+    <div class="progress" v-if="isLoadingIncomplete">
       {{ '已加载：' + loadingData + '%' }}
     </div>
   </div>
@@ -72,37 +82,27 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
-/* 定义淡出过渡 */
 .content_wrap {
   width: 100%;
   height: 100%;
   position: absolute;
   left: 0px;
-  // padding: 16px 16px 16px 16px;
   box-sizing: border-box;
   background-size: cover;
   background-position: center center;
   overflow: hidden;
 }
 
-
-@keyframes fadenum {
-  0% {
-    opacity: 0;
-  }
-}
-
 .canvas {
   position: absolute;
-  width: 50%;
-  height: 50%;
-
+  width: 100%;
+  height: 100%;
 }
 
 .progress {
   position: fixed;
-  top: 500px;
-  left: 1000px;
+  top: 40vh;
+  left: 50vw;
   width: 300px;
   height: 80px;
   z-index: 101;
@@ -112,11 +112,5 @@ onMounted(() => {
   text-align: center;
   font-size: 20px;
   color: rgb(0, 0, 0);
-}
-
-.progress>img {
-  padding: 0 15px;
-  width: 100px;
-  height: 20px;
 }
 </style>

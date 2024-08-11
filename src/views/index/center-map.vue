@@ -1,19 +1,13 @@
 <script setup lang="ts">
-import { onMounted, ref, computed, watch } from 'vue';
+import { onMounted, ref, computed } from 'vue';
 import { NewPlatform } from "@/utils/newplatform";
 
 const newPlatform = ref();
 const canvas = ref<HTMLElement>();
 const canvasSize = ref<[number, number]>([800, 800]);
-const isVideoSurveillance = ref(false);
 const loadingData = ref<any>(0);
-const isLoadingComplete = computed(() => {
-  if (loadingData.value === 100) {
-    return false;
-  } else {
-    return true;
-  }
-});
+const isLoadingIncomplete = computed(() => loadingData.value < 100);
+
 onMounted(() => {
   if (canvas.value) {
     newPlatform.value = new NewPlatform(canvas.value, canvasSize.value, (e: any) => {
@@ -21,16 +15,14 @@ onMounted(() => {
     })
   }
 })
-
 </script>
 
 <template>
   <div class="centermap">
-
     <div class="mapwrap">
       <div class="card-container">
         <div ref="canvas" class="canvas"></div>
-        <div class="progress" v-if="isLoadingComplete">
+        <div class="progress" v-if="isLoadingIncomplete">
       {{ '已加载：' + loadingData + '%' }}
     </div>
       </div>
@@ -58,15 +50,14 @@ onMounted(() => {
       width: 100%;
       height: 100%;
       position: relative;
-
       z-index: 100;
     }
   }
 }
 .progress {
   position: fixed;
-  top: 500px;
-  left: 1000px;
+  top: 40vh;
+  left: 50vw;
   width: 300px;
   height: 80px;
   z-index: 101;

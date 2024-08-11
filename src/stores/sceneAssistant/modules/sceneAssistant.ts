@@ -244,9 +244,9 @@ export const useSceneAssistantStore = defineStore({
                     message_id: ''
                 });
                 this.taskId = '';
-                this.getConverListMessage()
+                this.getConverListMessage();
             }
-            this.getConverListMessage()
+            this.getConverListMessage();
         },
         /**发送消息自动创建一个会话 */
         addNewChat(conversation_id: string) {

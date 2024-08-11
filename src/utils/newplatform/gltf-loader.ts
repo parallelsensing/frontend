@@ -34,11 +34,9 @@ export class GltfLoader extends Object3D {
   onProgress = (e: ProgressEvent) => {
     if (e.lengthComputable) {
       const percentComplete = (e.loaded / e.total) * 100;
-      // console.log(`Model loading: ${Math.round(percentComplete)}% complete`);
       const event = { type: GLTF_LOAD_EVENT.LOADING, data: percentComplete } as never;
       this.dispatchEvent(event)
     }
-
 
   };
 

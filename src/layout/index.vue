@@ -51,7 +51,6 @@ const handleClickExpand = () => {
 .headerbar {
     width: 100vw;
     background-color: #f8f9fa;
-    /* 你可以根据需要更改背景颜色 */
 }
 
 .main-container {

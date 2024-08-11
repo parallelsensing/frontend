@@ -2,7 +2,6 @@ import {
     EventDispatcher,
     WebGLRenderer,
     Color,
-    Clock,
     BoxGeometry,
     MeshBasicMaterial,
     AmbientLight,
@@ -41,9 +40,7 @@ export class NewPlatform extends EventDispatcher {
     private _scene: Scene; // 场景
     private _models: Group; // 展位
     private _renderer: any = null; // 渲染器
-    private _config: any; // 配置信息
     private _controls: any; //相机控制器
-    private _clock = new Clock();
     private _axeshelper: any;
     private _boxgeo: BoxGeometry;
     private _boxmat: MeshBasicMaterial;
@@ -55,7 +52,7 @@ export class NewPlatform extends EventDispatcher {
     private _raycaster: Raycaster; // 射线
     private _textureCube: any;
 
-    constructor(canvas: HTMLElement, size: [number, number],onLoading: (e: any) => void) {
+    constructor(canvas: HTMLElement, size: [number, number], onLoading: (e: any) => void) {
         super();
         this._scene = new Scene();
         this._camera = new PerspectiveCamera(75, Static.WIDTH / Static.HEIGHT, 0.001, 10000);
@@ -110,18 +107,17 @@ export class NewPlatform extends EventDispatcher {
     }
 
     animate = () => {
-        // console.log(this.__camera.position);
         requestAnimationFrame(this.animate);
         if (this._controls) this._controls.update();
         this._renderer.render(this._scene, this._camera);
     };
 
     modelInit() {
-        const g1 = new GltfLoader();
-        g1.addEventListener(GLTF_LOAD_EVENT.LOADING, (e: any) => {
+        const modelBuild = new GltfLoader();
+        modelBuild.addEventListener(GLTF_LOAD_EVENT.LOADING, (e: any) => {
             this.onLoading(e);
         });
-        this._models.add(g1, this._box, this._boxa);
+        this._models.add(modelBuild, this._box, this._boxa);
         this._models.add(this.createLabel('实时监控', this._box.position));
         this._models.add(this.createLabel('实时点云', this._boxa.position));
         this.controlCamera();
@@ -130,7 +126,6 @@ export class NewPlatform extends EventDispatcher {
     onLoading = (e: any) => {
         const event = { type: EVENT.LOADING, data: e } as never;
         this.dispatchEvent(event);
-       
     };
 
     controlCamera() {
@@ -151,8 +146,6 @@ export class NewPlatform extends EventDispatcher {
 
         const width = canvasRect.right - canvasRect.left;
         const height = canvasRect.bottom - canvasRect.top;
-        console.log(width, height);
-
         // 将屏幕坐标转换为画布坐标
         const canvasX = screenX - canvasOffsetX;
         const canvasY = screenY - canvasOffsetY;
@@ -167,17 +160,12 @@ export class NewPlatform extends EventDispatcher {
 
         if (intersects.length && intersects[0].object.name === '实时监控') {
             intersects[0].object.material.color = new Color(0x0000ff);
-            console.log(intersects[0])
-            console.log('实时监控');
             return '实时监控';
         } else if (intersects.length && intersects[0].object.name === '实时点云') {
             intersects[0].object.material.color = new Color(0xff0000);
-            console.log(intersects[0])
-            console.log('实时点云');
             return '实时点云';
         } else {
             console.log('无拾取');
-            console.log(this._models.children);
         }
     }
 
