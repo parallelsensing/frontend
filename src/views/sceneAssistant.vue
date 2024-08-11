@@ -39,7 +39,7 @@
               </div>
             </div>
             <!-- 聊天对话列表 -->
-            <div v-for="message in messageNew" :key="message.id" :class="['message', message.type]">
+            <div v-for="message in messageList" :key="message.id" :class="['message', message.type]">
               <img :src="message.avatar" class="avatar" />
               <div>
                 <div class="text" v-html="message.htmlText || message.text"></div>
@@ -59,11 +59,11 @@
           <div class="input-container">
             <textarea v-model="newMessage" placeholder="输入内容开始聊天 / Ctrl+Enter换行" rows="4" class="message-input"
               @keydown="handleKeydown"></textarea>
-            <div style="margin-top: auto;">
-              <v-btn v-if="!isStreaming" variant="text" class="send-button" @click="sendMessage">
+            <div class="send-button-container">
+              <v-btn v-if="!isStreaming" variant="text" class="send-button" @click="sendMessage" :style="{ minWidth: '48px', minHeight: '48px', padding: '0' }">
                 <v-icon size="48px" color="#920783">mdi-send-circle</v-icon>
               </v-btn>
-              <v-btn v-if="isStreaming" variant="text" class="send-button" @click="stopMessage">
+              <v-btn v-if="isStreaming" variant="text" class="send-button" @click="stopMessage" :style="{ minWidth: '48px', minHeight: '48px', padding: '0' }">
                 <v-icon size="48px" color="#920783">mdi-stop-circle-outline</v-icon>
               </v-btn>
             </div>
@@ -116,7 +116,6 @@
           </ul>
         </div>
       </div>
-
     </div>
 
     <!-- 重命名对话框 -->
@@ -138,8 +137,9 @@
 <script setup lang="ts">
 import { ref, onMounted, nextTick, computed } from 'vue';
 import headersall from "./header-all.vue";
-import { MessageNew, Chat, ListItem } from '@/type/assistant';
+import { MessageItem, Chat, ListItem } from '@/type/assistant';
 import useSceneAssistantStore from '@/stores/sceneAssistant/modules/sceneAssistant';
+
 const SceneAssistantStore = useSceneAssistantStore();
 const isStreaming = ref(false);
 const newMessage = ref('');
@@ -147,27 +147,14 @@ const editingChatId = ref<string | null>(null);
 const menuVisible = ref<{ [key: number]: boolean }>({});
 const dialog = ref(false);
 const inputText = ref('');
-const tipShow = ref(true);
 const messages = ref<HTMLElement | null>(null);
 
-const selectedChatId = computed(() => {
-  return SceneAssistantStore.selectedChatId;
-});
-const messageNew = computed(() => {
-  return SceneAssistantStore.messageNew;
-});
-
-const chatList = computed(() => {
-  return SceneAssistantStore.chatList;
-});
-
-const items = computed(() => {
-  return SceneAssistantStore.items;
-});
-
-const selectedAgent = computed(() => {
-  return SceneAssistantStore.selectedAgent;
-});
+const tipShow = computed(() => !messageList.value || messageList.value.length === 0);
+const selectedChatId = computed(() => SceneAssistantStore.selectedChatId);
+const messageList = computed(() => SceneAssistantStore.messageList);
+const chatList = computed(() => SceneAssistantStore.chatList);
+const items = computed(() => SceneAssistantStore.items);
+const selectedAgent = computed(() => SceneAssistantStore.selectedAgent);
 
 const handleKeydown = (event: KeyboardEvent) => {
   if (event.key === 'Enter' && event.ctrlKey) {
@@ -240,13 +227,11 @@ const copyText = (text: string) => {
 
 /**点击新建一个会话（初始化清空） */
 const startNewChat = () => {
-  tipShow.value = true;
   SceneAssistantStore.newChat();
 };
 
 /**切换到某一个会话 */
 const selectChat = (chatId: string) => {
-  tipShow.value = false;
   historyMessage(chatId);
   SceneAssistantStore.changeChat(chatId);
 };
@@ -269,7 +254,7 @@ const suggestedMessage = async (message_id: string) => {
 };
 
 /**消息反馈 */
-const feedbackMessage = async (message: MessageNew, feedback: string) => {
+const feedbackMessage = async (message: MessageItem, feedback: string) => {
   SceneAssistantStore.feedbaMessage(message.message_id, feedback);
 }
 
@@ -281,7 +266,6 @@ const stopMessage = async () => {
 /**发送信息给bot */
 const sendMessage = async () => {
   if (newMessage.value.trim() !== '') {
-    tipShow.value = false;// 隐藏提示框
     isStreaming.value = true;// 发送按钮图标开启流式响应样式
     const deepCopy = JSON.parse(JSON.stringify(newMessage.value));
     newMessage.value = '';

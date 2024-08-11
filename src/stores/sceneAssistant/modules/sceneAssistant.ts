@@ -1,4 +1,4 @@
-interface MessageNew {
+interface MessageItem {
     id: string;
     chatId: string;
     text: string;
@@ -31,9 +31,10 @@ interface ListItem {
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { v4 as uuidv4 } from 'uuid';
+import useUserStore from '@/stores/users/modules/user';
 import { converListMessage, delChat, feedbacksMessage, histMessage, renameChatName, sendMessages, stopResponseMessage, suggestMessage } from '@/api/sceneAssistant';
-// import { MessageNew,Chat,ListItem } from '@/type/assistant';
-
+// import { MessageItem,Chat,ListItem } from '@/type/assistant';
+const userStore = useUserStore();
 const userAvatar = '/bot/user.png';
 const botAvatar = '/bot/bot.png';
 const chatList = ref<Chat[]>([]);
@@ -80,9 +81,9 @@ export const useSceneAssistantStore = defineStore({
     state: () => {
         return {
             items: items,
-            messageNew: <MessageNew[]>([]),
+            messageList: <MessageItem[]>([]),
             chatList: <Chat[]>([]),
-            userId: 'admin',
+            userId: userStore.username,
             API_KEY: items.value[0].API_KEY,
             selectedChatId: <string | null>(null),
             taskId: '',
@@ -98,7 +99,7 @@ export const useSceneAssistantStore = defineStore({
         /**点击新聊天 */
         newChat() {
             this.selectedChatId = null;
-            this.messageNew = [];
+            this.messageList = [];
         },
         /**切换会话 */
         changeChat(chatId: string) {
@@ -107,7 +108,7 @@ export const useSceneAssistantStore = defineStore({
         /**获取会话历史消息 */
         async getHistoryMessage(chatId: string) {
             this.selectedChatId = chatId;
-            this.messageNew = [];
+            this.messageList = [];
             const result = await histMessage(this.userId, this.API_KEY, chatId);
             const data = await result.json();
             data.data.forEach((element: any) => {
@@ -127,7 +128,7 @@ export const useSceneAssistantStore = defineStore({
                     avatar: botAvatar,
                     message_id: element.id
                 };
-                this.messageNew.push(userMessageItem, botMessageItem);
+                this.messageList.push(userMessageItem, botMessageItem);
             });
         },
         /**获取历史会话列表 */
@@ -159,7 +160,7 @@ export const useSceneAssistantStore = defineStore({
                 avatar: userAvatar,
                 message_id: ''
             };
-            this.messageNew.push(userMessageItem);   // 添加到会话消息列表
+            this.messageList.push(userMessageItem);   // 添加到会话消息列表
 
             try {
                 // 构建请求体
@@ -186,7 +187,7 @@ export const useSceneAssistantStore = defineStore({
                         message_id: ''
                     };
 
-                    this.messageNew.push(botMessage);// bot返回的文本添加到会话消息列表
+                    this.messageList.push(botMessage);// bot返回的文本添加到会话消息列表
 
                     while (true) {// 循环读取流式响应数据
                         const { done, value } = await reader.read();// 读取流式响应数据
@@ -214,7 +215,7 @@ export const useSceneAssistantStore = defineStore({
                                         this.addNewChat(data.conversation_id);// 添加会话
                                     }
 
-                                    const existingMessage = this.messageNew.find((msg) => msg.id === botMessage.id);// 在会话消息列表中查找当前消息
+                                    const existingMessage = this.messageList.find((msg) => msg.id === botMessage.id);// 在会话消息列表中查找当前消息
                                     if (existingMessage) {
                                         existingMessage.text = aamessages.value;// 更新当前消息的文本
                                         if (existingMessage.message_id == '') {// 判断当前消息的message_id是否为空
@@ -234,7 +235,7 @@ export const useSceneAssistantStore = defineStore({
 
             } catch (error) {
                 console.error('Error sending message:', error);
-                this.messageNew.push({
+                this.messageList.push({
                     id: uuidv4(),
                     chatId: '',
                     text: '发送消息出错',
