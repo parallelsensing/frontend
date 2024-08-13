@@ -40,7 +40,7 @@ import { useFullscreen } from '@vueuse/core';
 import useUserStore from '@/stores/users/modules/user';
 const userStore = useUserStore();
 const { isFullscreen, toggle } = useFullscreen();
-const name = userStore.username;
+const name = userStore.nickname;
 
 const handleSettings = () => {
     console.log('打开设置页面');

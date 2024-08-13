@@ -1,16 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import type { RouteRecordRaw } from 'vue-router';
 import { errorAlert } from '@/utils/alert';
+import { reqUserInfo } from '@/api/user';
 // import Home from '@/components/home-view.vue';
 const Layout = () => import("@/layout/index.vue");
 
 const routes: Array<RouteRecordRaw> = [
-  // {
-  //   name: 'home',
-  //   path: '/home',
-  //   component: Home,
-  //   props: true
-  // },
   {
     path: '/',
     redirect: '/login'
@@ -98,12 +93,30 @@ const router = createRouter({
   routes
 });
 
-// router.beforeEach((to, from) => {
-//   if ((to.name !== 'login' && to.name !== 'register') && !localStorage.getItem('TOKEN')) {
-//     errorAlert(`请先登录，跳转至登录页`);
-//     return { path: '/login' };
-//   }
-//   return true;
-// });
+router.beforeEach(async (to, from) => {
+  const token = localStorage.getItem('token');
+  if (to.name !== 'login' && to.name !== 'register') {
+    if (!token) {
+      errorAlert('请先登录，跳转至登录页');
+      return { path: '/login' };
+    } else {
+      try {
+        const userInfo = await reqUserInfo(); // 请求用户信息，验证 token 的合法性
+        if (userInfo) {
+          return true;
+        } else {
+          errorAlert('登录信息已过期，请重新登录');
+          return { path: '/login' };
+        }
+      } catch (error) {
+        // 请求失败或其他错误，跳转到登录页
+        errorAlert('验证失败，请重新登录');
+        return { path: '/login' };
+      }
+    }
+  }
+
+  return true;
+});
 
 export default router;

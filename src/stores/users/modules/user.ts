@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { useStorage } from '@vueuse/core';
 import type { loginForm, loginResponseData } from '@/type/user-type';
-import { reqLogin } from '@/api/user';
+import { reqLogin, reqRegister } from '@/api/user';
 
 const useUserStore = defineStore({
   id: 'User',
@@ -9,7 +9,8 @@ const useUserStore = defineStore({
   state: () => {
     return {
       token: useStorage('token', ''),
-      username: useStorage('username', '')
+      username: useStorage('username', ''),
+      nickname: useStorage('nickname', '')
     };
   },
   actions: {
@@ -18,18 +19,16 @@ const useUserStore = defineStore({
       if (result.code == 200) {
         this.token = result.token;
         this.username = result.data.username;
-
-        console.log(result.data.username);
-        console.log(result);
+        this.nickname = result.data.nickname;
         return 'ok';
       } else {
         this.token = '';
         return Promise.reject(result);
       }
     },
-    userLogout() {
-      this.token = '';
-      this.username = '';
+    async userRegister(data: any) {
+      const result: any = await reqRegister(data);
+      console.log(result);
     }
   },
   getters: {}

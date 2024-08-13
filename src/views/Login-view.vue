@@ -8,7 +8,7 @@
         </v-card-title>
         <v-card-text style="margin-top: 5%;">
           <v-form @submit.prevent="handleLogin">
-            <v-text-field v-model="loginForm.phone" label="请输入用户名" bg-color="#ffffff" density="comfortable">
+            <v-text-field v-model="loginForm.phone" label="请输入手机号" bg-color="#ffffff" density="comfortable">
               <template v-slot:prepend-inner>
                 <v-icon>
                   <img src="/img/用户.png" alt="Account Icon" class="login-icon">
@@ -45,7 +45,8 @@ import { useRouter } from 'vue-router';
 import { getTime } from '@/utils/time';
 import { successAlert, errorAlert } from '@/utils/alert';
 
-const loginForm = reactive({ phone: '15801585812', password: '123456' });
+const loginForm = reactive({ phone: '', password: '' });
+// const loginForm = reactive({ phone: '15801585812', password: '123456' });
 
 const userStore = useUserStore();
 const router = useRouter();
