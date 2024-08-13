@@ -6,6 +6,7 @@ export interface MessageItem {
     type: string;
     avatar: string;
     message_id: string;
+    img?:string;
 }
 
 export interface Chat {

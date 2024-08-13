@@ -12,16 +12,19 @@ interface FetchOptions {
 
 const fetchRequest = async ({ endpoint, method, API_KEY, body, customHeaders = {} }: FetchOptions): Promise<any> => {
     const url = `${BASE_URL}${endpoint}`;
-    const headers = {
+    const headers: Record<string, string> = {
         'Authorization': `Bearer ${API_KEY}`,
-        'Content-Type': 'application/json',
         ...customHeaders
     };
-
+    if (!(body instanceof FormData)) {
+        headers['Content-Type'] = 'application/json';
+    }
     const options: RequestInit = {
         method,
         headers,
-        body: (method === 'POST' || method === 'PUT' || method === 'DELETE') && body ? JSON.stringify(body) : null
+        body: (method === 'POST' || method === 'PUT' || method === 'DELETE') && body
+            ? body instanceof FormData ? body : JSON.stringify(body)
+            : null
     };
 
     try {
@@ -30,8 +33,19 @@ const fetchRequest = async ({ endpoint, method, API_KEY, body, customHeaders = {
             const errorData = await response.json();
             throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.message}`);
         }
+          // 解析为JSON
+          const contentType = response.headers.get('Content-Type') || '';
+          if (contentType.includes('application/json')) {
+            try{
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                return response;
+            }
 
-        return response;
+          }
+          // 如果不是JSON类型的数据，返回response本身
+          return response;
     } catch (error) {
         console.error('请求失败:', error);
         throw error;

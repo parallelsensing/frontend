@@ -234,11 +234,18 @@ $divider-shadow-color: rgba(0, 0, 0, 0.25);
           margin-left: 8px;
         }
 
+        .img {
+          float: right;
+        }
+
         .text {
           color: #ffffff;
           order: 0;
           background-color: $primary-color;
+          margin-top:5px;
           padding: 8px 12px;
+          max-width: 100%;
+          float: right;
           @include border-radius(12px);
         }
       }
@@ -253,6 +260,7 @@ $divider-shadow-color: rgba(0, 0, 0, 0.25);
 
         .text {
           order: 1;
+          margin-top:5px;
           background-color: $secondary-color;
           padding: 8px 12px;
           @include border-radius(12px);
@@ -311,6 +319,13 @@ $divider-shadow-color: rgba(0, 0, 0, 0.25);
   bottom: -20px;
   display: flex;
   height: 60px;
+}
+
+.v-overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }
 
 ::-webkit-scrollbar {

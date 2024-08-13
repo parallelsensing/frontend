@@ -6,6 +6,7 @@ interface MessageItem {
     type: string;
     avatar: string;
     message_id: string;
+    img?: string;
 }
 
 interface Chat {
@@ -32,7 +33,7 @@ import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { v4 as uuidv4 } from 'uuid';
 import useUserStore from '@/stores/users/modules/user';
-import { converListMessage, delChat, feedbacksMessage, histMessage, renameChatName, sendMessages, stopResponseMessage, suggestMessage } from '@/api/sceneAssistant';
+import { converListMessage, delChat, feedbacksMessage, histMessage, renameChatName, sendMessages, stopResponseMessage, suggestMessage, uploadFile } from '@/api/sceneAssistant';
 // import { MessageItem,Chat,ListItem } from '@/type/assistant';
 const userStore = useUserStore();
 const userAvatar = '/bot/user.png';
@@ -40,12 +41,12 @@ const botAvatar = '/bot/bot.png';
 const chatList = ref<Chat[]>([]);
 const items = ref<ListItem[]>([
     {
-        id: 0, title: '智慧矿山', subtitle: '简单描述基本情况内容 ', API_KEY: "app-5muy7p6a7PL8lOk0RKTUMmE7", image: '/img/a.png', questions: [
+        id: 0, title: '智慧矿山', subtitle: '简单描述基本情况内容 ', API_KEY: "app-rNuCcawBtyNvXHGRoTUZa4rS", image: '/img/a.png', questions: [
             "帮我出一些矿山安全培训的测试题？",
             "矿山火灾要如何应对？"]
     },
     {
-        id: 1, title: '校园问答', subtitle: '简单描述基本情况内容 ', API_KEY: "app-rNuCcawBtyNvXHGRoTUZa4rS", image: '/img/b.png', questions: [
+        id: 1, title: '校园问答', subtitle: '简单描述基本情况内容 ', API_KEY: "app-5muy7p6a7PL8lOk0RKTUMmE7", image: '/img/b.png', questions: [
             "校车发车时间？",
             "学校就医流程？"]
     },
@@ -87,7 +88,8 @@ export const useSceneAssistantStore = defineStore({
             API_KEY: items.value[0].API_KEY,
             selectedChatId: <string | null>(null),
             taskId: '',
-            selectedAgent: items.value[0]
+            selectedAgent: items.value[0],
+            imageUrl: ''
         };
     },
     actions: {
@@ -110,15 +112,15 @@ export const useSceneAssistantStore = defineStore({
             this.selectedChatId = chatId;
             this.messageList = [];
             const result = await histMessage(this.userId, this.API_KEY, chatId);
-            const data = await result.json();
-            data.data.forEach((element: any) => {
+            result.data.forEach((element: any) => {
                 const userMessageItem = {
                     id: uuidv4(),
                     chatId: element.conversation_id,
                     text: element.query,
                     type: 'user',
                     avatar: userAvatar,
-                    message_id: element.id
+                    message_id: element.id,
+                    img: element?.message_files[0]?.url
                 };
                 const botMessageItem = {
                     id: uuidv4(),
@@ -126,7 +128,8 @@ export const useSceneAssistantStore = defineStore({
                     text: element.answer,
                     type: 'bot',
                     avatar: botAvatar,
-                    message_id: element.id
+                    message_id: element.id,
+
                 };
                 this.messageList.push(userMessageItem, botMessageItem);
             });
@@ -134,9 +137,8 @@ export const useSceneAssistantStore = defineStore({
         /**获取历史会话列表 */
         async getConverListMessage() {
             const result = await converListMessage(this.userId, this.API_KEY);
-            const data = await result.json();
             this.chatList = [];
-            data.data.forEach((item: any) => {
+            result.data.forEach((item: any) => {
                 this.chatList.push({
                     id: item.created_at,
                     conversation_id: item.id,
@@ -150,7 +152,10 @@ export const useSceneAssistantStore = defineStore({
             })
         },
         /**发送并接收消息 */
-        async getSendMessage(newMessage: string) {
+        async getSendMessage(newMessage: string, file?: File) {
+            let fileId = '';
+            this.imageUrl = file ? URL.createObjectURL(file) : '';
+            
             // 构建提问消息对象 (把用户消息推到当前会话列表中了)
             const userMessageItem = {
                 id: uuidv4(),
@@ -158,19 +163,41 @@ export const useSceneAssistantStore = defineStore({
                 text: newMessage,
                 type: 'user',
                 avatar: userAvatar,
-                message_id: ''
+                message_id: '',
+                img: this.imageUrl
             };
             this.messageList.push(userMessageItem);   // 添加到会话消息列表
 
+            // 先上传这个图片获得id
+            if (file) {
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('user', this.userId);
+                const response = await uploadFile(this.API_KEY, formData);
+                fileId = response.id;
+            } 
+
             try {
                 // 构建请求体
-                const body = {
+                const body: any = {
                     inputs: {},
                     query: newMessage,
                     response_mode: 'streaming',
                     conversation_id: this.selectedChatId || '',
                     user: this.userId,
+                    files: []
                 };
+
+                if (fileId) {
+                    body.files = [
+                        {
+                            type: "image",
+                            transfer_method: "local_file",
+                            upload_file_id: fileId
+                        }
+                    ];
+                }
+
                 const response = await sendMessages(this.API_KEY, body);
                 const reader = response.body?.getReader();// 获取流式响应
                 const decoder = new TextDecoder('utf-8');// 创建解码器
@@ -291,7 +318,6 @@ export const useSceneAssistantStore = defineStore({
                 user: this.userId
             };
             const response = await feedbacksMessage(this.API_KEY, message_id, body);
-            console.log(response);
         },
         /**下一轮建议问题列表 !!!!!!未完成！！！！！*/
         async suggestedNextMessage(message_id: string) {

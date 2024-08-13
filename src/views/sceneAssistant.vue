@@ -33,15 +33,17 @@
             <div class="tip-container" v-show="tipShow">
               <h1 class="tip-title">您好！您可以这样问我</h1>
               <div v-for="(question, index) in selectedAgent.questions" :key="index">
-                <h1 class="tip-question">：{{ question }}
+                <h1 class="tip-question">:{{ question }}
                   <v-icon icon="mdi-star-check-outline"></v-icon>
                 </h1>
               </div>
             </div>
+
             <!-- 聊天对话列表 -->
             <div v-for="message in messageList" :key="message.id" :class="['message', message.type]">
               <img :src="message.avatar" class="avatar" />
               <div>
+                <v-img v-if="message.img" :src="message.img" width="200" height="100" @click="overlay(message.img)" />
                 <div class="text" v-html="message.htmlText || message.text"></div>
                 <template v-if="message.type === 'bot'">
                   <v-btn size="small" variant="text" icon="mdi-content-copy" @click="copyText(message.text)" />
@@ -55,18 +57,33 @@
               </div>
             </div>
           </div>
+
           <!-- 输入区域 -->
-          <div class="input-container">
-            <textarea v-model="newMessage" placeholder="输入内容开始聊天 / Ctrl+Enter换行" rows="4" class="message-input"
-              @keydown="handleKeydown"></textarea>
-            <div class="send-button-container">
-              <v-btn v-if="!isStreaming" variant="text" class="send-button" @click="sendMessage" :style="{ minWidth: '48px', minHeight: '48px', padding: '0' }">
-                <v-icon size="48px" color="#920783">mdi-send-circle</v-icon>
+          <div>
+            <v-chip v-if="fileName" class="ma-2" closable @click:close="fileName = ''">
+              {{ fileName }}
+            </v-chip>
+
+            <div class="input-container">
+              <v-btn variant="text" class="send-button" id="file_open" @click="triggerFileSelect"
+                :style="{ minWidth: '30px', minHeight: '48px', padding: '0' }">
+                <v-icon size="40px" color="#920783">mdi-paperclip</v-icon>
               </v-btn>
-              <v-btn v-if="isStreaming" variant="text" class="send-button" @click="stopMessage" :style="{ minWidth: '48px', minHeight: '48px', padding: '0' }">
-                <v-icon size="48px" color="#920783">mdi-stop-circle-outline</v-icon>
-              </v-btn>
+              <input ref="fileInput" type="file" accept=".png,jpg,jpeg,webp,gif" style="display: none" @change="onFileUpload" />
+              <textarea v-model="newMessage" placeholder="输入内容开始聊天 / Ctrl+Enter换行" rows="4" class="message-input"
+                @keydown="handleKeydown"></textarea>
+              <div class="send-button-container">
+                <v-btn v-if="!isStreaming" variant="text" class="send-button" @click="sendMessage"
+                  :style="{ minWidth: '48px', minHeight: '48px', padding: '0' }">
+                  <v-icon size="48px" color="#920783">mdi-send-circle</v-icon>
+                </v-btn>
+                <v-btn v-if="isStreaming" variant="text" class="send-button" @click="stopMessage"
+                  :style="{ minWidth: '48px', minHeight: '48px', padding: '0' }">
+                  <v-icon size="48px" color="#920783">mdi-stop-circle-outline</v-icon>
+                </v-btn>
+              </div>
             </div>
+
           </div>
         </div>
 
@@ -131,6 +148,11 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <!-- 叠加层查看大图 -->
+    <v-overlay v-model="showOverlay" class="v-overlay">
+      <img :src="imageUrl" style="max-width: 80vw; max-height: 80vh;" @click="showOverlay = false">
+    </v-overlay>
   </div>
 </template>
 
@@ -148,13 +170,36 @@ const menuVisible = ref<{ [key: number]: boolean }>({});
 const dialog = ref(false);
 const inputText = ref('');
 const messages = ref<HTMLElement | null>(null);
-
+const fileName = ref('');
 const tipShow = computed(() => !messageList.value || messageList.value.length === 0);
 const selectedChatId = computed(() => SceneAssistantStore.selectedChatId);
 const messageList = computed(() => SceneAssistantStore.messageList);
 const chatList = computed(() => SceneAssistantStore.chatList);
 const items = computed(() => SceneAssistantStore.items);
 const selectedAgent = computed(() => SceneAssistantStore.selectedAgent);
+const fileInput = ref();
+const file = ref();
+const imageUrl = ref();
+const showOverlay = ref(false);
+
+const overlay = (imgUrl: any) => {
+  console.log(imgUrl);
+  showOverlay.value = true;
+  imageUrl.value = imgUrl;
+}
+function triggerFileSelect() {
+  if (fileInput.value) {
+    fileInput.value.click();
+  }
+}
+
+function onFileUpload(event: any) {
+  if (event.target.files[0]) {
+    fileName.value = event.target.files[0].name;
+    file.value = event.target.files[0];
+    // imageUrl.value = URL.createObjectURL(event.target.files[0]);
+  }
+}
 
 const handleKeydown = (event: KeyboardEvent) => {
   if (event.key === 'Enter' && event.ctrlKey) {
@@ -266,13 +311,16 @@ const stopMessage = async () => {
 /**发送信息给bot */
 const sendMessage = async () => {
   if (newMessage.value.trim() !== '') {
+    fileName.value = '';
     isStreaming.value = true;// 发送按钮图标开启流式响应样式
     const deepCopy = JSON.parse(JSON.stringify(newMessage.value));
     newMessage.value = '';
     scrollToBottom();
-    await SceneAssistantStore.getSendMessage(deepCopy);
+    await SceneAssistantStore.getSendMessage(deepCopy, file.value);
     scrollToBottom();
     isStreaming.value = false;// 发送按钮图标关闭流式响应样式
+    file.value = '';
+    fileName.value = '';
   } else {
     console.warn('有问题');
   }

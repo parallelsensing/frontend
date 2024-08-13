@@ -4,6 +4,7 @@ enum API {
     CONVERSATIONS_URL = "/conversations",
     MESSAGES_URL = "/messages",
     SENDMESSAGE_URL = "/chat-messages",
+    UPLOAD_URL = "/files/upload",
 }
 const request = createRequest();
 
@@ -53,5 +54,11 @@ export const suggestMessage = async (API_KEY: string, message_id: string, userId
 /**停止响应 */
 export const stopResponseMessage = async (API_KEY: string, taskId: string, body: any): Promise<any> => {
     const endpoint = `${API.SENDMESSAGE_URL}/${taskId}/stop`;
+    return await request.post(endpoint, API_KEY, body);
+};
+
+/**上传文件 */
+export const uploadFile = async (API_KEY: string,body: any): Promise<any> => {
+    const endpoint = `${API.UPLOAD_URL}`;
     return await request.post(endpoint, API_KEY, body);
 };
