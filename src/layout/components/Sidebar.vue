@@ -157,7 +157,7 @@ const handleClickClosed = () => {
     }
 }
 
-::v-deep .custom-tooltip {
+:deep(.custom-tooltip) {
     height: 40px !important;
     font-size: 22px !important;
     background-color: #802f75c8 !important;
@@ -165,12 +165,12 @@ const handleClickClosed = () => {
     border-radius: 4px !important;
 }
 
-::v-deep .custom-tooltip0 {
+:deep(.custom-tooltip0) {
     height: 40px !important;
     font-size: 18px !important;
     background-color: #802f75c8 !important;
     color: #ffffff !important;
     border-radius: 4px !important;
-
 }
+
 </style>

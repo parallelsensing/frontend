@@ -90,7 +90,7 @@ $divider-shadow-color: rgba(0, 0, 0, 0.25);
   @include flex-center;
   padding: 0px;
   flex-direction: column;
-  margin-right: 2%;
+  
   @include border-radius(10px);
 
   .current-agent-container {
@@ -245,6 +245,7 @@ $divider-shadow-color: rgba(0, 0, 0, 0.25);
           margin-top:5px;
           padding: 8px 12px;
           max-width: 100%;
+          
           float: right;
           @include border-radius(12px);
         }
@@ -263,6 +264,7 @@ $divider-shadow-color: rgba(0, 0, 0, 0.25);
           margin-top:5px;
           background-color: $secondary-color;
           padding: 8px 12px;
+          max-width: 100%;
           @include border-radius(12px);
         }
       }

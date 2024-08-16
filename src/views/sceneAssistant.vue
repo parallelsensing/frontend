@@ -69,7 +69,8 @@
                 :style="{ minWidth: '30px', minHeight: '48px', padding: '0' }">
                 <v-icon size="40px" color="#920783">mdi-paperclip</v-icon>
               </v-btn>
-              <input ref="fileInput" type="file" accept=".png,jpg,jpeg,webp,gif" style="display: none" @change="onFileUpload" />
+              <input ref="fileInput" type="file" accept=".png,jpg,jpeg,webp,gif" style="display: none"
+                @change="onFileUpload" />
               <textarea v-model="newMessage" placeholder="输入内容开始聊天 / Ctrl+Enter换行" rows="4" class="message-input"
                 @keydown="handleKeydown"></textarea>
               <div class="send-button-container">
@@ -90,7 +91,7 @@
         <!-- 右侧边栏 -->
         <div class="sidebar">
           <!-- 当前智能体 -->
-          <div class="current-agent-container">
+          <div class="current-agent-container" @click="test">
             <div class="current-agent-image">
               <img :src="selectedAgent.image" class="current-agent-image-content" />
             </div>
@@ -159,7 +160,7 @@
 <script setup lang="ts">
 import { ref, onMounted, nextTick, computed } from 'vue';
 import headersall from "./header-all.vue";
-import { MessageItem, Chat, ListItem } from '@/type/assistant';
+import type { MessageItem, Chat, ListItem } from '@/type/assistant';
 import useSceneAssistantStore from '@/stores/sceneAssistant/modules/sceneAssistant';
 
 const SceneAssistantStore = useSceneAssistantStore();
@@ -182,22 +183,25 @@ const file = ref();
 const imageUrl = ref();
 const showOverlay = ref(false);
 
+function test() {
+  console.log(messageList.value)
+}
+
 const overlay = (imgUrl: any) => {
   console.log(imgUrl);
   showOverlay.value = true;
   imageUrl.value = imgUrl;
 }
-function triggerFileSelect() {
+const triggerFileSelect = () => {
   if (fileInput.value) {
     fileInput.value.click();
   }
 }
 
-function onFileUpload(event: any) {
+const onFileUpload = (event: any) => {
   if (event.target.files[0]) {
     fileName.value = event.target.files[0].name;
     file.value = event.target.files[0];
-    // imageUrl.value = URL.createObjectURL(event.target.files[0]);
   }
 }
 

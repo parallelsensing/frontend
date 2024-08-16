@@ -1,40 +1,9 @@
-interface MessageItem {
-    id: string;
-    chatId: string;
-    text: string;
-    htmlText?: string;
-    type: string;
-    avatar: string;
-    message_id: string;
-    img?: string;
-}
-
-interface Chat {
-    id: number;
-    conversation_id: string;
-    name: string;
-    created_at: number;
-    title: string;
-    inputs: any;
-    introduction: string;
-    status: string;
-}
-
-interface ListItem {
-    id: number;
-    title: string;
-    subtitle: string;
-    API_KEY: string;
-    image: string;
-    questions: string[];
-}
-
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { v4 as uuidv4 } from 'uuid';
 import useUserStore from '@/stores/users/modules/user';
 import { converListMessage, delChat, feedbacksMessage, histMessage, renameChatName, sendMessages, stopResponseMessage, suggestMessage, uploadFile } from '@/api/sceneAssistant';
-// import { MessageItem,Chat,ListItem } from '@/type/assistant';
+import type { MessageItem, Chat, ListItem } from '@/type/assistant';
 const userStore = useUserStore();
 const userAvatar = '/bot/user.png';
 const botAvatar = '/bot/bot.png';
@@ -211,8 +180,20 @@ export const useSceneAssistantStore = defineStore({
                         text: aamessages.value,
                         type: 'bot',
                         avatar: botAvatar,
-                        message_id: ''
+                        message_id: '',
+                        img:''
                     };
+
+                    if (aamessages.value) {
+                        // 检查 aamesages.value 是否包含以 `![image](` 开头的图片链接
+                        const imagePattern = /!\[image]\((http:\/\/.*\.(?:png|jpg|jpeg|gif).*?)\)/;
+                        const match = aamessages.value.match(imagePattern);
+                        
+                        if (match && match[1]) {
+                            // 如果匹配到图像链接，添加 img 属性
+                            botMessage.img = match[1];
+                        }
+                    }
 
                     this.messageList.push(botMessage);// bot返回的文本添加到会话消息列表
 
@@ -237,7 +218,7 @@ export const useSceneAssistantStore = defineStore({
 
                                 if (data.event === 'message') {// 判断是否是bot返回的文本
                                     aamessages.value += data.answer;// 拼接bot返回的文本
-
+                                    console.log(aamessages.value);
                                     if (this.selectedChatId == null) {// 新会话会执行一次，因为开始没有会话id,bot第一次返回的文本中包含会话id，有了会话id后，后面就不会执行addNewChat了
                                         this.addNewChat(data.conversation_id);// 添加会话
                                     }
