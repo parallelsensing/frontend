@@ -22,6 +22,7 @@ declare module 'vue' {
     ElRadioGroup: typeof import('element-plus/es')['ElRadioGroup']
     EmptyCom: typeof import('./src/components/empty-com/empty-com.vue')['default']
     GlobalAlert: typeof import('./src/components/global-alert.vue')['default']
+    HeaderAll: typeof import('./src/components/HeaderAll/header-all.vue')['default']
     HomeView: typeof import('./src/components/home-view.vue')['default']
     ItemWrap: typeof import('./src/components/item-wrap/item-wrap.vue')['default']
     LangSelect: typeof import('./src/components/LangSelect/index.vue')['default']
@@ -32,5 +33,6 @@ declare module 'vue' {
     ScaleScreen: typeof import('./src/components/scale-screen/scale-screen.vue')['default']
     SeamlessScroll: typeof import('./src/components/seamless-scroll/seamless-scroll.vue')['default']
     Search: typeof import('./src/components/Search/index.vue')['default']
+    Setting: typeof import('./src/components/Setting/setting.vue')['default']
   }
 }

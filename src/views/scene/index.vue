@@ -1,7 +1,6 @@
-
 <script setup lang="ts">
 import { onMounted, ref, computed, onBeforeUnmount } from 'vue';
-import headersall from "../header-all.vue";
+import headersall from "../../components/HeaderAll/header-all.vue";
 import PointCloud from './components/PointCloud.vue';
 import VideoSurveillance from './components/VideoSurveillance.vue';
 import { NewPlatform } from "@/utils/newplatform";
@@ -56,7 +55,6 @@ onMounted(() => {
     });
   }
 
-  // 组件卸载时清理
   onBeforeUnmount(() => {
     window.removeEventListener('resize', updateCanvasSize);
   });
@@ -86,7 +84,7 @@ onMounted(() => {
   width: 100%;
   height: 100%;
   position: absolute;
-  left: 0px;
+  left: 0;
   box-sizing: border-box;
   background-size: cover;
   background-position: center center;
@@ -98,7 +96,6 @@ onMounted(() => {
   width: 100%;
   height: 100%;
 }
-
 .progress {
   position: fixed;
   top: 40vh;
@@ -113,4 +110,5 @@ onMounted(() => {
   font-size: 20px;
   color: rgb(0, 0, 0);
 }
+
 </style>

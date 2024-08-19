@@ -45,10 +45,8 @@ export class NewPlatform extends EventDispatcher {
     private _boxgeo: BoxGeometry;
     private _boxmat: MeshBasicMaterial;
     private _boxmata: MeshBasicMaterial;
-
     private _box: Mesh;
     private _boxa: Mesh;
-
     private _raycaster: Raycaster; // 射线
     private _textureCube: any;
 

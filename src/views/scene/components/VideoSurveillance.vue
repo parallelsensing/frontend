@@ -21,7 +21,6 @@
             <div class="content">
                 <video width="100%" height="100%" controls autoplay loop muted>
                     <source src="/40.mp4" type="video/mp4">
-                   
                 </video>
             </div>
         </div>

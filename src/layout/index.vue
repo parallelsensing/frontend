@@ -5,15 +5,10 @@
         </div>
         <div class="main-container">
             <div v-if="showSidebar" class="sidebar1">
-                <Sidebar @closeSidebar="handleSidebarClosed" @expandSidebar="handleSidebarExpanded"></Sidebar>
+                <Sidebar @closeSidebar="handleSidebarClosed"></Sidebar>
             </div>
             <div v-else @click="handleClickExpand">
-                <svg t="1721117695209" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                    p-id="3127" width="22" height="36">
-                    <path
-                        d="M652.8 512z m119.466667 42.666667L332.8 1006.933333c-21.333333 21.333333-59.733333 21.333333-81.066667 0s-21.333333-59.733333 0-81.066666L652.8 512 251.733333 98.133333C230.4 76.8 230.4 38.4 251.733333 17.066667s59.733333-21.333333 81.066667 0L772.266667 469.333333c12.8 12.8 17.066667 25.6 17.066666 42.666667 0 12.8-4.266667 29.866667-17.066666 42.666667z"
-                        fill="#920783" p-id="3128"></path>
-                </svg>
+                <img src="/img/展开.svg" alt="Closed Icon" />
             </div>
             <div class="content">
                     <router-view></router-view>
@@ -31,10 +26,6 @@ const handleSidebarClosed = () => {
     showSidebar.value = false;
 };
 
-const handleSidebarExpanded = () => {
-    showSidebar.value = true;
-};
-
 const handleClickExpand = () => {
     showSidebar.value = true;
 };
@@ -47,10 +38,8 @@ const handleClickExpand = () => {
     flex-direction: column;
     height: 100vh;
 }
-
 .headerbar {
     width: 100vw;
-    background-color: #f8f9fa;
 }
 
 .main-container {
@@ -59,13 +48,11 @@ const handleClickExpand = () => {
     width: 100vw;
     flex-grow: 1;
 }
-
 .sidebar1 {
     transform: translateY(-15px);
     width: 120px;
     height: calc(100% + 15px);
 }
-
 .content {
     width: 100%;
     height: 100%;

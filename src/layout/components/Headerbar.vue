@@ -17,7 +17,7 @@
             <span class="user-info">
                 <span>
                     <h1 class="greeting">
-                        {{ 'Hi~' + name }}
+                        {{ 'Hi ~ ' + name }}
                     </h1>
                 </span>
                 <!-- 头像下拉菜单 -->
@@ -47,34 +47,24 @@ const handleSettings = () => {
 }
 
 const handleLogout = () => {
-    console.log('用户已注销');
-    localStorage.clear();
-    window.location.href = "/";
-}
+    userStore.userLogout();
+};
+
 </script>
 
 <style lang="scss" scoped>
 
-$navbar-height: 60px;
-$navbar-padding: 20px;
-$navbar-bg-color: #fff;
-$navbar-box-shadow: 0px 4px 10px 2px rgba(78, 78, 78, 0.2);
-$font-color-primary: #660874;
-$font-weight-bold: 600;
-$font-size-large: 1.6vw;
-$font-size-medium: 1.3vw;
-$avatar-margin: 20px;
+$font-color-primary: #920783;
 
 .navbar {
     margin-bottom: 15px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: $navbar-height;
-    background-color: $navbar-bg-color;
-    padding: 0 $navbar-padding;
-    z-index: 99999999999;
-    box-shadow: $navbar-box-shadow;
+    height: 60px;
+    background-color: #ffffff;
+    padding: 0 10px;
+    box-shadow: 0px 4px 10px 2px rgba(78, 78, 78, 0.2);
 
     .navbar-left {
         display: flex;
@@ -87,8 +77,8 @@ $avatar-margin: 20px;
 
         .company-name {
             color: $font-color-primary;
-            font-weight: $font-weight-bold;
-            font-size: $font-size-large;
+            font-weight: 600;
+            font-size: 1.6vw;
             margin-left: 20px;
         }
     }
@@ -99,35 +89,31 @@ $avatar-margin: 20px;
 
         .divider {
             margin: 0;
-            height: $navbar-height - 12px;
+            height: 48px;
         }
 
         .user-info {
             display: flex;
             align-items: center;
-            margin-left: $avatar-margin;
+            margin-left: 20px;
 
             .greeting {
                 color: $font-color-primary;
-                font-weight: $font-weight-bold;
-                font-size: $font-size-medium;
+                font-weight: 600;
+                font-size: 1.4vw;
             }
 
             .avatar {
                 margin-left: 10px; 
-                margin-right: $avatar-margin;
+                margin-right: 20px;
             }
         }
-
         .fullscreen-btn {
-            background: none;
             margin-right: 15px;
-            border: none;
             padding: 0;
             cursor: pointer;
             width: 56px;
-            height: $navbar-height;
-
+            height: 60px;
             img {
                 width: 56px; 
                 height: 56px;

@@ -29,7 +29,12 @@ const useUserStore = defineStore({
     async userRegister(data: any) {
       const result: any = await reqRegister(data);
       console.log(result);
+    },
+    userLogout() {
+      localStorage.clear();
+      window.location.href = "/";
     }
+
   },
   getters: {}
 });

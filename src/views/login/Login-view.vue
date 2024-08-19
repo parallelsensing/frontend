@@ -46,8 +46,6 @@ import { getTime } from '@/utils/time';
 import { successAlert, errorAlert } from '@/utils/alert';
 
 const loginForm = reactive({ phone: '', password: '' });
-// const loginForm = reactive({ phone: '15801585812', password: '123456' });
-
 const userStore = useUserStore();
 const router = useRouter();
 

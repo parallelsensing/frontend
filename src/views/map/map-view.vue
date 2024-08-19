@@ -292,4 +292,5 @@ onBeforeUnmount(() => {
     height: 100%;
   }
 }
-</style>@/types/base
+
+</style>

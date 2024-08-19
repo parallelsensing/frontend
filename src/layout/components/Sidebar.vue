@@ -15,28 +15,18 @@
         <v-tooltip location="bottom" text="收起" :content-class="'custom-tooltip0'">
             <template v-slot:activator="{ props }">
                 <div v-bind="props" class="closed-icon" @click="handleClickClosed">
-                    <svg t="1720764885748" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                        p-id="8017" width="128" height="128">
-                        <path
-                            d="M176 513.7l392.73-395.44a32 32 0 0 0-45.41-45.1L108 491.3a32 32 0 0 0 0.16 45.25L523.48 949a32 32 0 1 0 45.1-45.41z"
-                            fill="#920783" p-id="8018" transform="scale(1.2, 1)"></path>
-                        <path
-                            d="M525.23 513.7L918 118.26a32 32 0 1 0-45.41-45.1L457.27 491.3a32 32 0 0 0 0.16 45.25L872.7 949a32 32 0 0 0 45.1-45.41z"
-                            fill="#920783" p-id="8019" transform="scale(1.2, 1)"></path>
-                    </svg>
+                    <img src="/img/收起.svg" alt="Closed Icon" />
                 </div>
             </template>
         </v-tooltip>
     </div>
 </template>
 
-
-
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 const router = useRouter();
-const emits = defineEmits(['closeSidebar', 'expandSidebar']);
+const emits = defineEmits(['closeSidebar']);
 
 const images = [
     { src: '/img/1.svg', alt: '/dashboard/databoard/index' },
@@ -59,7 +49,6 @@ const showSidebar = ref(true);
 const handleClick = (imageName: string) => {
     activeImage.value = imageName;
     router.push(imageName);
-    console.log(imageName);
 };
 
 const handleClickClosed = () => {
@@ -79,7 +68,6 @@ const handleClickClosed = () => {
     position: relative;
     box-shadow: 4px 15px 8px 2px rgba(0, 0, 0, 0.15), inset 0 12px 15px -4px rgba(0, 0, 0, 0.15); // 外部和内部阴影;
     border: none;
-
 }
 
 .image-container {

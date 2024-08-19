@@ -30,7 +30,7 @@
 <script setup lang="ts">
 import { ref, onMounted, watch, nextTick } from 'vue';
 import { Decoration1 as DvDecoration1 } from '@kjgl77/datav-vue3';
-import ros3d from '../../ros-3d.vue';
+import ros3d from './ros-3d.vue';
 
 const isLarge = ref(false);
 const pointCloud = ref();
@@ -42,8 +42,7 @@ const toggleSize = () => {
 };
 
 const updateDimensions = () => {
-    console.log(pointCloud.value.offsetWidth, pointCloud.value.offsetHeight);
-    
+   
     if (pointCloud.value) {
         width.value = pointCloud.value.offsetWidth * 0.8;
         height.value = pointCloud.value.offsetHeight * 0.8;

@@ -4,6 +4,7 @@ export default {
   name: 'CountUp'
 }
 </script>
+
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref, watch } from 'vue'
 import { CountUp } from 'countup.js'

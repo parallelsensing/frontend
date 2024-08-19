@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router';
 import type { RouteRecordRaw } from 'vue-router';
 import { errorAlert } from '@/utils/alert';
 import { reqUserInfo } from '@/api/user';
-// import Home from '@/components/home-view.vue';
 const Layout = () => import("@/layout/index.vue");
 
 const routes: Array<RouteRecordRaw> = [
@@ -13,13 +12,13 @@ const routes: Array<RouteRecordRaw> = [
   {
     name: 'login',
     path: '/login',
-    component: () => import('@/views/Login-view.vue'),
+    component: () => import('@/views/login/Login-view.vue'),
     props: true
   },
   {
     name: 'register',
     path: '/register',
-    component: () => import('@/views/Register-view.vue'),
+    component: () => import('@/views/register/Register-view.vue'),
     props: true
   },
 
@@ -30,7 +29,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: 'assistant',
         name: 'assistant',
-        component: () => import('@/views/sceneAssistant.vue'),
+        component: () => import('@/views/scene-Assistant/sceneAssistant.vue'),
       },
       {
         path: 'pointscene',
@@ -41,17 +40,17 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: 'keyframe',
         name: 'keyframe',
-        component: () => import('@/views/key-frame.vue'),
+        component: () => import('@/views/key-frame/key-frame.vue'),
       },
       {
         path: 'databoard',
         name: 'databoard',
-        component: () => import('@/views/HomeView.vue'),
+        component: () => import('@/views/dashboard/index.vue'),
         children: [
           {
             path: 'index',
             name: 'index',
-            component: () => import('@/views/index/index.vue')
+            component: () => import('@/views/dashboard/index/index.vue')
           }],
         props: true
       }
@@ -60,13 +59,13 @@ const routes: Array<RouteRecordRaw> = [
   {
     name: 'Map',
     path: '/map',
-    component: () => import('@/views/map-view.vue'),
+    component: () => import('@/views/map/map-view.vue'),
     props: true
   },
   {
     path: '/ros3d',
     name: 'ros3d',
-    component: () => import('@/views/ros-3d.vue'),
+    component: () => import('@/views/scene/components/ros-3d.vue'),
     props: true
   },
   {

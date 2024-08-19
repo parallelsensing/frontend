@@ -1,4 +1,3 @@
-
 <template>
   
   <div id="app">
@@ -6,8 +5,6 @@
   <GlobalAlert/>
   </div> 
 
- 
- 
 </template>
 
 <style scoped>
@@ -18,7 +15,6 @@
 }
 </style>
 <script setup lang="ts" >
-
 import GlobalAlert from '@/components/global-alert.vue'
 
 </script>

@@ -159,7 +159,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, nextTick, computed } from 'vue';
-import headersall from "./header-all.vue";
+import headersall from "../../components/HeaderAll/header-all.vue";
 import type { MessageItem, Chat, ListItem } from '@/type/assistant';
 import useSceneAssistantStore from '@/stores/sceneAssistant/modules/sceneAssistant';
 

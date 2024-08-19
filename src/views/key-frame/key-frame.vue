@@ -64,7 +64,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import headersall from "./header-all.vue";
+import headersall from "../../components/HeaderAll/header-all.vue";
 
 const showOverlay = ref(false);
 const imageUrl = ref();

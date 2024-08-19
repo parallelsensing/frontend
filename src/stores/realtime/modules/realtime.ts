@@ -1,6 +1,3 @@
-
-
-
 import {defineStore} from 'pinia';
 
 const realtimeStore = defineStore({

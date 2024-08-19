@@ -1,25 +1,15 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, reactive, ref } from "vue";
+import { reactive } from "vue";
 import dayjs from 'dayjs';
-import type { DateDataType } from "./index.d";
-import { useSettingStore } from '../stores/index';
+import type { DateType } from "@/type/dateType";
 import { Decoration3 as DvDecoration3 } from '@kjgl77/datav-vue3';
-// import { useFullscreen } from '@vueuse/core';
-// const { isFullscreen, toggle } = useFullscreen();
-// const showHeader = ref(true);
-// const fullScreen = () => {
-//   showHeader.value = !showHeader.value;
-//   toggle();
-// }
-
-const dateData = reactive<DateDataType>({
+const dateData = reactive<DateType>({
   dateDay: "",
   dateYear: "",
   dateWeek: "",
   timing: null
 });
 
-const { setSettingShow } = useSettingStore()
 const weekday = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"]
 const timeFn = () => {
   dateData.timing = setInterval(() => {
