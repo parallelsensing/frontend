@@ -27,6 +27,7 @@ const showPointCloud = () => {
 const onCast = (event: MouseEvent) => {
   const screenX = event.clientX;
   const screenY = event.clientY;
+  console.log(screenX, screenY);
   const sensorName = newPlatform.value.cast(screenX, screenY);
   switch (sensorName) {
     case "实时监控":

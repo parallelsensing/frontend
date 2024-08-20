@@ -90,7 +90,7 @@ $divider-shadow-color: rgba(0, 0, 0, 0.25);
   @include flex-center;
   padding: 0px;
   flex-direction: column;
-  
+
   @include border-radius(10px);
 
   .current-agent-container {
@@ -242,10 +242,10 @@ $divider-shadow-color: rgba(0, 0, 0, 0.25);
           color: #ffffff;
           order: 0;
           background-color: $primary-color;
-          margin-top:5px;
+          margin-top: 5px;
           padding: 8px 12px;
           max-width: 100%;
-          
+
           float: right;
           @include border-radius(12px);
         }
@@ -261,7 +261,7 @@ $divider-shadow-color: rgba(0, 0, 0, 0.25);
 
         .text {
           order: 1;
-          margin-top:5px;
+          margin-top: 5px;
           background-color: $secondary-color;
           padding: 8px 12px;
           max-width: 100%;
@@ -298,6 +298,22 @@ $divider-shadow-color: rgba(0, 0, 0, 0.25);
       overflow-y: auto;
     }
   }
+}
+
+.questions {
+  color: #969494;
+  font-size: 13px;
+}
+
+.questions-list {
+  width: fit-content;
+  border: 1px solid $secondary-color;
+  font-size: 15px;
+  color: #969494;
+  padding: 5px;
+  margin-top: 4px;
+  border-radius: 10px;
+  cursor: pointer;
 }
 
 

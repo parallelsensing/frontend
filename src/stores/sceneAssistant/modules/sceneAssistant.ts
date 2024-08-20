@@ -58,22 +58,26 @@ export const useSceneAssistantStore = defineStore({
             selectedChatId: <string | null>(null),
             taskId: '',
             selectedAgent: items.value[0],
-            imageUrl: ''
+            imageUrl: '',
+            questionList:[]
         };
     },
     actions: {
         /**切换智能体 */
         toggleAgent(item: any) {
+            this.questionList = [];
             this.selectedAgent = item;
             this.API_KEY = item.API_KEY;
         },
         /**点击新聊天 */
         newChat() {
+            this.questionList = [];
             this.selectedChatId = null;
             this.messageList = [];
         },
         /**切换会话 */
         changeChat(chatId: string) {
+            this.questionList = [];
             this.selectedChatId = chatId;
         },
         /**获取会话历史消息 */
@@ -91,14 +95,24 @@ export const useSceneAssistantStore = defineStore({
                     message_id: element.id,
                     img: element?.message_files[0]?.url
                 };
+
+                // 提取 answer 中的图片链接
+                let img = null;
+                let text = element.answer;
+                const imgMatch = element.answer.match(/!\[image\]\((.*?)\)/);
+                if (imgMatch && imgMatch[1]) {
+                    img = imgMatch[1];
+                    text = '';
+                }
+
                 const botMessageItem = {
                     id: uuidv4(),
                     chatId: element.conversation_id,
-                    text: element.answer,
+                    text: text,
                     type: 'bot',
                     avatar: botAvatar,
                     message_id: element.id,
-
+                    img: img
                 };
                 this.messageList.push(userMessageItem, botMessageItem);
             });
@@ -122,9 +136,10 @@ export const useSceneAssistantStore = defineStore({
         },
         /**发送并接收消息 */
         async getSendMessage(newMessage: string, file?: File) {
+            this.questionList = [];
             let fileId = '';
             this.imageUrl = file ? URL.createObjectURL(file) : '';
-            
+
             // 构建提问消息对象 (把用户消息推到当前会话列表中了)
             const userMessageItem = {
                 id: uuidv4(),
@@ -144,7 +159,7 @@ export const useSceneAssistantStore = defineStore({
                 formData.append('user', this.userId);
                 const response = await uploadFile(this.API_KEY, formData);
                 fileId = response.id;
-            } 
+            }
 
             try {
                 // 构建请求体
@@ -181,19 +196,8 @@ export const useSceneAssistantStore = defineStore({
                         type: 'bot',
                         avatar: botAvatar,
                         message_id: '',
-                        img:''
+                        img: ''
                     };
-
-                    if (aamessages.value) {
-                        // 检查 aamesages.value 是否包含以 `![image](` 开头的图片链接
-                        const imagePattern = /!\[image]\((http:\/\/.*\.(?:png|jpg|jpeg|gif).*?)\)/;
-                        const match = aamessages.value.match(imagePattern);
-                        
-                        if (match && match[1]) {
-                            // 如果匹配到图像链接，添加 img 属性
-                            botMessage.img = match[1];
-                        }
-                    }
 
                     this.messageList.push(botMessage);// bot返回的文本添加到会话消息列表
 
@@ -217,8 +221,17 @@ export const useSceneAssistantStore = defineStore({
                                 const data = JSON.parse(line.substring(6));// 解析流式响应数据
 
                                 if (data.event === 'message') {// 判断是否是bot返回的文本
-                                    aamessages.value += data.answer;// 拼接bot返回的文本
-                                    console.log(aamessages.value);
+                                    const imgMatch = data.answer.match(/!\[image\]\((.*?)\)/);
+
+                                    if (imgMatch && imgMatch[1]) {
+                                        // 检查 aamesages.value 是否包含以 `![image](` 开头的图片链接
+                                        // 如果匹配到图像链接，添加 img 属性
+                                        aamessages.value = '';
+                                        botMessage.img = imgMatch[1];
+                                    } else {
+                                        aamessages.value += data.answer;// 拼接bot返回的文本
+                                    }
+
                                     if (this.selectedChatId == null) {// 新会话会执行一次，因为开始没有会话id,bot第一次返回的文本中包含会话id，有了会话id后，后面就不会执行addNewChat了
                                         this.addNewChat(data.conversation_id);// 添加会话
                                     }
@@ -300,11 +313,10 @@ export const useSceneAssistantStore = defineStore({
             };
             const response = await feedbacksMessage(this.API_KEY, message_id, body);
         },
-        /**下一轮建议问题列表 !!!!!!未完成！！！！！*/
+        /**下一轮建议问题列表 */
         async suggestedNextMessage(message_id: string) {
             const response = await suggestMessage(this.API_KEY, message_id, this.userId);
-            const data = await response.json();
-            return data;
+            this.questionList = response.data;
         }
     }
 });

@@ -40,11 +40,14 @@
             </div>
 
             <!-- 聊天对话列表 -->
-            <div v-for="message in messageList" :key="message.id" :class="['message', message.type]">
+            <div v-for="(message, index) in messageList" :key="message.id" :class="['message', message.type]">
               <img :src="message.avatar" class="avatar" />
               <div>
-                <v-img v-if="message.img" :src="message.img" width="200" height="100" @click="overlay(message.img)" />
-                <div class="text" v-html="message.htmlText || message.text"></div>
+                <div class="text">
+                  <v-img v-if="message.img" :src="message.img" width="200" height="100" @click="overlay(message.img)" />
+                  <div v-if="message.htmlText || message.text" v-html="message.htmlText || message.text"></div>
+                  <v-icon v-if="!message.img && !message.htmlText && !message.text" class="mdi-spin">mdi-loading</v-icon>
+                </div>
                 <template v-if="message.type === 'bot'">
                   <v-btn size="small" variant="text" icon="mdi-content-copy" @click="copyText(message.text)" />
                   <v-btn size="small" variant="text" icon="mdi-cached" />
@@ -53,7 +56,15 @@
                     @click="feedbackMessage(message, 'like')" />
                   <v-btn size="small" variant="text" icon="mdi-thumb-down-outline"
                     @click="feedbackMessage(message, 'dislike')" />
+                  <div v-if="index === messageList.length - 1">
+                    <div v-if="questions.length > 0" class="questions">猜你还想问？</div>
+                    <div v-for="(item, itemIndex) in questions" :key="itemIndex" class="questions-list"
+                      @click="enterInput(item)">
+                      {{ item }}
+                    </div>
+                  </div>
                 </template>
+
               </div>
             </div>
           </div>
@@ -158,7 +169,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, nextTick, computed } from 'vue';
+import { ref, onMounted, nextTick, computed, watch, watchEffect } from 'vue';
 import headersall from "../../components/HeaderAll/header-all.vue";
 import type { MessageItem, Chat, ListItem } from '@/type/assistant';
 import useSceneAssistantStore from '@/stores/sceneAssistant/modules/sceneAssistant';
@@ -182,7 +193,7 @@ const fileInput = ref();
 const file = ref();
 const imageUrl = ref();
 const showOverlay = ref(false);
-
+const questions = computed(() => SceneAssistantStore.questionList);
 function test() {
   console.log(messageList.value)
 }
@@ -280,9 +291,10 @@ const startNewChat = () => {
 };
 
 /**切换到某一个会话 */
-const selectChat = (chatId: string) => {
-  historyMessage(chatId);
+const selectChat = async (chatId: string) => {
+  await historyMessage(chatId);
   SceneAssistantStore.changeChat(chatId);
+  suggestedMessage(messageList.value[messageList.value.length - 1].message_id);
 };
 
 /**获取历史会话消息 */
@@ -296,11 +308,16 @@ const conversationListMessage = async () => {
   await SceneAssistantStore.getConverListMessage();
 };
 
-/**下一轮建议问题列表 (未完成！！！！！！！！！)*/
+/**下一轮建议问题列表 */
 const suggestedMessage = async (message_id: string) => {
-  const questionList = await SceneAssistantStore.suggestedNextMessage(message_id);
-  console.log(questionList);
+  await SceneAssistantStore.suggestedNextMessage(message_id);
+  scrollToBottom();
 };
+
+/**点击采纳建议问题 */
+const enterInput = (text:string) => {
+  newMessage.value = text;
+}
 
 /**消息反馈 */
 const feedbackMessage = async (message: MessageItem, feedback: string) => {
@@ -321,6 +338,7 @@ const sendMessage = async () => {
     newMessage.value = '';
     scrollToBottom();
     await SceneAssistantStore.getSendMessage(deepCopy, file.value);
+    suggestedMessage(messageList.value[messageList.value.length - 1].message_id);
     scrollToBottom();
     isStreaming.value = false;// 发送按钮图标关闭流式响应样式
     file.value = '';
@@ -329,6 +347,12 @@ const sendMessage = async () => {
     console.warn('有问题');
   }
 };
+
+watchEffect(() => {
+  if (messageList.value.length > 0) {
+    scrollToBottom();
+  }
+});
 
 onMounted(() => {
   conversationListMessage();

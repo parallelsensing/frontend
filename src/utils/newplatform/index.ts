@@ -16,9 +16,11 @@ import {
     Vector2,
     Sprite,
     SpriteMaterial,
-    CanvasTexture
+    CanvasTexture,
+    TextureLoader
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { toRaw } from 'vue';
 import { GltfLoader, GLTF_LOAD_EVENT } from './gltf-loader';
 
 export const EVENT = {
@@ -42,35 +44,17 @@ export class NewPlatform extends EventDispatcher {
     private _renderer: any = null; // 渲染器
     private _controls: any; //相机控制器
     private _axeshelper: any;
-    private _boxgeo: BoxGeometry;
-    private _boxmat: MeshBasicMaterial;
-    private _boxmata: MeshBasicMaterial;
-    private _box: Mesh;
-    private _boxa: Mesh;
     private _raycaster: Raycaster; // 射线
     private _textureCube: any;
-
+    private _spriteRealtimeMonitoring: any = null;
+    private _spriteRealtimePointCloud: any = null;
     constructor(canvas: HTMLElement, size: [number, number], onLoading: (e: any) => void) {
         super();
         this._scene = new Scene();
         this._camera = new PerspectiveCamera(75, Static.WIDTH / Static.HEIGHT, 0.001, 10000);
-        this._boxgeo = new BoxGeometry(0.9, 0.9, 0.6);
-        this._boxmat = new MeshBasicMaterial({
-            color: 0x00aa00,
-            wireframe: true
-        });
-        this._boxmata = new MeshBasicMaterial({
-            color: 0x00aa00,
-            wireframe: true
-        });
         this._scene.background = new Color(0xffffff);
         this._scene.environment = this._textureCube;
-        this._box = new Mesh(this._boxgeo, this._boxmat);
-        this._boxa = new Mesh(this._boxgeo, this._boxmata);
-        this._box.position.set(-15, 15, 10);
-        this._boxa.position.set(-25, 15, 10);
-        this._boxa.name = '实时点云';
-        this._box.name = '实时监控';
+
         this._raycaster = new Raycaster();
 
         this._camera.position.set(0, -20, 20);
@@ -115,9 +99,26 @@ export class NewPlatform extends EventDispatcher {
         modelBuild.addEventListener(GLTF_LOAD_EVENT.LOADING, (e: any) => {
             this.onLoading(e);
         });
-        this._models.add(modelBuild, this._box, this._boxa);
-        this._models.add(this.createLabel('实时监控', this._box.position));
-        this._models.add(this.createLabel('实时点云', this._boxa.position));
+        this._models.add(modelBuild);
+        const textureLoader = new TextureLoader();
+
+        const textureRealtimeMonitoring = textureLoader.load('/img/位置.png');
+        const textureRealtimePointCloud = textureLoader.load('/img/位置.png');
+
+        const materialRealtimeMonitoring = new SpriteMaterial({ map: textureRealtimeMonitoring });
+        const materialRealtimePointCloud = new SpriteMaterial({ map: textureRealtimePointCloud });
+
+        this._spriteRealtimeMonitoring = new Sprite(materialRealtimeMonitoring);
+        this._spriteRealtimeMonitoring.position.set(-15, 15, 10);
+        this._spriteRealtimeMonitoring.name = '实时监控';
+
+        this._spriteRealtimePointCloud = new Sprite(materialRealtimePointCloud);
+        this._spriteRealtimePointCloud.position.set(-25, 15, 10);
+        this._spriteRealtimePointCloud.name = '实时点云';
+
+        this._models.add(this._spriteRealtimeMonitoring, this._spriteRealtimePointCloud);
+        this._models.add(this.createLabel('实时监控', this._spriteRealtimeMonitoring.position));
+        this._models.add(this.createLabel('实时点云', this._spriteRealtimePointCloud.position));
         this.controlCamera();
     }
 
@@ -131,9 +132,13 @@ export class NewPlatform extends EventDispatcher {
     }
 
     cast(screenX: number, screenY: number) {
+        console.log(
+            screenX,
+            screenY,
+        )
         this._models.children.forEach((item: any) => {
             if (item.name === '实时监控' || item.name === '实时点云') {
-                item.material.color = new Color(0x00aa00);
+                item.material.color = new Color(0x920783);
             }
         });
 
@@ -154,7 +159,15 @@ export class NewPlatform extends EventDispatcher {
         mouse.y = -(canvasY / height) * 2 + 1;
 
         this._raycaster.setFromCamera(mouse, this._camera);
-        const intersects: any = this._raycaster.intersectObjects(this._models.children.filter((item: any) => item.isMesh), false);
+        console.log(this._models.children)
+        console.log(this._models.children.filter((item: any) => item.isSprite))
+
+        const intersects: any = this._raycaster.intersectObjects(
+            this._models.children
+                .filter((item: any) => item.isSprite)
+                .map((item: any) => toRaw(item))
+        );
+        console.log(intersects);
 
         if (intersects.length && intersects[0].object.name === '实时监控') {
             intersects[0].object.material.color = new Color(0x0000ff);
