@@ -57,7 +57,6 @@ const handleLogin = async () => {
       router.push('/map');
     }
   } catch (error: any) {
-    console.error(error);
     errorAlert(error.msg);
   }
 };

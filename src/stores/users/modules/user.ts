@@ -28,7 +28,11 @@ const useUserStore = defineStore({
     },
     async userRegister(data: any) {
       const result: any = await reqRegister(data);
-      console.log(result);
+      if(result.code == 200) {
+        return 'ok';
+      } else {
+        return Promise.reject(result);
+      }
     },
     userLogout() {
       localStorage.clear();

@@ -46,7 +46,7 @@
                 <div class="text">
                   <v-img v-if="message.img" :src="message.img" width="200" height="100" @click="overlay(message.img)" />
                   <div v-if="message.htmlText || message.text" v-html="message.htmlText || message.text"></div>
-                  <v-icon v-if="!message.img && !message.htmlText && !message.text" class="mdi-spin">mdi-loading</v-icon>
+                  <v-icon v-if="!message.img && !message.htmlText && !message.text && index === messageList.length - 1" class="mdi-spin">mdi-loading</v-icon>
                 </div>
                 <template v-if="message.type === 'bot'">
                   <v-btn size="small" variant="text" icon="mdi-content-copy" @click="copyText(message.text)" />

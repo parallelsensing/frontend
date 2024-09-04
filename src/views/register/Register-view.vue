@@ -117,11 +117,12 @@ let register = async () => {
         password: registerForm.password,
         role: 0
       };
-      await useStore.userRegister(formData)
-      successAlert(`HI, 注册成功,请登录！`)
-      router.push('/')
+      const result = await useStore.userRegister(formData)
+      if (result === 'ok') {
+        successAlert(`HI, 注册成功,请登录！`)
+        router.push('/')
+      } 
     } catch (error: any) {
-      console.log(error);
       errorAlert(error.msg)
     }
   } else {

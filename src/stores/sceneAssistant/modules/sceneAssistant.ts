@@ -20,7 +20,7 @@ const items = ref<ListItem[]>([
             "学校就医流程？"]
     },
     {
-        id: 2, title: '场景问答', subtitle: '简单描述基本情况内容 ', API_KEY: "app-5muy7p6a7PL8lOk0RKTUMmE7", image: '/img/c.png', questions: [
+        id: 2, title: '场景问答', subtitle: '简单描述基本情况内容 ', API_KEY: "app-ZM4vXvwsLHAZ37UYvpZEPmzQ", image: '/img/c.png', questions: [
             "此场景现有多少工作人员？",
             "有多少活动机械？"]
     },
@@ -219,7 +219,7 @@ export const useSceneAssistantStore = defineStore({
                             const line = lines[i].trim();// 去除空格
                             if (line.startsWith('data: ')) {// 判断是否是流式响应数据
                                 const data = JSON.parse(line.substring(6));// 解析流式响应数据
-
+                                    console.log(data);
                                 if (data.event === 'message') {// 判断是否是bot返回的文本
                                     const imgMatch = data.answer.match(/!\[image\]\((.*?)\)/);
 
@@ -230,6 +230,7 @@ export const useSceneAssistantStore = defineStore({
                                         botMessage.img = imgMatch[1];
                                     } else {
                                         aamessages.value += data.answer;// 拼接bot返回的文本
+                                        console.log(aamessages.value)
                                     }
 
                                     if (this.selectedChatId == null) {// 新会话会执行一次，因为开始没有会话id,bot第一次返回的文本中包含会话id，有了会话id后，后面就不会执行addNewChat了
