@@ -2,7 +2,7 @@ export interface MessageItem {
     id: string;
     chatId: string;
     text: string;
-    htmlText?: string;
+    htmlText?: any;
     type: string;
     avatar: string;
     message_id: string;

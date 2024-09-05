@@ -1,5 +1,6 @@
 interface Window {
-  $message: any
+  $message: any;
+  copyToClipboard: (button: HTMLButtonElement) => void;
 }
 
 type TimeProp= NodeJS.Timeout

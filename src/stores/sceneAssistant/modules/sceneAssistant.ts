@@ -4,6 +4,10 @@ import { v4 as uuidv4 } from 'uuid';
 import useUserStore from '@/stores/users/modules/user';
 import { converListMessage, delChat, feedbacksMessage, histMessage, renameChatName, sendMessages, stopResponseMessage, suggestMessage, uploadFile } from '@/api/sceneAssistant';
 import type { MessageItem, Chat, ListItem } from '@/type/assistant';
+import MarkdownIt from 'markdown-it';
+import hljs from 'highlight.js'; // 引入 highlight.js
+import 'highlight.js/styles/github.css'; // 可以选择不同的主题
+
 const userStore = useUserStore();
 const userAvatar = '/bot/user.png';
 const botAvatar = '/bot/bot.png';
@@ -46,6 +50,49 @@ const items = ref<ListItem[]>([
     },
 ]);
 
+// 初始化 markdown-it 实例，启用代码高亮
+const md = new MarkdownIt({
+    highlight: (str: string, lang: string): string => {
+      if (lang && hljs.getLanguage(lang)) {
+        try {
+          // 为代码块添加复制按钮
+          const highlightedCode = hljs.highlight(str, { language: lang }).value;
+          return `
+            <div class="code-block">
+              <button class="copy-button" onclick="copyToClipboard(this)">复制</button>
+              <pre class="hljs"><code>${highlightedCode}</code></pre>
+            </div>
+          `;
+        } catch (_) {}
+      }
+      return `
+        <div class="code-block">
+          <button class="copy-button" onclick="copyToClipboard(this)">复制</button>
+          <pre class="hljs"><code>${md.utils.escapeHtml(str)}</code></pre>
+        </div>
+      `;
+    },
+  });
+  
+// 添加全局的复制函数
+window.copyToClipboard = (button: HTMLButtonElement) => {
+    const codeElement = button.nextElementSibling?.querySelector('code');
+    if (codeElement) {
+      navigator.clipboard.writeText(codeElement.textContent || '').then(() => {
+        button.textContent = '已复制';
+        setTimeout(() => {
+          button.textContent = '复制';
+        }, 2000);
+      }).catch(err => {
+        console.error('复制失败:', err);
+      });
+    }
+  };
+// 将 Markdown 文本解析为 HTML
+const renderMarkdown = (text: string) => {
+    return md.render(text);
+};
+
 export const useSceneAssistantStore = defineStore({
     id: 'sceneAssistant',
     state: () => {
@@ -59,7 +106,7 @@ export const useSceneAssistantStore = defineStore({
             taskId: '',
             selectedAgent: items.value[0],
             imageUrl: '',
-            questionList:[]
+            questionList: []
         };
     },
     actions: {
@@ -109,6 +156,7 @@ export const useSceneAssistantStore = defineStore({
                     id: uuidv4(),
                     chatId: element.conversation_id,
                     text: text,
+                    htmlText: renderMarkdown(text),
                     type: 'bot',
                     avatar: botAvatar,
                     message_id: element.id,
@@ -139,6 +187,7 @@ export const useSceneAssistantStore = defineStore({
             this.questionList = [];
             let fileId = '';
             this.imageUrl = file ? URL.createObjectURL(file) : '';
+            let textMessage = '';
 
             // 构建提问消息对象 (把用户消息推到当前会话列表中了)
             const userMessageItem = {
@@ -187,12 +236,13 @@ export const useSceneAssistantStore = defineStore({
                 const decoder = new TextDecoder('utf-8');// 创建解码器
                 let buffer = '';//  存储流式响应数据
                 if (reader) {
-                    const aamessages = ref<string>('');// 存储bot返回的文本
+                    const aamessages = ref<any>('');// 存储bot返回的文本
                     // 构建bot返回的文本对象
                     const botMessage = {
                         id: uuidv4(),
                         chatId: '',
-                        text: aamessages.value,
+                        text: textMessage,
+                        htmlText: aamessages.value,
                         type: 'bot',
                         avatar: botAvatar,
                         message_id: '',
@@ -200,7 +250,6 @@ export const useSceneAssistantStore = defineStore({
                     };
 
                     this.messageList.push(botMessage);// bot返回的文本添加到会话消息列表
-
                     while (true) {// 循环读取流式响应数据
                         const { done, value } = await reader.read();// 读取流式响应数据
                         if (done) break;
@@ -219,7 +268,7 @@ export const useSceneAssistantStore = defineStore({
                             const line = lines[i].trim();// 去除空格
                             if (line.startsWith('data: ')) {// 判断是否是流式响应数据
                                 const data = JSON.parse(line.substring(6));// 解析流式响应数据
-                                    console.log(data);
+                                console.log(data);
                                 if (data.event === 'message') {// 判断是否是bot返回的文本
                                     const imgMatch = data.answer.match(/!\[image\]\((.*?)\)/);
 
@@ -229,7 +278,8 @@ export const useSceneAssistantStore = defineStore({
                                         aamessages.value = '';
                                         botMessage.img = imgMatch[1];
                                     } else {
-                                        aamessages.value += data.answer;// 拼接bot返回的文本
+                                        textMessage += data.answer;// 拼接bot返回的文本
+                                        aamessages.value = renderMarkdown(textMessage);
                                         console.log(aamessages.value)
                                     }
 
@@ -239,7 +289,9 @@ export const useSceneAssistantStore = defineStore({
 
                                     const existingMessage = this.messageList.find((msg) => msg.id === botMessage.id);// 在会话消息列表中查找当前消息
                                     if (existingMessage) {
-                                        existingMessage.text = aamessages.value;// 更新当前消息的文本
+                                        existingMessage.htmlText = aamessages.value;// 更新当前消息的html
+                                        existingMessage.text = textMessage;// 更新当前消息的文本
+
                                         if (existingMessage.message_id == '') {// 判断当前消息的message_id是否为空
                                             existingMessage.message_id = data.message_id; // 更新当前消息的message_id
                                         }

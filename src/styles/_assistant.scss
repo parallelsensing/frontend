@@ -267,6 +267,57 @@ $divider-shadow-color: rgba(0, 0, 0, 0.25);
           max-width: 100%;
           @include border-radius(12px);
         }
+        .text>div {
+            /* Markdown 内容的基本样式 */
+            padding: 16px;
+            background-color: #f8f8f8;
+            border-radius: 8px;
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            max-width: 40vw;
+          
+          .markdown-content pre {
+            border-radius: 5px;
+            overflow-x: auto;
+          }
+          
+          .markdown-content code {
+            background-color: #f5f2f0;
+            padding: 2px 4px;
+            border-radius: 4px;
+          }
+          
+          /* 添加 highlight.js 样式 */
+          .hljs {
+            background: #f0f0f0;
+            border-radius: 5px;
+            overflow: auto;
+          }
+
+          .code-block {
+            position: relative;
+            background-color: #f0f0f0;
+            top:-30px;
+          }
+          
+          .copy-button {
+            position: absolute;
+            // top:0px;
+            right: 8px;
+            padding: 4px 8px;
+            font-size: 12px;
+            cursor: pointer;
+            border: none;
+            background-color: #74359c;
+            color: white;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+          }
+          
+          .copy-button:hover {
+            background-color: #0056b3;
+          }
+        }
       }
 
       .avatar {
@@ -361,3 +412,5 @@ $divider-shadow-color: rgba(0, 0, 0, 0.25);
   background-color: $secondary-color;
   @include border-radius(10px);
 }
+
+

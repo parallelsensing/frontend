@@ -194,6 +194,7 @@ const file = ref();
 const imageUrl = ref();
 const showOverlay = ref(false);
 const questions = computed(() => SceneAssistantStore.questionList);
+
 function test() {
   console.log(messageList.value)
 }
@@ -359,3 +360,7 @@ onMounted(() => {
 });
 
 </script>
+
+<style>
+
+</style>
