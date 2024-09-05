@@ -357,6 +357,19 @@ watchEffect(() => {
 
 onMounted(() => {
   conversationListMessage();
+  window.copyToClipboard = (button: HTMLButtonElement) => {
+    const codeElement = button.nextElementSibling?.querySelector('code');
+    if (codeElement) {
+      navigator.clipboard.writeText(codeElement.textContent || '').then(() => {
+        button.textContent = '已复制';
+        setTimeout(() => {
+          button.textContent = '复制';
+        }, 2000);
+      }).catch(err => {
+        console.error('复制失败:', err);
+      });
+    }
+  };
 });
 
 </script>

@@ -32,21 +32,6 @@ const md = new MarkdownIt({
   },
 });
 
-// 添加全局的复制函数
-window.copyToClipboard = (button: HTMLButtonElement) => {
-  const codeElement = button.nextElementSibling?.querySelector('code');
-  if (codeElement) {
-    navigator.clipboard.writeText(codeElement.textContent || '').then(() => {
-      button.textContent = '已复制';
-      setTimeout(() => {
-        button.textContent = '复制';
-      }, 2000);
-    }).catch(err => {
-      console.error('复制失败:', err);
-    });
-  }
-};
-
 // 初始 Markdown 示例文本
 const markdownText = `
 这是一个简单的 Python 递归函数示例：
