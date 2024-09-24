@@ -84,7 +84,6 @@ import { reactive, ref } from 'vue'
 import { useUserStore } from '@/stores/users';
 import { useRouter } from 'vue-router';
 import { successAlert, errorAlert } from '@/utils/alert'
-import { log } from 'console';
 
 let valid = ref(false);
 const isDisabled = ref(false);
