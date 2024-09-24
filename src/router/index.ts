@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import type { RouteRecordRaw } from 'vue-router';
 import { errorAlert } from '@/utils/alert';
 import { reqUserInfo } from '@/api/user';
-const Layout = () => import("@/layout/index.vue");
+const Layout = () => import('@/layout/index.vue');
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -21,6 +21,12 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/register/Register-view.vue'),
     props: true
   },
+  {
+    name: 'forgetpassword',
+    path: '/forgetpassword',
+    component: () => import('@/views/forget-password/ForgetPassword-view.vue'),
+    props: true
+  },
 
   {
     path: '/dashboard',
@@ -29,18 +35,18 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: 'assistant',
         name: 'assistant',
-        component: () => import('@/views/scene-Assistant/sceneAssistant.vue'),
+        component: () => import('@/views/scene-Assistant/sceneAssistant.vue')
       },
       {
         path: 'pointscene',
         name: 'pointscene',
         component: () => import('@/views/scene/index.vue'),
-        meta: { hidden: true, title: "点云大场景" },
+        meta: { hidden: true, title: '点云大场景' }
       },
       {
         path: 'keyframe',
         name: 'keyframe',
-        component: () => import('@/views/key-frame/key-frame.vue'),
+        component: () => import('@/views/key-frame/key-frame.vue')
       },
       {
         path: 'databoard',
@@ -51,7 +57,8 @@ const routes: Array<RouteRecordRaw> = [
             path: 'index',
             name: 'index',
             component: () => import('@/views/dashboard/index/index.vue')
-          }],
+          }
+        ],
         props: true
       }
     ]
@@ -78,8 +85,8 @@ const routes: Array<RouteRecordRaw> = [
     name: '404',
     path: '/404',
     component: () => import('@/views/404-view.vue')
-  }
-  , {
+  },
+  {
     name: 'test',
     path: '/test',
     component: () => import('@/views/test.vue')
@@ -94,7 +101,9 @@ const router = createRouter({
 
 router.beforeEach(async (to, from) => {
   const token = localStorage.getItem('token');
-  if (to.name !== 'login' && to.name !== 'register') {
+  console.log(to);
+
+  if (to.name !== 'login' && to.name !== 'register' && to.name !== 'forgetpassword') {
     if (!token) {
       errorAlert('请先登录，跳转至登录页');
       return { path: '/login' };

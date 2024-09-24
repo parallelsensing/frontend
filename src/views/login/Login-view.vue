@@ -8,7 +8,7 @@
         </v-card-title>
         <v-card-text style="margin-top: 5%;">
           <v-form @submit.prevent="handleLogin">
-            <v-text-field v-model="loginForm.phone" label="请输入手机号" bg-color="#ffffff" density="comfortable">
+            <v-text-field v-model="loginForm.email" label="请输入邮箱" bg-color="#ffffff" density="comfortable">
               <template v-slot:prepend-inner>
                 <v-icon>
                   <img src="/img/用户.png" alt="Account Icon" class="login-icon">
@@ -26,6 +26,10 @@
             <v-btn class="login-btn" height="45px" color="#920783" type="submit">立即登录</v-btn>
             <v-row>
               <v-col class="d-flex justify-end">
+                <v-btn variant="text" class="forgetpassword-btn justify-start" color="#920783"
+                  @click="navigateToForgetPassword">
+                  忘记密码?
+                </v-btn>
                 <v-btn variant="text" class="toregister-btn" color="#920783" @click="navigateToRegister">
                   没有账号?立即注册>>
                 </v-btn>
@@ -45,7 +49,7 @@ import { useRouter } from 'vue-router';
 import { getTime } from '@/utils/time';
 import { successAlert, errorAlert } from '@/utils/alert';
 
-const loginForm = reactive({ phone: '', password: '' });
+const loginForm = reactive({ email: '', password: '' });
 const userStore = useUserStore();
 const router = useRouter();
 
@@ -64,5 +68,7 @@ const handleLogin = async () => {
 const navigateToRegister = () => {
   router.push('/register');
 };
-
+const navigateToForgetPassword = () => {
+  router.push('/forgetpassword');
+};
 </script>

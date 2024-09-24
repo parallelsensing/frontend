@@ -1,19 +1,19 @@
 //登录接口需要携带参数ts类型
 export interface loginForm {
-  phone: string;
+  email: string;
   password: string;
 }
 
 export interface dataType {
   token?: string;
-  message?:string;
+  message?: string;
 }
 //服务器返回的数据类型
-export interface loginResponseData {  
-    "code": number,
-    "data": any,
-    "msg": string,
-    "token":string
+export interface loginResponseData {
+  code: number;
+  data: any;
+  msg: string;
+  token: string;
 }
 
 interface userInfo {

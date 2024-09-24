@@ -1,7 +1,13 @@
 import { defineStore } from 'pinia';
 import { useStorage } from '@vueuse/core';
 import type { loginForm, loginResponseData } from '@/type/user-type';
-import { reqLogin, reqRegister } from '@/api/user';
+import {
+  reqLogin,
+  reqRegister,
+  userGetCreateCode,
+  forgetPassword,
+  resetPassword
+} from '@/api/user';
 
 const useUserStore = defineStore({
   id: 'User',
@@ -28,7 +34,16 @@ const useUserStore = defineStore({
     },
     async userRegister(data: any) {
       const result: any = await reqRegister(data);
-      if(result.code == 200) {
+      if (result.code == 200) {
+        return 'ok';
+      } else {
+        return Promise.reject(result);
+      }
+    },
+    //重置密码
+    async resetPassword(data: any) {
+      const result: any = await resetPassword(data);
+      if (result.code == 200) {
         return 'ok';
       } else {
         return Promise.reject(result);
@@ -36,9 +51,20 @@ const useUserStore = defineStore({
     },
     userLogout() {
       localStorage.clear();
-      window.location.href = "/";
+      window.location.href = '/';
+    },
+    async forgetPasswordGetCreateCode(data: any) {
+      const result: any = await forgetPassword(data);
+      return result;
+    },
+    async userGetCreateCode(data: any) {
+      const result: any = await userGetCreateCode(data);
+      if (result.code == 200) {
+        return result;
+      } else {
+        return Promise.reject(result);
+      }
     }
-
   },
   getters: {}
 });
