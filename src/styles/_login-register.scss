@@ -65,7 +65,24 @@ $login-shadow-effect: 0px 5px 5px 5px rgba(0, 0, 0, 0.15);
         right: 10vw;
     }
 }
+.forgetpassword-card-container {
+    width: 450px;
+    height: 450px;
+    border-radius: 10px;
+    position: absolute;
+    background-color: #f9f3fd;
+    box-shadow: $login-shadow-effect;
 
+    @media (min-width: 1400px) {
+        top: 20vh;
+        right: 15vw;
+    }
+
+    @media (max-width: 1399px) {
+        top: 6vh;
+        right: 8vw;
+    }
+}
 .register-card-container {
     width: 450px;
     height: 570px;
@@ -113,9 +130,14 @@ $login-shadow-effect: 0px 5px 5px 5px rgba(0, 0, 0, 0.15);
     @include text-style(14px, 600);
     color: $primary-color;
 }
+.forgetpassword-btn {
+    width: 50%;
+    @include text-style(14px, 600);
+    color: $primary-color;
+}
 
 .register-btn {
-    width: 80%;
+    width: 40%;
     font-family: '黑体';
     font-size: 22px;
     font-weight: 550;
