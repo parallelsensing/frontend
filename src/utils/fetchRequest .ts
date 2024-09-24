@@ -1,4 +1,4 @@
-const BASE_URL = "https://579igzs65868.vicp.fun/v1";
+const BASE_URL = "http://8.140.56.55:5001/v1";
 
 type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 

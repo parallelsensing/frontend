@@ -357,19 +357,47 @@ watchEffect(() => {
 
 onMounted(() => {
   conversationListMessage();
-  window.copyToClipboard = (button: HTMLButtonElement) => {
+   window.copyToClipboard = (button: HTMLButtonElement) => {
     const codeElement = button.nextElementSibling?.querySelector('code');
     if (codeElement) {
-      navigator.clipboard.writeText(codeElement.textContent || '').then(() => {
-        button.textContent = '已复制';
-        setTimeout(() => {
-          button.textContent = '复制';
-        }, 2000);
-      }).catch(err => {
-        console.error('复制失败:', err);
-      });
+        const text = codeElement.textContent || '';
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            // 使用 Clipboard API
+            navigator.clipboard.writeText(text)
+                .then(() => {
+                    button.textContent = '已复制';
+                    setTimeout(() => {
+                        button.textContent = '复制';
+                    }, 2000);
+                })
+                .catch(err => {
+                    console.error('复制失败:', err);
+                    button.textContent = '复制失败';
+                });
+        } else {
+            // 使用 document.execCommand 作为后备方案
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    button.textContent = '已复制';
+                    setTimeout(() => {
+                        button.textContent = '复制';
+                    }, 2000);
+                } else {
+                    button.textContent = '复制失败';
+                }
+            } catch (err) {
+                console.error('execCommand 复制失败:', err);
+                button.textContent = '复制失败';
+            }
+            document.body.removeChild(textArea);
+        }
     }
-  };
+};
 });
 
 </script>
