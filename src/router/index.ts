@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import type { RouteRecordRaw } from 'vue-router';
-import { errorAlert } from '@/utils/alert';
-import { reqUserInfo } from '@/api/user';
+import { errorAlert, successAlert } from '@/utils/alert';
+import { reqUserInfo, forgetPasswordUseToken } from '@/api/user';
 const Layout = () => import('@/layout/index.vue');
 
 const routes: Array<RouteRecordRaw> = [
@@ -26,6 +26,18 @@ const routes: Array<RouteRecordRaw> = [
     path: '/forgetpassword',
     component: () => import('@/views/forget-password/ForgetPassword-view.vue'),
     props: true
+  },
+  {
+    name: 'forgetpasswordcheck',
+    path: '/forgetpasswordcheck',
+    component: () => import('@/views/forget-password/ForgetPasswordCheck-view.vue'),
+    props: true
+  },
+  {
+    name: 'reset-password',
+    path: '/account/reset-password',
+    component: () => import('@/views/forget-password/ForgetPassword-view.vue'),
+    props: (route) => ({ token: route.query.token }) // 将 query 参数传递给组件
   },
 
   {
@@ -98,12 +110,35 @@ const router = createRouter({
   history,
   routes
 });
-
 router.beforeEach(async (to, from) => {
   const token = localStorage.getItem('token');
-  console.log(to);
+  // console.log(to);
+  // console.log(window.location.href); // 打印当前完整 URL
 
-  if (to.name !== 'login' && to.name !== 'register' && to.name !== 'forgetpassword') {
+  if (to.name == 'reset-password') {
+    console.log(to); // 打印 token 参数
+    const tokenStartIndex = to.fullPath.indexOf('token=');
+    let tokenValue = null;
+    if (tokenStartIndex !== -1) {
+      tokenValue = to.fullPath.substring(tokenStartIndex + 6); // 6 是 "token=".length
+    }
+    // const token2: any = to.query.token;
+    console.log('token2', tokenValue);
+    const result: any = await forgetPasswordUseToken(tokenValue);
+    console.log('result', result);
+    if (result.code == 200) {
+      successAlert('请在一分钟内完成密码重置');
+    } else {
+      errorAlert('token已过期或不存在');
+      // return { path: '/login' };
+    }
+  } else if (
+    to.name !== 'login' &&
+    to.name !== 'register' &&
+    to.name !== 'forgetpassword' &&
+    to.name !== 'reset-password' &&
+    to.name !== 'forgetpasswordcheck'
+  ) {
     if (!token) {
       errorAlert('请先登录，跳转至登录页');
       return { path: '/login' };

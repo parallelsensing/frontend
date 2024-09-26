@@ -59,14 +59,14 @@
               </template>
             </v-text-field>
 
-            <!-- <v-text-field v-model="registerForm.confirmPassword" :rules="confirmPasswordRules" label="请再次输入确认密码"
+            <v-text-field v-model="registerForm.confirmPassword" :rules="confirmPasswordRules" label="请再次输入确认密码"
               bg-color="#ffffff" density="comfortable" type="password" width="90%" class="mx-auto">
               <template v-slot:prepend-inner>
                 <v-icon>
                   <img src="/img/密码.png" alt="Password Icon" class="icon">
                 </v-icon>
               </template>
-            </v-text-field> -->
+            </v-text-field>
 
             <div style="display: flex;">
               <v-btn class="register-btn" height="45px" color="#920783" @click="toLogin">返回登陆</v-btn>

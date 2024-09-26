@@ -67,7 +67,7 @@ $login-shadow-effect: 0px 5px 5px 5px rgba(0, 0, 0, 0.15);
 }
 .forgetpassword-card-container {
     width: 450px;
-    height: 450px;
+    height: 520px;
     border-radius: 10px;
     position: absolute;
     background-color: #f9f3fd;
@@ -79,25 +79,25 @@ $login-shadow-effect: 0px 5px 5px 5px rgba(0, 0, 0, 0.15);
     }
 
     @media (max-width: 1399px) {
-        top: 6vh;
+        top: 15vh;
         right: 8vw;
     }
 }
 .register-card-container {
     width: 450px;
-    height: 570px;
+    height: 640px;
     border-radius: 10px;
     position: absolute;
     background-color: #f9f3fd;
     box-shadow: $login-shadow-effect;
 
     @media (min-width: 1400px) {
-        top: 20vh;
+        top: 15vh;
         right: 15vw;
     }
 
     @media (max-width: 1399px) {
-        top: 6vh;
+        top: 10vh;
         right: 8vw;
     }
 }

@@ -13,7 +13,7 @@ const request = axios.create({
 //请求使用拦截器
 request.interceptors.request.use(
   (config) => {
-    let userStore = useUserStore()
+    let userStore = useUserStore();
     if (userStore.token) {
       config.headers.Authorization = `Bearer ${userStore.token}`;
     }
@@ -35,7 +35,7 @@ request.interceptors.response.use(
   },
   (error) => {
     let message = '网络出现问题';
-    const status = error.response.status;
+    const status = error.response?.status;
     switch (status) {
       // 401: 未登录
       // 未登录则跳转登录页面，并携带当前页面的路径
@@ -43,7 +43,7 @@ request.interceptors.response.use(
       case 401:
         message = '未登录';
         localStorage.clear();
-        window.location.href = "/";
+        window.location.href = '/';
         break;
       // 403 token过期
       // 登录过期对用户进行提示
@@ -52,7 +52,7 @@ request.interceptors.response.use(
       case 403:
         message = '登录过期，请重新登录';
         localStorage.clear();
-        window.location.href = "/";
+        window.location.href = '/';
 
         break;
       case 404:
@@ -62,7 +62,7 @@ request.interceptors.response.use(
         message = '服务器出现问题';
         break;
       default:
-        message = error.response.data.message;
+        message = error.response?.data.message;
         break;
     }
     errorAlert(message);

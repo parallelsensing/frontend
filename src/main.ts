@@ -7,20 +7,20 @@ import APP from '@/App.vue';
 import '@mdi/font/css/materialdesignicons.css';
 import 'vuetify/styles';
 import { createVuetify } from 'vuetify';
-import {registerEcharts} from "@/plugins/echarts"
+import { registerEcharts } from '@/plugins/echarts';
 import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 import '@/assets/css/main.scss';
 import '@/assets/css/tailwind.css';
-import { mockXHR } from "@/mock/index";
+import { mockXHR } from '@/mock/index';
 import '@/styles/main.scss';
 //不使用mock 请注释掉
-mockXHR()
+mockXHR();
 
 const app = createApp(APP);
-registerEcharts(app)
+registerEcharts(app);
 const pinia = createPinia();
 
 const vuetify = createVuetify({

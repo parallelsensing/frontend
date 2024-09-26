@@ -69,6 +69,6 @@ const navigateToRegister = () => {
   router.push('/register');
 };
 const navigateToForgetPassword = () => {
-  router.push('/forgetpassword');
+  router.push('/forgetpasswordcheck');
 };
 </script>
