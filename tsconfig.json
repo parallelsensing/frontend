@@ -12,6 +12,22 @@
     }
   ],
   "compilerOptions": {
-    "module": "NodeNext"
+    "module": "NodeNext",
+    "moduleResolution": "node",
+    "noImplicitAny": false,
+    "allowJs": true,
+    "target": "esnext",
+    "useDefineForClassFields": true,
+    "strict": true,
+    "jsx": "preserve",
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "lib": ["esnext", "dom"],
+    "baseUrl": ".",
+    "paths": { 
+      "@/*": ["src/*"], 
+      // ... 还可以配置其他别名
+    }
   }
 }
