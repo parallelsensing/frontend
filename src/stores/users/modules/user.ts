@@ -6,7 +6,9 @@ import {
   reqRegister,
   userGetCreateCode,
   forgetPassword,
-  resetPassword
+  resetPassword,
+  forgetPasswordGetToken,
+  forgetPasswordUseToken
 } from '@/api/user';
 
 const useUserStore = defineStore({
@@ -47,6 +49,7 @@ const useUserStore = defineStore({
         return 'ok';
       } else {
         return Promise.reject(result);
+        // return result;
       }
     },
     userLogout() {
@@ -57,6 +60,17 @@ const useUserStore = defineStore({
       const result: any = await forgetPassword(data);
       return result;
     },
+    //拿到token
+    async forgetPasswordGetToken(data: any) {
+      const result: any = await forgetPasswordGetToken(data);
+      return result;
+    },
+    //用token访问地址
+    async forgetPasswordUseToken(data: any) {
+      const result: any = await forgetPasswordUseToken(data);
+      return result;
+    },
+
     async userGetCreateCode(data: any) {
       const result: any = await userGetCreateCode(data);
       if (result.code == 200) {

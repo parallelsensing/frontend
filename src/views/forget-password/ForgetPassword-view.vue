@@ -20,21 +20,17 @@
               </template>
             </v-text-field>
 
-            <div class="flex w-0.8" style="width: 90%; margin-left: 15px;">
-              <v-text-field v-model="resetForm.code" label="请输入验证码" bg-color="#ffffff" density="comfortable" width="10%"
-                class="mx-2">
-                <template v-slot:prepend-inner>
-                  <v-icon>
-                    <img src="/img/手机号.png" alt="Account Icon" class="icon">
-                  </v-icon>
-                </template>
-              </v-text-field>
-              <v-btn :disabled="isDisabled" style="width: 30%;" height="45px" color="#920783" @click="getEmailCode">{{
-                buttonText }}</v-btn>
-            </div>
-
             <v-text-field v-model="resetForm.new_password" :rules="passwordRules" label="请输入新密码" bg-color="#ffffff"
               density="comfortable" type="password" width="90%" class="mx-auto">
+              <template v-slot:prepend-inner>
+                <v-icon>
+                  <img src="/img/密码.png" alt="Password Icon" class="icon">
+                </v-icon>
+              </template>
+            </v-text-field>
+
+            <v-text-field v-model="resetForm.confirmPassword" :rules="confirmPasswordRules" label="请再次输入确认密码"
+              bg-color="#ffffff" density="comfortable" type="password" width="90%" class="mx-auto">
               <template v-slot:prepend-inner>
                 <v-icon>
                   <img src="/img/密码.png" alt="Password Icon" class="icon">
@@ -56,10 +52,16 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import { useUserStore } from '@/stores/users';
 import { useRouter } from 'vue-router';
 import { successAlert, errorAlert } from '@/utils/alert'
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
+
+
+
 
 let valid = ref(false);
 
@@ -71,6 +73,7 @@ let resetForm = reactive({
   code: '',
   email: '',
   new_password: '',
+  confirmPassword: '',
 })
 
 
@@ -83,62 +86,34 @@ const passwordRules = [
   (v: string) => !!v || '密码不能为空',
   (v: string) => v.length >= 6 || '密码必须至少包含6个字符',
 ]
+const confirmPasswordRules = [
+  (v: string) => !!v || '确认密码不能为空',
+  (v: string) => v === resetForm.new_password || '两次输入的密码不一致',
+]
 
 
 let useStore = useUserStore();
 let router = useRouter();
 
-/**
- * 判断邮箱格式是否合格
- * @param {string} email - 要验证的邮箱地址
- * @returns {boolean} - 如果邮箱格式合格返回 true，否则返回 false
- */
-const isValidEmail = (email: string) => {
-  // 正则表达式用于匹配邮箱格式
-  const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  return emailPattern.test(email);
-}
+
 const toLogin = () => {
   router.push('/')
 }
-let getEmailCode = async () => {
 
-  console.log("email", resetForm.email);
-  if (!isValidEmail(resetForm.email)) {
-    errorAlert("邮箱格式不正确")
-    return;
-  }
-  isDisabled.value = true;
-  buttonText.value = `${countdown.value}秒后可重试`;
-
-  const interval = setInterval(() => {
-    countdown.value--;
-    if (countdown.value <= 0) {
-      clearInterval(interval);
-      isDisabled.value = false;
-      buttonText.value = '获取验证码';
-      countdown.value = 60; // 重置倒计时
-    } else {
-      buttonText.value = `${countdown.value}秒后可重试`;
-    }
-  }, 1000);
-  const res = await useStore.forgetPasswordGetCreateCode({ email: resetForm.email })
-  if (res.code == 200) {
-    successAlert("验证码发送成功，请登陆邮箱查看")
-  } else if (res.code == 400 && res.msg == 'captcha have been sent') {
-    errorAlert("验证码已发送，请一分钟后重试")
-  }
-  console.log("res", res);
-
-}
 let resetPassword = async () => {
+  const tokenStartIndex = route.fullPath.indexOf('token=');
+  let tokenValue: any = null;
+  if (tokenStartIndex !== -1) {
+    tokenValue = route.fullPath.substring(tokenStartIndex + 6); // 6 是 "token=".length
+  }
   if (valid.value) {
     try {
       const formData = {
         email: resetForm.email,
         new_password: resetForm.new_password,
-        code: resetForm.code
+        token: tokenValue
       };
+      console.log(formData)
       const result = await useStore.resetPassword(formData)
       if (result === 'ok') {
         successAlert(`HI, 重置密码成功,请登录！`)
@@ -146,6 +121,7 @@ let resetPassword = async () => {
       }
     } catch (error: any) {
       errorAlert(error.msg)
+      router.push('/forgetpasswordcheck')
     }
   } else {
     errorAlert('表单填写不完整或有误，请检查后再试')
